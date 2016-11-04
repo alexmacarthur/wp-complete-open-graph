@@ -1,0 +1,31 @@
+{
+  "name": "wp-complete-open-graph",
+  "description": "A WordPress plugin for simple, comprehensive, highly customizable Open Graph management.",
+  "version": "1.0.0",
+  "license": "GPLv2 or later",
+  "main" : "wp-complete-open-graph.php",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexmacarthur/complete-open-graph"
+  },
+  "bugs": {
+    "url": "https://github.com/alexmacarthur/complete-open-graph/issues"
+  },
+  "name" : "Alex MacArthur",
+  "email" : "alex@macarthur.me",
+  "url" : "http://macarthur.me",
+  "keywords": ["open graph protocol", "wordpress", "wordpress plugin", "php", "open graph"],
+  "devDependencies": {
+    "autoprefixer": "^6.4.0",
+    "node-sass": "^3.8.0",
+    "onchange": "^2.5.0",
+    "postcss-cli": "^2.5.2"
+  },
+  "scripts": {
+    "scss": "node-sass --output-style compressed -o assets/css assets/scss",
+    "autoprefixer": "postcss -u autoprefixer -b 'last 2 versions' -r assets/css/*",
+    "build:css": "npm run scss && npm run autoprefixer",
+    "build": "npm run build:css",
+    "watch": "onchange 'assets/scss/*.scss' -- npm run build:css"
+  }
+}

@@ -1,0 +1,115 @@
+#cogMetaBox {
+
+  .button {
+    display: inline-block;
+    width: auto;
+  }
+
+  & > p {
+    margin-bottom: 0;
+    padding: 0 15px;
+  }
+
+}
+
+#cogSettingsBox {
+
+  h3 {
+    padding-bottom: 5px;
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .ImageHolder {
+    margin-top: 5px;
+  }
+
+  .SettingsWrapper-fieldset {
+    padding: 15px 20px 20px;
+    background: white;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    margin-top: 20px;
+  }
+}
+
+.SettingsWrapper-fieldset {
+  padding: 15px 0;
+  display: flex;
+  align-items: center;
+
+  & + & {
+    border-top: 1px solid rgba(gray, .25);
+  }
+
+  p {
+    margin-top: 3px;
+    opacity: .75;
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .SettingsWrapper-spanLabel {
+    margin-bottom: 6px;
+  }
+
+  label,
+  .SettingsWrapper-spanLabel {
+    font-weight: bold;
+    cursor: auto;
+  }
+
+  input {
+    margin-top: 5px;
+    width: 100%;
+  }
+}
+
+.ImageHolder {
+  height: 150px;
+  width: 250px;
+  margin: 15px 0 5px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+
+  .has-no-image & {
+    display: none;
+  }
+}
+
+.ImageHolder-remove {
+  cursor: pointer;
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(black, .75);
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  color: white;
+  line-height: 23px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 100;
+}
+
+.COG-buttonWrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+
+  .button {
+    margin-right: 10px;
+  }
+
+  span {
+    display: none;
+    opacity: rgba(black, .7);
+
+    .has-no-image & {
+      display: block;
+    }
+  }
+}

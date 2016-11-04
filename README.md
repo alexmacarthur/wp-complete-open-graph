@@ -62,14 +62,14 @@ function add_new_open_graph_fields($cog_data) {
 ### Order of Priority
 There's an order of priority set in place for you to effectively leverage this plugin.
 
-1. *Filters* Any filters you apply will take priority over any fields you have filled in the admin.
-2. *Post/Page Fields* Filling out the fields on a page or post in the WordPress Admin will give it priority over any global settings.
-3. *Global Settings* These will take priority over any core WordPress settings in place (site name, description).
-4. *Blog Info* When nothing else is overriding them, Open Graph fields will default to your general WordPress site settings.
+1. *Filters* - Any filters you apply will take priority over any fields you have filled in the admin.
+2. *Post/Page Fields* - Filling out the fields on a page or post in the WordPress Admin will give it priority over any global settings.
+3. *Global Settings* - These will take priority over any core WordPress settings in place (site name, description).
+4. *Blog Info* - When nothing else is overriding them, Open Graph fields will default to your general WordPress site settings.
 
 After flowing through this order of priority, if there is still no content to be pulled, those respective Open Graph will not be generated. So, don't worry about having extra, useless tags just sitting there in your markup.
 
 ## Feedback
-You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur).
+You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 
-You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur).
+You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Complete Open Graph
 * Description: Simple, comprehensive, highly customizable Open Graph management.
-* Version: 1.0.0
+* Version: 1.0.1
 * Author: Alex MacArthur
 * Author URI: http://macarthur.me
 * License: GPLv2 or later

@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Complete Open Graph
 * Description: Simple, comprehensive, highly customizable Open Graph management.
-* Version: 1.0.1
+* Version: 1.0.2
 * Author: Alex MacArthur
 * Author URI: http://macarthur.me
 * License: GPLv2 or later
@@ -282,7 +282,7 @@ if(!class_exists('CompleteOG')) {
         $cog_twitter_description = $cog_description;
       }
 
-      $post_cog_image = get_post_meta( $post_ID, 'cog_image' )[0] ?? false;
+      $post_cog_image = isset(get_post_meta( $post_ID, 'cog_image' )[0]) ? get_post_meta( $post_ID, 'cog_image' )[0] : false;
       if($post_cog_image) {
         $cog_image = $post_cog_image;
       } else if(has_post_thumbnail()) {

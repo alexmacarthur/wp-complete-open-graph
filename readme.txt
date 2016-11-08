@@ -1,24 +1,26 @@
 === Complete Open Graph ===
 Contributors: alexmacarthur
 Donate link: paypal.me/alexmacarthur
-Tags: open graph, seo
+Tags: open graph, seo, open graph protocol, twitter, facebook, social media
 Requires at least: 4.0.0
 Tested up to: 4.5.2
 Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A WordPress plugin for simple, comprehensive, customizable Open Graph management.
+Simple, comprehensive, customizable Open Graph management.
 
 == Description ==
 
-I've been hard-pressed to find a simple yet highly customizable plugin to easily manage Open Graph information, so I've made one. Out of the box, the plugin spins up all the essential Open Graph meta tags, but using filters, you have the ability to add more yourself -- including all types of standard meta tags, if you wish.
+There's a wide variety of plugins available to manage Open Graph data for your site, but none appear to be excellent at balancing simplicity and comprehensive, customizable configuration. Here's a plugin that, with no hassle, allow you to easily manage Open Graph data for your site, whether it's a simple blog or a complex site with diverse sets of data. 
 
-In terms of output, the plugin attaches via `wp_head` to output these meta tags and nothing else. No other assets are loaded to your page.
+Out of the box, Complete Open Graph generates all the basic tags your site should have, making it ready for effective social sharing on platforms including Twitter and Facebook, and give you full programmatic access to filter this data as you need. In fact, Complete Open Graph is prepared to generate all types of meta tags -- not just Open Graph.
+
+No gimmicks -- just simple, complete Open Graph management. Simple as that.
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/wp-complete-open-graph` directory, or install the plugin through the WordPress plugins screen directly.
+1. Download the plugin and upload to your plugins directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
 3. Use the Settings->Open Graph screen to set your global Open Graph data (if desired).
 
@@ -61,23 +63,23 @@ As a fallback for values that aren't filled automatically by a page or post, you
 The `cog_open_graph_data` filter exists to allow the customization of values, as well as the addition of new meta tags (including those that aren't Open Graph).
 
 Example for customizing out-of-the-box Open Graph data:
-```php
+`
 add_filter('cog_open_graph_data', 'modify_open_graph_data');
 function modify_open_graph_data($cog_data) {
 	$cog_data['site_name']['value'] = 'My Custom Site Name';
 	return $cog_data;
 }
-```
+`
 
 Example for adding a standard, old meta tag:
-```php
+`
 add_filter('cog_open_graph_data', 'add_new_open_graph_fields');
 function add_new_open_graph_fields($cog_data) {
 	$cog_data['keywords']['type'] = 'standard';
 	$cog_data['keywords']['value'] = 'keyword1,keyword2,keyword3';
 	return $cog_data;
 }
-```
+`
 
 == Order of Priority ==
 
@@ -106,6 +108,4 @@ After flowing through this order of priority, if there is still no content to be
 
 == Feedback ==
 
-You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
-
-You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
+You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

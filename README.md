@@ -2,7 +2,11 @@
 A WordPress plugin for simple, comprehensive, customizable Open Graph management.
 
 ## Description
-I've been hard-pressed to find a simple yet highly customizable plugin to easily manage Open Graph information, so I've made one. Out of the box, the plugin spins up all the essential Open Graph meta tags, but using filters, you have the ability to add more yourself -- including all types of standard meta tags, if you wish.
+There's a wide variety of plugins available to manage Open Graph data for your site, but none appear to be excellent at balancing simplicity and comprehensive, customizable configuration. Here's a plugin that, with no hassle, allow you to easily manage Open Graph data for your site, whether it's a simple blog or a complex site with diverse sets of data. 
+
+Out of the box, Complete Open Graph generates all the basic tags your site should have, making it ready for effective social sharing on platforms including Twitter and Facebook, and give you full programmatic access to filter this data as you need. In fact, Complete Open Graph is prepared to generate all types of meta tags -- not just Open Graph.
+
+No gimmicks -- just simple, complete Open Graph management. Simple as that.
 
 ## Setup
 1. Install the plugin.

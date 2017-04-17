@@ -1,0 +1,29 @@
+.SK_ImageHolder {
+  height: 150px;
+  width: 250px;
+  margin: 15px 0 5px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+
+  .has-no-image & {
+    display: none;
+  }
+}
+
+.SK_ImageHolder-remove {
+  cursor: pointer;
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(black, .75);
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  color: white;
+  line-height: 23px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 100;
+}

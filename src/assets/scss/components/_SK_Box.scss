@@ -1,0 +1,104 @@
+.SK_Box {
+  padding-top: 15px;
+  background: white;
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  margin: 8px 0 20px 0;
+
+  &:first-child {
+    padding-top: 10px;
+  }
+
+  p {
+    margin-top: 3px;
+    opacity: .75;
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  label,
+  .SK_Box-label {
+    font-weight: bold;
+  }
+
+  label {
+    cursor: pointer;
+  }
+
+  input {
+    margin-top: 5px;
+    width: 100%;
+
+    @media screen and (max-width: 782px) {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+
+  input[type="checkbox"] {
+    width: auto;
+  }
+}
+
+.SK_Box--standOut {
+  border: 1px solid $gray;
+  box-shadow: 0 1px 1px rgba(0,0,0,.04);
+  padding: 15px 18px;
+}
+
+.SK_Box-buttonWrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+
+  .button {
+    margin-right: 10px;
+  }
+
+  span {
+    display: none;
+    opacity: rgba(black, .7);
+
+    .has-no-image & {
+      display: block;
+    }
+  }
+}
+
+.SK_Box-checkboxGroup {
+  margin-top: 15px;
+
+  input {
+    margin: 0;
+
+    &[type="checkbox"] {
+      margin-top: 0;
+
+      @media screen and (max-width: 782px) {
+        width: 25px;
+      }
+    }
+  }
+
+  label {
+    font-weight: normal;
+    padding-left: 5px;
+  }
+}
+
+.SK_Box-disclaimer {
+  color: grey;
+  font-size: 12px;
+  display: block;
+  padding-left: 26px;
+  font-style: italic;
+  margin-top: -5px;
+
+  .SK_Box-checkboxGroup & {
+    @media screen and (max-width: 782px) {
+      padding-left: 35px;
+    }
+  }
+}
+

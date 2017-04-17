@@ -2,17 +2,19 @@
 A WordPress plugin for simple, comprehensive, customizable Open Graph management.
 
 ## Description
-There's a wide variety of plugins available to manage Open Graph data for your site, but none appear to be excellent at balancing simplicity and comprehensive, customizable configuration. Here's a plugin that, with no hassle, allow you to easily manage Open Graph data for your site, whether it's a simple blog or a complex site with diverse sets of data. 
+There's a wide variety of plugins available to manage Open Graph data for your site, but none are excellent at balancing simplicity and comprehensive configuration. This plugin was crafted with care to allow you to easily manage Open Graph data for your site, whether it's a simple blog or a complex site with diverse sets of data.
 
-Out of the box, Complete Open Graph generates all the basic tags your site should have, making it ready for effective social sharing on platforms including Twitter and Facebook, and give you full programmatic access to filter this data as you need. In fact, Complete Open Graph is prepared to generate all types of meta tags -- not just Open Graph.
+Out of the box, Complete Open Graph generates all the basic tags your site should have, making it ready for effective social sharing on platforms including Twitter and Facebook, and give you full programmatic access to filter this data as you need. With these filters, Complete Open Graph is prepared to generate all types of meta tags -- not just Open Graph.
 
-No gimmicks -- just simple, complete Open Graph management. Simple as that.
+TL;DR: This plugin gives you simple but sophisticated Open Graph management that gets the job done. Simple as that.
 
-## Setup
-1. Install the plugin.
-2. Activate the plugin.
+## Installation
+1. Download the plugin and upload to your plugins directory, or install the plugin through the WordPress plugins screen directly.
+2. Activate the plugin through the 'Plugins' screen in WordPress.
+3. (Optional) Use the Settings->Open Graph screen to set your global Open Graph data.
 
 ## Using the Plugin
+Upon activation, Complete Open Graph is ready to generate Open Graph meta tags, as long as information exists to fill them. Literally no configuration is required to begin generating tags for your pages. 
 
 ### Out-of-the-Box Tags
 
@@ -34,7 +36,7 @@ On each page and post, you have the ability to define Open Graph data, or allow 
 * twitter:url
 
 #### Global Fields
-As a fallback for values that aren't filled automatically by a page or post, you can set global values for Open Graph data.
+As a fallback for values that aren't filled automatically by a page or post, you can set global values for Open Graph data. If desired, you can force these individual values to be used globally, overriding whatever is set at a page level. 
 
 * og:type
 * og:title
@@ -45,25 +47,66 @@ As a fallback for values that aren't filled automatically by a page or post, you
 * twitter:description
 
 ### Filtering Meta Tags
-The `cog_open_graph_data` filter exists to allow the customization of values, as well as the addition of new meta tags (including those that aren't Open Graph).
+The `complete_open_graph_all_data` filter allows the customization of the entire set of Open Graph values, as well as the addition of new meta tags (including those that aren't Open Graph).
+
+Example for customizing out-of-the-box Open Graph data:
 
 Example for customizing out-of-the-box Open Graph data:
 ```php
-add_filter('cog_open_graph_data', 'modify_open_graph_data');
-function modify_open_graph_data($cog_data) {
-	$cog_data['site_name']['value'] = 'My Custom Site Name';
-	return $cog_data;
+/**
+ * Maniuplate the array of Open Graph data generated for the page.
+ *
+ * @param array $data Open Graph page data
+ */
+function modify_open_graph_data($data) {
+  $data['site_name']['value'] = 'whatevs';
+  return $data;
 }
+add_filter('complete_open_graph_data', 'modify_open_graph_data');
 ```
 
 Example for adding a standard, old meta tag:
 ```php
-add_filter('cog_open_graph_data', 'add_new_open_graph_fields');
-function add_new_open_graph_fields($cog_data) {
-	$cog_data['keywords']['type'] = 'standard';
-	$cog_data['keywords']['value'] = 'keyword1,keyword2,keyword3';
-	return $cog_data;
+/**
+ * Add to the meta tags generated for the page.
+ *
+ * @param array $data
+ */
+function add_new_open_graph_fields($data) {
+    $data['keywords']['attribute'] = 'name';
+    $data['keywords']['value'] = 'keyword1,keyword2,keyword3';
+    return $data;
 }
+add_filter('complete_open_graph_data', 'add_new_open_graph_fields');
+```
+
+The `complete_open_graph_single_value` filter allows you to modify single Open Graph field values. Honestly, the previous filter should accomodate most of your needs, but this one exists in case the need might arise. There have been too many times when I've wanted to filter something that's unfilterable, so I thought it couldn't hurt. 
+
+Note: This filter only applies to fields that are generated by looping through a progression of priorities:
+
+* description
+* title
+* type
+* image
+* twitter:title
+* twitter:image
+* twitter:description
+
+```php
+/**
+ * Manipulate a single value for a field.
+ *
+ * @param  string $value
+ * @param  string $field_name
+ * @return string
+ */
+function manipulate_single_value($value, $field_name) {
+    if($field_name === 'description') {
+        return 'WHATEVER I WANT.';
+    }
+    return $value;
+}
+add_filter('complete_open_graph_single_value', 'manipulate_single_value', 10, 2);
 ```
 
 ### Order of Priority
@@ -75,6 +118,21 @@ There's an order of priority set in place for you to effectively leverage this p
 4. *Blog Info* - When nothing else is overriding them, Open Graph fields will default to your general WordPress site settings.
 
 After flowing through this order of priority, if there is still no content to be pulled, those respective Open Graph will not be generated. So, don't worry about having extra, useless tags just sitting there in your markup.
+
+### Changelog
+
+#### 1.0.1
+* Initial public release.
+
+#### 1.0.2
+* Improve documentation.
+* Remove bits of logic that require at least PHP 7.
+
+#### 2.0.0
+* Change `cog_open_graph_data` filter name to `complete_open_graph_all_data`.
+* Add `complete_open_graph_single_value` filter.
+* Add ability to force global values on all pages.
+* Instead of storing global settings in individual option keys, all settings are serialized in the `complete_open_graph` key, making for a slightly tidier database.
 
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

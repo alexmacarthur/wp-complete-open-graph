@@ -1,0 +1,40 @@
+#cogSettingsPage {
+
+  #post-body {
+    &:after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+  }
+
+  .postbox-container:last-child {
+    h2 {
+      padding-left: 10px;
+    }
+  }
+
+  .form-table {
+    margin-top: 25px;
+  }
+
+  form {
+
+    tr,
+    th,
+    td {
+      display: block;
+      width: 100%;
+      padding: 0;
+    }
+  }
+
+  h2 {
+    padding: 0;
+    font-size: 16px;
+  }
+
+  .submit {
+    margin-top: 0;
+  }
+}

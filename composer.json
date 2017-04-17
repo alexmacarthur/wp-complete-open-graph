@@ -1,0 +1,21 @@
+{
+    "name": "complete-open-graph",
+    "description": "A WordPress plugin for simple, comprehensive, highly customizable Open Graph management.",
+    "type": "wordpress-plugin",
+    "minimum-stability": "stable",
+    "license": "GPL-2.0",
+    "authors": [
+      {
+        "name": "Alex MacArthur",
+        "email": "alex@macarthur.me",
+        "homepage": "http://macarthur.me",
+        "role": "Developer"
+      }
+    ],
+    "autoload": {
+      "psr-4": {"CompleteOG\\": "src/"}
+    },
+    "require": {
+      "composer/installers": "^1.0.7"
+    }
+}

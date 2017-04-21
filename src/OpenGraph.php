@@ -42,7 +42,10 @@ class OpenGraph extends App{
    */
   public function open_graph_tag_generation() {
 
-    echo "\n<!-- Open Graph managed (and managed freaking well) by Alex MacArthur's Complete Open Graph plugin (v" . $this->version . "). -- https://wordpress.org/plugins/complete-open-graph/ -->\n";
+    echo "\n<!-- Open Graph managed (and managed freaking well) by Alex MacArthur's Complete Open Graph plugin. (v" . $this->version . "). -->\n";
+    echo "<!-- https://wordpress.org/plugins/complete-open-graph/ -->\n";
+
+    $startTime = microtime(true);
 
     foreach($this->get_open_graph_values() as $key=>$data) {
       $content = preg_replace( "/\r|\n/", "", htmlentities($data['value']));
@@ -60,12 +63,14 @@ class OpenGraph extends App{
       }
     }
 
-    echo "\n";
+    echo "<!-- End Complete Open Graph. | " . (microtime(true) - $startTime) . "s -->\n\n";
   }
 
   /**
    * Get a specific value for an Open Graph attribute.
    * If progression is given, it will assign the first value that exists.
+   *
+   * @todo Deprecate the single_value filter. Much better ways to implement this.
    *
    * @param  string $field_name  Name of the attribute
    * @param  array  $progression Array of possible values, in order of priority.
@@ -74,11 +79,11 @@ class OpenGraph extends App{
   public function get_open_graph_value($field_name, $progression = array()) {
 
     if(
-      !empty(Utilities::get_option( 'global_' . $field_name . '_force' )) &&
-      !empty(Utilities::get_option( 'global_' . $field_name )) &&
-      Utilities::get_option( 'global_' . $field_name . '_force' ) === 'on'
+      !empty(Utilities::get_option( $field_name . '_force' )) &&
+      !empty(Utilities::get_option( $field_name )) &&
+      Utilities::get_option( $field_name . '_force' ) === 'on'
     ) {
-      $value = substr(strip_tags(Utilities::get_option('global_' . $field_name)), 0, 300);
+      $value = substr(strip_tags(Utilities::get_option($field_name)), 0, 300);
       return apply_filters(self::$options_prefix . '_single_value', $value, $field_name);
     }
 
@@ -127,7 +132,7 @@ class OpenGraph extends App{
           array(
             Utilities::get_post_option('description'),
             $post->post_content,
-            Utilities::get_option('global_description'),
+            Utilities::get_option('description'),
             get_bloginfo('description')
           )
         )
@@ -139,7 +144,7 @@ class OpenGraph extends App{
           array(
             Utilities::get_post_option('title'),
             get_the_title(),
-            Utilities::get_option('global_title'),
+            Utilities::get_option('title'),
             $site_name
           )
         )
@@ -151,7 +156,7 @@ class OpenGraph extends App{
           array(
             Utilities::get_post_option('type'),
             is_single() ? 'article' : 'website',
-            Utilities::get_option('global_type')
+            Utilities::get_option('type')
           )
         )
       ),
@@ -163,7 +168,7 @@ class OpenGraph extends App{
             Utilities::get_post_option('image'),
             wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'complete_open_graph')[0],
             Utilities::get_first_image(),
-            Utilities::get_option('global_image'),
+            Utilities::get_option('image'),
             !empty(get_option('page_on_front')) && has_post_thumbnail(get_option('page_on_front')) ?
             wp_get_attachment_image_src( get_post_thumbnail_id( get_option('page_on_front' )), 'complete_open_graph')[0] :
             false
@@ -181,9 +186,26 @@ class OpenGraph extends App{
         'value' => !empty(Utilities::get_option('facebook_app_id')) ? Utilities::get_option('facebook_app_id') : false
       ),
 
+      //-- TWITTER
+
+      'twitter:card' => array(
+        'attribute' => 'name',
+        'value' => 'summary'
+      ),
+
       'twitter:creator' => array(
         'attribute' => 'name',
-        'value' => false
+        'value' => $this->get_open_graph_value('twitter_creator',
+          array(
+            Utilities::get_post_option('twitter_creator'),
+            Utilities::get_option('twitter_creator')
+          )
+        )
+      ),
+
+      'twitter:site' => array(
+        'attribute' => 'name',
+        'value' => Utilities::get_option('twitter_site')
       ),
 
       'twitter:title' => array(
@@ -192,7 +214,7 @@ class OpenGraph extends App{
           array(
             Utilities::get_post_option('title'),
             get_the_title(),
-            Utilities::get_option('global_title'),
+            Utilities::get_option('title'),
             $site_name
           )
         )
@@ -208,7 +230,7 @@ class OpenGraph extends App{
 
             Utilities::get_first_image(),
 
-            Utilities::get_option('global_image'),
+            Utilities::get_option('image'),
 
             !empty(get_option('page_on_front')) && has_post_thumbnail(get_option('page_on_front')) ?
             wp_get_attachment_image_src( get_post_thumbnail_id( get_option('page_on_front' )), 'complete_open_graph')[0] :
@@ -223,7 +245,7 @@ class OpenGraph extends App{
           array(
             Utilities::get_post_option('twitter_description'),
             $post->post_content,
-            Utilities::get_option('global_twitter_description'),
+            Utilities::get_option('twitter_description'),
             $this->get_open_graph_value( 'description',
               array(
                 $post->post_content, get_bloginfo('description')
@@ -236,8 +258,8 @@ class OpenGraph extends App{
 
     //-- Loop over values to check if 'force' is in effect.
     foreach($data as $key=>$item) {
-      if(Utilities::get_option('global_' . $key . '_force') === 'on') {
-        $data[$key]['value'] = Utilities::get_option('global_' . $key);
+      if(Utilities::get_option($key . '_force') === 'on') {
+        $data[$key]['value'] = Utilities::get_option($key);
       }
     }
 

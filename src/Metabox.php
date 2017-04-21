@@ -52,6 +52,12 @@ class Metabox extends App {
         </fieldset>
 
         <fieldset class="SK_Box">
+          <label for="complete_open_graph_twitter_creator">Twitter Creator</label>
+          <p>If left blank, the global value will be used. It doesn't matter if you include the '@' symbol.</p>
+          <input type="text" value="<?php echo Utilities::get_post_option('twitter_creator'); ?>" name="complete_open_graph_twitter_creator" id="ogTwitterCreator" />
+        </fieldset>
+
+        <fieldset class="SK_Box">
           <label for="complete_open_graph_type">Type</label>
           <p>If left blank, the <strong>global 'type'</strong> value will be used. If you choose to override it, make sure it follows the correct <a href="https://developers.facebook.com/docs/reference/opengraph/" target="_blank">object type formatting</a>.</p>
           <input type="text" value="<?php echo Utilities::get_post_option('type'); ?>" name="complete_open_graph_type" id="ogType" />
@@ -95,6 +101,7 @@ class Metabox extends App {
       'title' => esc_attr($_POST['complete_open_graph_title']),
       'description' => esc_attr($_POST['complete_open_graph_description']),
       'twitter_description' => esc_attr($_POST['complete_open_graph_twitter_description']),
+      'twitter_creator' => esc_attr($_POST['complete_open_graph_twitter_creator']),
       'image' => esc_attr($_POST['complete_open_graph_image']),
       'type' => esc_attr($_POST['complete_open_graph_type'])
     );

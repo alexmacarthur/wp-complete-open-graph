@@ -1,9 +1,9 @@
 {
   "name": "wp-complete-open-graph",
   "email" : "alex@macarthur.me",
-  "url" : "http://macarthur.me",
+  "url" : "https://macarthur.me",
   "description": "A WordPress plugin for simple, comprehensive, highly customizable Open Graph management.",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "license": "GPL-2.0",
   "main" : "complete-open-graph.php",
   "repository": {

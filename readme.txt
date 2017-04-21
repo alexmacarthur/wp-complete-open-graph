@@ -2,10 +2,10 @@
 
 Contributors: alexmacarthur
 Donate link: paypal.me/alexmacarthur
-Tags: open graph, seo, open graph protocol, twitter, facebook, social media
+Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
 Tested up to: 4.7.3
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,25 +13,27 @@ Simple, comprehensive, customizable Open Graph management.
 
 == Description ==
 
-There's a wide variety of plugins available to manage Open Graph data for your site, but none are excellent at balancing simplicity and comprehensive configuration. This plugin was crafted with care to allow you to easily manage Open Graph data for your site, whether it's a simple blog or a complex site with diverse sets of data.
+There's no shortage of plugins that promise to be THE all-in-one solution for all things SEO. Unfortunately, this often means lack of flexibility, confusing implementation, or just a big, bloated plugin that carries way too many features for your use case.
 
-Out of the box, Complete Open Graph generates all the basic tags your site should have, making it ready for effective social sharing on platforms including Twitter and Facebook, and give you full programmatic access to filter this data as you need. With these filters, Complete Open Graph is prepared to generate all types of meta tags -- not just Open Graph.
+This plugin is built on an alternative philosophy: do one thing and one thing well. Complete Open Graph provides automatic, comprehensive, just-makes-sense Open Graph management, whether it's for a simple blog or a complex site with diverse sets of data.
 
-TL;DR: This plugin gives you simple but sophisticated Open Graph management that gets the job done. Simple as that.
+Out of the box, Complete Open Graph generates all the basic tags your site should have, making it ready for effective social sharing on platforms including Twitter, Facebook and Google+, and gives you full programmatic access to filter this data as you need.
+
+TL;DR: This plugin does Open Graph. Freaking good Open Graph.
 
 == Installation ==
 
-1. Download the plugin and upload to your plugins directory, or install the plugin through the WordPress plugins screen directly.
-2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. (Optional) Use the Settings->Open Graph screen to set your global Open Graph data.
+1. Download the plugin and upload to your plugins directory, or install the plugin through the WordPress plugins page.
+2. Activate the plugin through the 'Plugins' page.
+3. (Optional) Use the Settings->Open Graph screen to set your default Open Graph data.
 
 == Using the Plugin ==
 
-Upon activation, Complete Open Graph is ready to generate Open Graph meta tags, as long as information exists to fill them. Literally no configuration is required to begin generating tags for your pages. 
+Upon activation, Complete Open Graph is ready to generate Open Graph meta tags, with a mature set of fallbacks in place. Literally no configuration is required to begin making your site socially shareable. 
 
-= Page/Post Fields =
+= Available Fields =
 
-On each page and post, you have the ability to define Open Graph data manually, or allow it to be set automatically.
+On each page and post, the following fields are automatically generated, based on available page data. Many of these can be manually set at the page level.
 
 * og:site_name
 * og:locale
@@ -40,24 +42,30 @@ On each page and post, you have the ability to define Open Graph data manually, 
 * og:url
 * og:description
 * og:image
+* og:image:width
+* og:image:height
 * twitter:card
 * twitter:creator
 * twitter:title
 * twitter:description
 * twitter:image
 * twitter:url
+* twitter:card
+* twitter:site
 
-= Global Fields =
+= Default Settings =
 
-As a fallback for values that aren't filled automatically by a page or post, you can set global values for Open Graph data. If desired, you can force these individual values to be used globally, overriding whatever is set at a page level. 
+As a fallback for values that aren't filled automatically by a page or post, you can set default values for Open Graph data. If desired, you can force these individual values to be used globally, overriding whatever is set at a page level. 
 
 * og:type
 * og:title
 * og:image
 * og:description
+* twitter:description
+* twitter:creator
+* twitter:site
 * fb:admins
 * fb:app_id
-* twitter:description
 
 == Filters ==
 
@@ -67,7 +75,7 @@ The `complete_open_graph_all_data` filter allows the customization of the entire
 
 Example for customizing out-of-the-box Open Graph data:
 
-`
+```
 /**
  * Maniuplate the array of Open Graph data generated for the page.
  *
@@ -78,10 +86,10 @@ function modify_open_graph_data($data) {
   return $data;
 }
 add_filter('complete_open_graph_data', 'modify_open_graph_data');
-`
+```
 
 Example for adding a standard, old meta tag:
-`
+```
 /**
  * Add to the meta tags generated for the page.
  *
@@ -93,11 +101,9 @@ function add_new_open_graph_fields($data) {
     return $data;
 }
 add_filter('complete_open_graph_data', 'add_new_open_graph_fields');
-`
+```
 
-The `complete_open_graph_single_value` filter allows you to modify single Open Graph field values. Honestly, the previous filter should accomodate most of your needs, but this one exists in case the need might arise. There have been too many times when I've wanted to filter something that's unfilterable, so I thought it couldn't hurt. 
-
-Note: This filter only applies to fields that are generated by looping through a progression of priorities:
+The `complete_open_graph_single_value` filter allows you to modify single Open Graph field values. This filter only applies to fields that are generated by looping through a progression of priorities:
 
 * description
 * title
@@ -106,8 +112,9 @@ Note: This filter only applies to fields that are generated by looping through a
 * twitter:title
 * twitter:image
 * twitter:description
+* twitter:creator
 
-`
+```
 /**
  * Manipulate a single value for a field.
  *
@@ -122,16 +129,16 @@ function manipulate_single_value($value, $field_name) {
     return $value;
 }
 add_filter('complete_open_graph_single_value', 'manipulate_single_value', 10, 2);
-`
+```
 
 == Order of Priority ==
 
-There's an order of priority set in place for you to effectively leverage this plugin.
+There's a fallback system set in place for you to effectively leverage this plugin.
 
 1. *Filters* - Any filters you apply will take priority over any fields you have filled in the admin.
 2. *Forced Global Settings* - If you've checked the box on these fields on the settings page, they'll override everything non-filtered. 
 2. *Post/Page Fields* - Filling out the metabox fields on a page or post in the WordPress Admin will give it priority over any global settings.
-3. *Global Settings* - These will take priority over any core WordPress settings in place (site name, description).
+3. *Default Settings* - These will take priority over any core WordPress settings in place (site name, description).
 4. *Blog Info* - When nothing else is overriding them, Open Graph fields will default to your general WordPress site settings.
 
 After flowing through this order of priority, if there is still no content to be pulled, those respective Open Graph tags will not be generated. So, don't worry about having extra, useless tags just sitting there in your markup.
@@ -156,6 +163,19 @@ After flowing through this order of priority, if there is still no content to be
 * Add ability to force global values on all pages.
 * Instead of storing global settings in individual option keys, all settings are serialized in the `complete_open_graph` key, making for a slightly tidier database.
 
+= 2.1.0 = 
+* Add support for `twitter:card` (currently only supports "summary").
+* Add support for `twitter:creator`.
+* Add support for `twitter:site`.
+* Add support for `og:image:width`.
+* Add support for `og:image:height`.
+
+== Upgrade Notice ==
+Adds support for various Twitter tags and image height/width information.
+
 == Feedback ==
 
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
+
+Regardless of how you feel, your review would be greatly appreciated!
+

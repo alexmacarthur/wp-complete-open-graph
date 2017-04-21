@@ -1,7 +1,7 @@
 <?php
 
 namespace CompleteOG;
-use CompleteOG\Settings;
+// use CompleteOG\Settings;
 
 class Utilities extends App {
 
@@ -21,7 +21,16 @@ class Utilities extends App {
    * @return string
    */
   public static function get_option($key) {
-    return isset(self::get_options()[$key]) ? self::get_options()[$key] : false;
+    if(isset(self::get_options()[$key])) {
+      return self::get_options()[$key];
+    }
+
+    // Fallback for previous option naming convention.
+    if(isset(self::get_options()['global_' . $key])) {
+      return self::get_options()['global_' . $key];
+    }
+
+    return false;
   }
 
   /**

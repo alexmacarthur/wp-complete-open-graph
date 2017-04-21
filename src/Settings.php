@@ -18,8 +18,9 @@ class Settings extends App {
     $this->options = Utilities::get_options();
 
     add_action( 'admin_init', array($this, 'register_main_setting'));
-    add_action( 'admin_init', array($this, 'register_global_fallback_settings'));
+    add_action( 'admin_init', array($this, 'register_settings'));
     add_action( 'admin_init', array($this, 'register_facebook_settings'));
+    add_action( 'admin_init', array($this, 'register_twitter_settings'));
     add_action(	'admin_menu', array($this, 'open_graph_settings_page'));
   }
 
@@ -39,7 +40,7 @@ class Settings extends App {
    */
   public function open_graph_settings_page_cb() {
   ?>
-    <div id="cogSettingsPage" class="wrap <?php if(!$this->options['global_image']): ?>has-no-image<?php endif; ?>">
+    <div id="cogSettingsPage" class="wrap <?php if(!Utilities::get_option('image')): ?>has-no-image<?php endif; ?>">
       <h1>Complete Open Graph Settings</h1>
 
       <div id="poststuff">
@@ -108,24 +109,38 @@ class Settings extends App {
     add_settings_field( self::$options_short_prefix . '_facebook_app_id', 'Facebook App ID', array( $this, 'cb_field_facebook_app_id' ), self::$admin_settings_page_slug, self::$options_prefix . '_facebook_parameters' );
   }
 
+
   /**
-   * Register global fallback and force settings.
+   * Register settings specific to Twitter.
    *
    * @return void
    */
-  public function register_global_fallback_settings () {
+  public function register_twitter_settings() {
+    add_settings_section( self::$options_prefix . '_twitter_parameters', 'Twitter Parameters', array( $this, 'cb_twitter_parameters_section' ), self::$admin_settings_page_slug );
 
-    add_settings_section( self::$options_prefix . '_global_fallbacks', 'Global Fallbacks', array( $this, 'cb_global_fallbacks_section' ), self::$admin_settings_page_slug );
+    add_settings_field( self::$options_short_prefix . '_twitter_description', 'Default Twitter Description', array( $this, 'cb_field_twitter_description' ), self::$admin_settings_page_slug, self::$options_prefix . '_twitter_parameters' );
 
-    add_settings_field( self::$options_short_prefix . '_global_type', 'Global Type', array( $this, 'cb_field_global_type' ), self::$admin_settings_page_slug, self::$options_prefix . '_global_fallbacks' );
+    add_settings_field( self::$options_short_prefix . '_twitter_creator', 'Default Twitter Creator', array( $this, 'cb_field_twitter_creator' ), self::$admin_settings_page_slug, self::$options_prefix . '_twitter_parameters' );
 
-    add_settings_field( self::$options_short_prefix . '_global_title', 'Global Title', array( $this, 'cb_field_global_title' ), self::$admin_settings_page_slug, self::$options_prefix . '_global_fallbacks' );
+    add_settings_field( self::$options_short_prefix . '_twitter_site', 'Default Twitter Site', array( $this, 'cb_field_twitter_site' ), self::$admin_settings_page_slug, self::$options_prefix . '_twitter_parameters' );
+  }
 
-    add_settings_field( self::$options_short_prefix . '_global_description', 'Global Description', array( $this, 'cb_field_global_description' ), self::$admin_settings_page_slug, self::$options_prefix . '_global_fallbacks' );
+  /**
+   * Register Default fallback and force settings.
+   *
+   * @return void
+   */
+  public function register_settings () {
 
-    add_settings_field( self::$options_short_prefix . '_global_twitter_description', 'Global Twitter Description', array( $this, 'cb_field_global_twitter_description' ), self::$admin_settings_page_slug, self::$options_prefix . '_global_fallbacks' );
+    add_settings_section( self::$options_prefix . '_fallbacks', 'Default Fallbacks', array( $this, 'cb_fallbacks_section' ), self::$admin_settings_page_slug );
 
-    add_settings_field( self::$options_short_prefix . '_global_image', 'Global Image', array( $this, 'cb_field_global_image' ), self::$admin_settings_page_slug, self::$options_prefix . '_global_fallbacks' );
+    add_settings_field( self::$options_short_prefix . '_type', 'Default Type', array( $this, 'cb_field_type' ), self::$admin_settings_page_slug, self::$options_prefix . '_fallbacks' );
+
+    add_settings_field( self::$options_short_prefix . '_title', 'Default Title', array( $this, 'cb_field_title' ), self::$admin_settings_page_slug, self::$options_prefix . '_fallbacks' );
+
+    add_settings_field( self::$options_short_prefix . '_description', 'Default Description', array( $this, 'cb_field_description' ), self::$admin_settings_page_slug, self::$options_prefix . '_fallbacks' );
+
+    add_settings_field( self::$options_short_prefix . '_image', 'Default Image', array( $this, 'cb_field_image' ), self::$admin_settings_page_slug, self::$options_prefix . '_fallbacks' );
   }
 
   /**
@@ -143,8 +158,8 @@ class Settings extends App {
    *
    * @return void
    */
-  public function cb_global_fallbacks_section() {
-    echo '<p>With the exception of the Facebook app/admin IDs, these global values will serve as fallbacks in case individual pages/posts do not have information supplied. If you wish to force these values to always override individual posts/pages, check the box under each option.</p>';
+  public function cb_fallbacks_section() {
+    echo '<p>These settings will serve as fallbacks in case individual pages/posts do not have information supplied. If you wish to force these values to always override individual posts/pages, check the box under each option.</p>';
   }
 
   /**
@@ -153,7 +168,16 @@ class Settings extends App {
    * @return void
    */
   public function cb_facebook_parameters_section() {
-    echo '<p>Optionally, you can set Facebook parameters to tie your site to a partiular Facebook page or account.</p>';
+    echo '<p>Optionally modify Default / fallback settings for Facebook-related tags, including those that tie your site to a partiular Facebook page or account.</p>';
+  }
+
+  /**
+   * Outputs some more basic instructions.
+   *
+   * @return void
+   */
+  public function cb_twitter_parameters_section() {
+    echo '<p>Optionally modify global/fallback settings for Twitter-related Open Graph tags.</p>';
   }
 
   /**
@@ -161,15 +185,15 @@ class Settings extends App {
    *
    * @return void
    */
-  public function cb_field_global_type() {
+  public function cb_field_type() {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>If left blank, 'website' will be used.</p>
-      <input type="text" value="<?php echo Utilities::get_option('global_type'); ?>" name="<?php echo Utilities::get_field_name('global_type'); ?>" id="ogType" />
+      <input type="text" value="<?php echo Utilities::get_option('type'); ?>" name="<?php echo Utilities::get_field_name('type'); ?>" id="ogType" />
 
       <div class="SK_Box-checkboxGroup">
-        <input type="checkbox" <?php echo $this->checked('global_type_force'); ?> name="<?php echo Utilities::get_field_name('global_type_force'); ?>" id="ogTypeForce">
-        <label for="ogTypeForce">Force Global Type</label>
+        <input type="checkbox" <?php echo $this->checked('type_force'); ?> name="<?php echo Utilities::get_field_name('type_force'); ?>" id="ogTypeForce">
+        <label for="ogTypeForce">Force Default Type</label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
       </div>
 
@@ -182,15 +206,15 @@ class Settings extends App {
    *
    * @return void
    */
-  public function cb_field_global_title() {
+  public function cb_field_title() {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>If left blank, the site title will be used.</p>
-      <input type="text" value="<?php echo Utilities::get_option('global_title'); ?>" name="<?php echo Utilities::get_field_name('global_title'); ?>" id="ogDescription" />
+      <input type="text" value="<?php echo Utilities::get_option('title'); ?>" name="<?php echo Utilities::get_field_name('title'); ?>" id="ogDescription" />
 
       <div class="SK_Box-checkboxGroup">
-        <input type="checkbox" <?php echo $this->checked('global_title_force'); ?> name="<?php echo Utilities::get_field_name('global_title_force'); ?>" id="ogTitleForce">
-        <label for="ogTitleForce">Force Global Title</label>
+        <input type="checkbox" <?php echo $this->checked('title_force'); ?> name="<?php echo Utilities::get_field_name('title_force'); ?>" id="ogTitleForce">
+        <label for="ogTitleForce">Force Default Title</label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
       </div>
     </fieldset>
@@ -202,15 +226,15 @@ class Settings extends App {
    *
    * @return void
    */
-  public function cb_field_global_description() {
+  public function cb_field_description() {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>If left blank, the site description will be used.</p>
-      <input type="text" value="<?php echo Utilities::get_option('global_description'); ?>" name="<?php echo Utilities::get_field_name('global_description'); ?>" id="ogDescription" />
+      <input type="text" value="<?php echo Utilities::get_option('description'); ?>" name="<?php echo Utilities::get_field_name('description'); ?>" id="ogDescription" />
 
       <div class="SK_Box-checkboxGroup">
-        <input type="checkbox" <?php echo $this->checked('global_description_force'); ?> name="<?php echo Utilities::get_field_name('global_description_force'); ?>" id="ogDescriptionForce">
-        <label for="ogDescriptionForce">Force Global Description</label>
+        <input type="checkbox" <?php echo $this->checked('description_force'); ?> name="<?php echo Utilities::get_field_name('description_force'); ?>" id="ogDescriptionForce">
+        <label for="ogDescriptionForce">Force Default Description</label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
       </div>
     </fieldset>
@@ -222,15 +246,15 @@ class Settings extends App {
    *
    * @return void
    */
-  public function cb_field_global_twitter_description() {
+  public function cb_field_twitter_description() {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>If left blank, the description will be used.</p>
-      <input type="text" value="<?php echo Utilities::get_option('global_twitter_description'); ?>" name="<?php echo Utilities::get_field_name('global_twitter_description'); ?>" id="ogTwitterDescription" />
+      <input type="text" value="<?php echo Utilities::get_option('twitter_description'); ?>" name="<?php echo Utilities::get_field_name('twitter_description'); ?>" id="ogTwitterDescription" />
 
       <div class="SK_Box-checkboxGroup">
-        <input type="checkbox" <?php echo $this->checked('global_twitter_description_force'); ?> name="<?php echo Utilities::get_field_name('global_twitter_description_force'); ?>" id="ogTwitterDescriptionForce">
-        <label for="ogTwitterDescriptionForce">Force Global Twitter Description
+        <input type="checkbox" <?php echo $this->checked('twitter_description_force'); ?> name="<?php echo Utilities::get_field_name('twitter_description_force'); ?>" id="ogTwitterDescriptionForce">
+        <label for="ogTwitterDescriptionForce">Force Default Twitter Description
         </label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
       </div>
@@ -243,25 +267,60 @@ class Settings extends App {
    *
    * @return void
    */
-  public function cb_field_global_image() {
+  public function cb_field_twitter_creator() {
+    ?>
+    <fieldset class="SK_Box SK_Box--standOut">
+      <p>Enter the Twitter handle for the primary author. If left blank, the tag will be omitted, unless it's set at the post/page level.</p>
+      <input type="text" value="<?php echo Utilities::get_option('twitter_creator'); ?>" name="<?php echo Utilities::get_field_name('twitter_creator'); ?>" id="ogTwitterCreator" />
+
+      <div class="SK_Box-checkboxGroup">
+        <input type="checkbox" <?php echo $this->checked('twitter_creator_force'); ?> name="<?php echo Utilities::get_field_name('twitter_creator_force'); ?>" id="ogTwitterCreatorForce">
+        <label for="ogTwitterCreatorForce">Force Default Twitter Creator
+        </label>
+        <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
+      </div>
+    </fieldset>
+    <?php
+  }
+
+  /**
+   * Outputs field markup.
+   *
+   * @return void
+   */
+  public function cb_field_twitter_site() {
+    ?>
+    <fieldset class="SK_Box SK_Box--standOut">
+      <p>Enter the Twitter handle for the site itself. It doesn't matter if the '@' symbol is included. If left blank, the tag will be omitted.</p>
+      <input type="text" value="<?php echo Utilities::get_option('twitter_site'); ?>" name="<?php echo Utilities::get_field_name('twitter_site'); ?>" id="ogTwitterSite" />
+    </fieldset>
+    <?php
+  }
+
+  /**
+   * Outputs field markup.
+   *
+   * @return void
+   */
+  public function cb_field_image() {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>If left blank, the featured image on the home page will be used.</p>
       <div class="SK_ImageHolder"
         id="cogImageHolder"
-        style="background-image: url('<?php echo Utilities::get_option('global_image'); ?>')">
+        style="background-image: url('<?php echo Utilities::get_option('image'); ?>')">
         <span class="SK_ImageHolder-remove" id="ogRemoveImage">x</span>
       </div>
-      <span class="howto" id="cogUploadedFileName"><?php echo basename(Utilities::get_option('global_image')); ?></span>
+      <span class="howto" id="cogUploadedFileName"><?php echo basename(Utilities::get_option('image')); ?></span>
       <div class="SK_Box-buttonWrapper">
         <a class="button button-primary button-large" id="cogImageSelectButton">Choose File</a>
         <span>No image selected.</span>
       </div>
-      <input id="cogImage" type="hidden" name="<?php echo Utilities::get_field_name('global_image'); ?>" value="<?php echo Utilities::get_option('global_image'); ?>" />
+      <input id="cogImage" type="hidden" name="<?php echo Utilities::get_field_name('image'); ?>" value="<?php echo Utilities::get_option('image'); ?>" />
 
       <div class="SK_Box-checkboxGroup">
-        <input type="checkbox" <?php echo $this->checked('global_image_force'); ?> name="<?php echo Utilities::get_field_name('global_image_force'); ?>" id="ogImageForce">
-        <label for="ogImageForce">Force Global Image</label>
+        <input type="checkbox" <?php echo $this->checked('image_force'); ?> name="<?php echo Utilities::get_field_name('image_force'); ?>" id="ogImageForce">
+        <label for="ogImageForce">Force Default Image</label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
       </div>
     </fieldset>

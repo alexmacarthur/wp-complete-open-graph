@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Complete Open Graph
 * Description: Simple, comprehensive, highly customizable Open Graph management.
-* Version: 2.1.0
+* Version: 2.1.1
 * Author: Alex MacArthur
 * Author URI: http://macarthur.me
 * License: GPLv2 or later
@@ -23,7 +23,7 @@ use CompleteOG\OpenGraph;
 class App {
 
   private static $instance;
-  public $version = '2.1.0';
+  public $version = '2.1.1';
   protected static $options_prefix = 'complete_open_graph';
   protected static $admin_settings_page_slug = 'complete_open_graph';
   protected static $options_short_prefix = 'cog';

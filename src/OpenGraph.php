@@ -12,6 +12,17 @@ class OpenGraph extends App{
     add_action('plugins_loaded', array($this, 'add_og_image_size'));
     add_action('wp_head', array($this, 'open_graph_tag_generation'));
     add_filter('image_size_names_choose', array($this, 'add_og_image_size_to_uploader'));
+    add_filter('language_attributes', array($this, 'add_open_graph_prefix'), 10, 2 );
+  }
+
+  /**
+   * Add Open Graph prefixes to <html> tag.
+   *
+   * @param string $output A space-separated list of language attributes.
+   * @param string $doctype The type of html document (xhtml|html).
+   */
+  public function add_open_graph_prefix( $output, $doctype ) {
+    return $output . ' prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#"';
   }
 
   /**

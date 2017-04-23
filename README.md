@@ -142,6 +142,16 @@ After flowing through this order of priority, if there is still no content to be
 * Add ability to force global values on all pages.
 * Instead of storing global settings in individual option keys, all settings are serialized in the `complete_open_graph` key, making for a slightly tidier database.
 
+#### 2.1.0
+* Add support for `twitter:card` (currently only supports "summary").
+* Add support for `twitter:creator`.
+* Add support for `twitter:site`.
+* Add support for `og:image:width`.
+* Add support for `og:image:height`.
+
+#### 2.1.1
+* Add proper <html> prefix for Open Graph & Facebook parsing.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

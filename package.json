@@ -3,7 +3,7 @@
   "email" : "alex@macarthur.me",
   "url" : "https://macarthur.me",
   "description": "A WordPress plugin for simple, comprehensive, highly customizable Open Graph management.",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "license": "GPL-2.0",
   "main" : "complete-open-graph.php",
   "repository": {

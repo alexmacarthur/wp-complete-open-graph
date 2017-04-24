@@ -4,8 +4,8 @@ Contributors: alexmacarthur
 Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
-Tested up to: 4.7.3
-Stable tag: 2.1.1
+Tested up to: 4.7.4
+Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,7 +102,7 @@ The `complete_open_graph_single_value` filter allows you to modify single Open G
 * twitter:image
 * twitter:description
 * twitter:creator
-* 
+
 Example for manipulating a single value:
 `
 function manipulate_single_value($value, $field_name) {
@@ -155,6 +155,9 @@ After flowing through this order of priority, if there is still no content to be
 
 = 2.1.1 = 
 * Add proper <html> prefix for Open Graph & Facebook parsing.
+
+= 2.1.2 = 
+* Strip shortcodes from generated Open Graph content.
 
 == Upgrade Notice ==
 Adds support for various Twitter tags and image height/width information.

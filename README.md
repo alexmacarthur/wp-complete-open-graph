@@ -58,8 +58,6 @@ As a fallback for values that aren't filled automatically by a page or post, you
 The `complete_open_graph_all_data` filter allows the customization of the entire set of Open Graph values, as well as the addition of new meta tags (including those that aren't Open Graph).
 
 Example for customizing out-of-the-box Open Graph data:
-
-Example for customizing out-of-the-box Open Graph data:
 ```php
 /**
  * Maniuplate the array of Open Graph data generated for the page.
@@ -151,6 +149,9 @@ After flowing through this order of priority, if there is still no content to be
 
 #### 2.1.1
 * Add proper <html> prefix for Open Graph & Facebook parsing.
+
+#### 2.1.2 = 
+* Strip shortcodes from generated Open Graph content.
 
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

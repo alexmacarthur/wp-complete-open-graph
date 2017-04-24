@@ -1,7 +1,6 @@
 <?php
 
 namespace CompleteOG;
-// use CompleteOG\Settings;
 
 class Utilities extends App {
 

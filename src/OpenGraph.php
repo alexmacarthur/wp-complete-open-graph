@@ -94,14 +94,14 @@ class OpenGraph extends App{
       !empty(Utilities::get_option( $field_name )) &&
       Utilities::get_option( $field_name . '_force' ) === 'on'
     ) {
-      $value = substr(strip_tags(Utilities::get_option($field_name)), 0, 300);
+      $value = substr(trim(strip_tags(strip_shortcodes(Utilities::get_option($field_name)))), 0, 300);
       return apply_filters(self::$options_prefix . '_single_value', $value, $field_name);
     }
 
     if(!empty($progression)) {
       foreach ($progression as $default) {
         if(!empty($default)) {
-          $value = substr(strip_tags($default), 0, 300);
+          $value = substr(trim(strip_shortcodes(strip_tags($default))), 0, 300);
           return apply_filters(self::$options_prefix . '_single_value', $value, $field_name);
         }
       }

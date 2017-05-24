@@ -63,7 +63,7 @@ class OpenGraph extends App{
 
       if($data['value']) {
         if($data['attribute'] === 'property') {
-          ?><meta property="og:<?php echo $key; ?>" content="<?php echo $content; ?>" /><?php
+          ?><meta property="<?php echo $key; ?>" content="<?php echo $content; ?>" /><?php
           echo "\n";
         }
 
@@ -122,22 +122,22 @@ class OpenGraph extends App{
     $url = get_permalink($post->ID);
 
     $data = array(
-      'site_name' => array(
+      'og:site_name' => array(
         'attribute' => 'property',
         'value' => $site_name
       ),
 
-      'url' => array(
+      'og:url' => array(
         'attribute' => 'property',
         'value' => $url
       ),
 
-      'locale' => array(
+      'og:locale' => array(
         'attribute' => 'property',
         'value' => 'en_us'
       ),
 
-      'description' => array(
+      'og:description' => array(
         'attribute' => 'property',
         'value' => $this->get_open_graph_value( 'description',
           array(
@@ -149,7 +149,7 @@ class OpenGraph extends App{
         )
       ),
 
-      'title' => array(
+      'og:title' => array(
         'attribute' => 'property',
         'value' => $this->get_open_graph_value( 'title',
           array(
@@ -161,7 +161,7 @@ class OpenGraph extends App{
         )
       ),
 
-      'type' => array(
+      'og:type' => array(
         'attribute' => 'property',
         'value' => $this->get_open_graph_value( 'type',
           array(
@@ -172,7 +172,7 @@ class OpenGraph extends App{
         )
       ),
 
-      'image' => array(
+      'og:image' => array(
         'attribute' => 'property',
         'value' => $this->get_open_graph_value( 'image',
           array(

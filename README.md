@@ -150,8 +150,11 @@ After flowing through this order of priority, if there is still no content to be
 #### 2.1.1
 * Add proper <html> prefix for Open Graph & Facebook parsing.
 
-#### 2.1.2 = 
+#### 2.1.2
 * Strip shortcodes from generated Open Graph content.
+
+#### 2.1.3 
+* Fix incorrectly rendered tags for `fb:app_id` and `fb:admins`.
 
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

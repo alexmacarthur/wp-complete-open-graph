@@ -12,6 +12,10 @@
         "role": "Developer"
       }
     ],
+    "support" : {
+      "issues": "https://wordpress.org/support/plugin/complete-open-graph",
+      "source": "https://downloads.wordpress.org/plugin/complete-open-graph.2.1.3.zip"
+    },
     "autoload": {
       "psr-4": {"CompleteOG\\": "src/"}
     },

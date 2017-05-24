@@ -4,8 +4,8 @@ Contributors: alexmacarthur
 Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
-Tested up to: 4.7.4
-Stable tag: 2.1.2
+Tested up to: 4.8.0
+Stable tag: 2.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,6 +131,20 @@ After flowing through this order of priority, if there is still no content to be
 1. Shows the global settings page, where you can define global values for Open Graph tags, which serve as a fallback in case these values are not occupied on individual posts or pages.
 2. Shows the form available to customize Open Graph information on individual posts and pages.
 
+== Frequently Asked Questions ==
+
+= For which social sites will this plugin make my content shareable? =
+Your content will be shareable to any site that processes Open Graph meta tags, including Facebook, Twitter, Google+, and LinkedIn. 
+
+= Is any configuration needed out-of-the-box? = 
+No. You may customize any data you want, but once you activate the plugin, it'll immediately begin pulling data from your existing site content.
+
+= Should I use this in conjunction with other SEO/Open Graph plugins? = 
+No, it's not recommended. COG does one thing and one thing well: Open Graph. If you're using another plugin to generate that markup, you'll end up with duplicate OG tags, which may throw flags in Facebook's debugger. 
+
+= How do I make sure it's actually working? = 
+Your best option is to use Facebook's Sharing Debugger found here: https://developers.facebook.com/tools/debug/. Another option is to share your page to Facebook, Twitter, and see what's rendered. 
+
 == Changelog ==
 
 = 1.0.1 =
@@ -158,6 +172,9 @@ After flowing through this order of priority, if there is still no content to be
 
 = 2.1.2 = 
 * Strip shortcodes from generated Open Graph content.
+
+= 2.1.3 =
+* Fix incorrectly rendered tags for `fb:app_id` and `fb:admins`.
 
 == Upgrade Notice ==
 Adds support for various Twitter tags and image height/width information.

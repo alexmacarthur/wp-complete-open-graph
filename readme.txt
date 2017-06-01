@@ -5,7 +5,7 @@ Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
 Tested up to: 4.8.0
-Stable tag: 2.1.3
+Stable tag: 2.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -176,8 +176,11 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 = 2.1.3 =
 * Fix incorrectly rendered tags for `fb:app_id` and `fb:admins`.
 
+= 2.1.4 =
+* Fix bug producing errors when $post object is not set (like 404 pages).
+
 == Upgrade Notice ==
-Adds support for various Twitter tags and image height/width information.
+Fixes bug producing errors when $post object does not exist (like 404 pages).
 
 == Feedback ==
 

@@ -156,6 +156,9 @@ After flowing through this order of priority, if there is still no content to be
 #### 2.1.3 
 * Fix incorrectly rendered tags for `fb:app_id` and `fb:admins`.
 
+#### 2.1.4 
+* Fix bug producing errors when $post object is not set. 
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

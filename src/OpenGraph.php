@@ -52,6 +52,9 @@ class OpenGraph extends App{
    * @return void
    */
   public function open_graph_tag_generation() {
+    global $post;
+
+    if(empty($post)) return;
 
     echo "\n<!-- Open Graph managed (and managed freaking well) by Alex MacArthur's Complete Open Graph plugin. (v" . $this->version . "). -->\n";
     echo "<!-- https://wordpress.org/plugins/complete-open-graph/ -->\n";

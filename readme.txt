@@ -4,8 +4,8 @@ Contributors: alexmacarthur
 Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
-Tested up to: 4.8.0
-Stable tag: 2.1.4
+Tested up to: 4.8.1
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,27 +13,27 @@ Simple, comprehensive, customizable Open Graph management.
 
 == Description ==
 
-There's no shortage of plugins that promise to be THE all-in-one solution for all things SEO. Unfortunately, this often means lack of flexibility, confusing implementation, or just a big, bloated plugin that carries way too many features for your use case.
+There's no shortage of plugins that promise to be THE all-in-one solution for all things SEO. Unfortunately, this often means lack of flexibility, confusing implementation, or just a big, bloated plugin that carries way too many features for your needs.
 
-This plugin is built on an alternative philosophy: do one thing and one thing well. Complete Open Graph provides automatic, comprehensive, just-makes-sense Open Graph management, whether it's for a simple blog or a complex site with diverse sets of data.
+This plugin is built on an alternative philosophy: do one thing and one thing well. Complete Open Graph provides automatic, comprehensive, just-makes-sense Open Graph management, whether it's for a simple blog or a complex site with diverse sets of content.
 
-Out of the box, Complete Open Graph generates all the basic tags your site should have, making it ready for effective social sharing on platforms including Twitter, Facebook and Google+, and gives you full programmatic access to filter this data as you need.
+Out of the box, Complete Open Graph generates all the basic tags your site should have, making it ready for social sharing on platforms including Twitter, Facebook, LinkedIn and Google+, and gives you full programmatic access to filter this data as you need.
 
 TL;DR: This plugin does Open Graph. Freaking good Open Graph.
 
 == Installation ==
 
 1. Download the plugin and upload to your plugins directory, or install the plugin through the WordPress plugins page.
-2. Activate the plugin through the 'Plugins' page.
+2. Activate the plugin on the 'Plugins' page.
 3. (Optional) Use the Settings->Open Graph screen to set your default Open Graph data.
 
 == Using the Plugin ==
 
-Upon activation, Complete Open Graph is ready to generate Open Graph meta tags, with a mature set of fallbacks in place. Literally no configuration is required to begin making your site socially shareable. 
+Upon activation, Complete Open Graph is ready to generate Open Graph meta tags, with an intuitive set of fallbacks in place. Literally no configuration is required to begin making your site socially shareable. 
 
 = Available Fields =
 
-On each page and post, the following fields are automatically generated, based on available page data. Many of these can be manually set at the page level.
+On each page and post, the following fields are automatically generated, based on available page data. Many of these can be manually set at the page/post level.
 
 * og:site_name
 * og:locale
@@ -55,11 +55,13 @@ On each page and post, the following fields are automatically generated, based o
 
 = Default Settings =
 
-As a fallback for values that aren't filled automatically by a page or post, you can set default values for Open Graph data. If desired, you can force these individual values to be used globally, overriding whatever is set at a page level. 
+As a fallback for values that aren't filled automatically by a page or post, you can set default values for Open Graph data. If desired, you can force these individual values to be used globally, overriding whatever is set at a page/post level. 
 
 * og:type
 * og:title
 * og:image
+* og:image:width
+* og:image:height
 * og:description
 * twitter:description
 * twitter:creator
@@ -69,8 +71,6 @@ As a fallback for values that aren't filled automatically by a page or post, you
 
 == Filters ==
 
-= Filtering Open Graph Data = 
-
 The `complete_open_graph_all_data` filter allows the customization of the entire set of Open Graph values, as well as the addition of new meta tags (including those that aren't Open Graph).
 
 Example for customizing out-of-the-box Open Graph data:
@@ -79,7 +79,7 @@ function modify_open_graph_data($data) {
   $data['site_name']['value'] = 'whatevs';
   return $data;
 }
-add_filter('complete_open_graph_data', 'modify_open_graph_data');
+add_filter('complete_open_graph_all_data', 'modify_open_graph_data');
 `
 
 Example for adding a standard, old meta tag:
@@ -89,38 +89,49 @@ function add_new_open_graph_fields($data) {
     $data['keywords']['value'] = 'keyword1,keyword2,keyword3';
     return $data;
 }
-add_filter('complete_open_graph_data', 'add_new_open_graph_fields');
+add_filter('complete_open_graph_all_data', 'add_new_open_graph_fields');
 `
 
-The `complete_open_graph_single_value` filter allows you to modify single Open Graph field values. This filter only applies to fields that are generated by looping through a progression of priorities:
+The `complete_open_graph_processed_value` filter allows you to modify a single field after it's gone through the progression of priorities. For that reason, it will only be effective on the following fields:
 
-* description
-* title
-* type
-* image
+* og:description
+* og:title
+* og:type
+* og:image
 * twitter:title
 * twitter:image
 * twitter:description
 * twitter:creator
 
-Example for manipulating a single value:
+Example for manipulating a processed value:
 `
-function manipulate_single_value($value, $field_name) {
+function manipulate_processed_value($value, $field_name) {
     if($field_name === 'description') {
         return 'WHATEVER I WANT.';
     }
     return $value;
 }
-add_filter('complete_open_graph_single_value', 'manipulate_single_value', 10, 2);
+add_filter('complete_open_graph_processed_value', 'manipulate_processed_value', 10, 2);
+`
+
+The `complete_open_graph_{$tagName}` filter allows you to modify a single field by identifying it by name and returning a modified value. These names are the "name" or "property" attributes on the meta tags. See "Available Fields" above for these names. 
+
+Example for manipulating a single value by name:
+`
+function modify_title($value, $field_name) {
+    return 'My Newly Modified Title!'
+}
+
+add_filter('complete_open_graph_og:title', 'modify_title', 10, 2);
 `
 
 == Order of Priority ==
 
-There's a fallback system set in place for you to effectively leverage this plugin.
+There's a fallback system set in place for you to effectively leverage this plugin. Below is the order of priority: 
 
-1. *Filters* - Any filters you apply will take priority over any fields you have filled in the admin.
+1. *Filters* - Any filters you apply in your code will take priority over any fields you have filled in the admin.
 2. *Forced Global Settings* - If you've checked the box on these fields on the settings page, they'll override everything non-filtered. 
-2. *Post/Page Fields* - Filling out the metabox fields on a page or post in the WordPress Admin will give it priority over any global settings.
+2. *Post/Page Fields* - Filling out the metabox fields on a page or post in the WordPress Admin will give it priority over any default settings (unless they're forced).
 3. *Default Settings* - These will take priority over any core WordPress settings in place (site name, description).
 4. *Blog Info* - When nothing else is overriding them, Open Graph fields will default to your general WordPress site settings.
 
@@ -128,7 +139,7 @@ After flowing through this order of priority, if there is still no content to be
 
 == Screenshots ==
 
-1. Shows the global settings page, where you can define global values for Open Graph tags, which serve as a fallback in case these values are not occupied on individual posts or pages.
+1. Shows the default settings page, where you can define global values for Open Graph tags, which serve as a fallback in case these values are not occupied on individual posts or pages.
 2. Shows the form available to customize Open Graph information on individual posts and pages.
 
 == Frequently Asked Questions ==
@@ -139,11 +150,11 @@ Your content will be shareable to any site that processes Open Graph meta tags, 
 = Is any configuration needed out-of-the-box? = 
 No. You may customize any data you want, but once you activate the plugin, it'll immediately begin pulling data from your existing site content.
 
-= Should I use this in conjunction with other SEO/Open Graph plugins? = 
-No, it's not recommended. COG does one thing and one thing well: Open Graph. If you're using another plugin to generate that markup, you'll end up with duplicate OG tags, which may throw flags in Facebook's debugger. 
+= Should I use this in conjunction with other SEO or Open Graph plugins? = 
+No, it's not recommended. COG does one thing and one thing well: Open Graph. If you're using another plugin to generate that markup, you'll end up with duplicate OG tags, which may throw flags in Facebook's debugger. If you are using another plugin to manage SEO, at least ensure that Open Graph generation is toggled off, to avoid duplicate tags.
 
 = How do I make sure it's actually working? = 
-Your best option is to use Facebook's Sharing Debugger found here: https://developers.facebook.com/tools/debug/. Another option is to share your page to Facebook, Twitter, and see what's rendered. 
+Your best option is to use Facebook's Sharing Debugger found here: https://developers.facebook.com/tools/debug/. Another option is to share your page to Facebook, Twitter, and see what's rendered.
 
 == Changelog ==
 
@@ -179,12 +190,21 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 = 2.1.4 =
 * Fix bug producing errors when $post object is not set (like 404 pages).
 
+= 3.0.0 = 
+* Display default data on pages where post object is not set (like 404 pages). 
+* Fix bug preventing image size tags from being rendered.
+* Strip style and script tags from generated Open Graph descriptions.
+* Rename `complete_open_graph_single_value` filter to `complete_open_graph_processed_value`.
+* Add `complete_open_graph_{$tagName}` filter to target specific fields.
+* Preserve HTML entities in generated content.
+* Default to `large` image sizes for images uploaded before plugin was installed.
+
 == Upgrade Notice ==
-Fixes bug producing errors when $post object does not exist (like 404 pages).
+Significant update: Changes how some data is stored, modifies and adds filters, fixes miscellaneous bugs, adds other improvements. If you're using the custom Open Graph fields or if you use the filters in your code, this may require you to resave posts/pages and update your code.
 
 == Feedback ==
 
-You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
+You like it? [Email](mailto:alex@macarthur.me) or [tweet](https://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](https://www.twitter.com/amacarthur) me.
 
 Regardless of how you feel, your review would be greatly appreciated!
 

@@ -2,6 +2,7 @@
 
 namespace CompleteOG;
 use CompleteOG\Utilities;
+use CompleteOG\PostDecorator;
 
 class OpenGraph extends App{
 
@@ -54,15 +55,14 @@ class OpenGraph extends App{
   public function open_graph_tag_generation() {
     global $post;
 
-    if(empty($post)) return;
-
     echo "\n<!-- Open Graph managed (and managed freaking well) by Alex MacArthur's Complete Open Graph plugin. (v" . $this->version . "). -->\n";
     echo "<!-- https://wordpress.org/plugins/complete-open-graph/ -->\n";
 
     $startTime = microtime(true);
 
     foreach($this->get_open_graph_values() as $key=>$data) {
-      $content = preg_replace( "/\r|\n/", "", htmlentities($data['value']));
+      $content = preg_replace( "/\r|\n/", "", $data['value']);
+      $content = html_entity_decode($content);
 
       if($data['value']) {
         if($data['attribute'] === 'property') {
@@ -90,27 +90,23 @@ class OpenGraph extends App{
    * @param  array  $progression Array of possible values, in order of priority.
    * @return string The value
    */
-  public function get_open_graph_value($field_name, $progression = array()) {
+  public function get_open_graph_processed_value($field_name, $progression = array()) {
 
-    if(
-      !empty(Utilities::get_option( $field_name . '_force' )) &&
-      !empty(Utilities::get_option( $field_name )) &&
-      Utilities::get_option( $field_name . '_force' ) === 'on'
-    ) {
-      $value = substr(trim(strip_tags(strip_shortcodes(Utilities::get_option($field_name)))), 0, 300);
-      return apply_filters(self::$options_prefix . '_single_value', $value, $field_name);
+    if(Utilities::get_option( $field_name . '_force' ) === 'on' && !empty(Utilities::get_option( $field_name ))) {
+      $value = Utilities::process_content(Utilities::get_option($field_name));
+      return apply_filters(self::$options_prefix . '_processed_value', $value, $field_name);
     }
 
     if(!empty($progression)) {
-      foreach ($progression as $default) {
-        if(!empty($default)) {
-          $value = substr(trim(strip_shortcodes(strip_tags($default))), 0, 300);
-          return apply_filters(self::$options_prefix . '_single_value', $value, $field_name);
+      foreach ($progression as $progressionValue) {
+        if(!empty($progressionValue)) {
+          $value = Utilities::process_content($progressionValue);
+          return apply_filters(self::$options_prefix . '_processed_value', $value, $field_name);
         }
       }
     }
 
-    return apply_filters(self::$options_prefix . '_single_value', '', $field_name);
+    return '';
   }
 
   /**
@@ -121,18 +117,17 @@ class OpenGraph extends App{
   public function get_open_graph_values() {
     global $post;
 
-    $site_name = get_bloginfo('name');
-    $url = get_permalink($post->ID);
+    $PostDecorator = new PostDecorator($post);
 
     $data = array(
       'og:site_name' => array(
         'attribute' => 'property',
-        'value' => $site_name
+        'value' => $site_name = get_bloginfo('name')
       ),
 
       'og:url' => array(
         'attribute' => 'property',
-        'value' => $url
+        'value' => $url = get_permalink($PostDecorator->ID)
       ),
 
       'og:locale' => array(
@@ -142,23 +137,23 @@ class OpenGraph extends App{
 
       'og:description' => array(
         'attribute' => 'property',
-        'value' => $this->get_open_graph_value( 'description',
+        'value' => $this->get_open_graph_processed_value( 'og:description',
           array(
-            Utilities::get_post_option('description'),
-            $post->post_content,
-            Utilities::get_option('description'),
-            get_bloginfo('description')
+            Utilities::get_post_option('og:description'),
+            $PostDecorator->post_content,
+            Utilities::get_option('og:description'),
+            get_bloginfo('og:description')
           )
         )
       ),
 
       'og:title' => array(
         'attribute' => 'property',
-        'value' => $this->get_open_graph_value( 'title',
+        'value' => $theTitle = $this->get_open_graph_processed_value( 'og:title',
           array(
-            Utilities::get_post_option('title'),
+            Utilities::get_post_option('og:title'),
             get_the_title(),
-            Utilities::get_option('title'),
+            Utilities::get_option('og:title'),
             $site_name
           )
         )
@@ -166,41 +161,50 @@ class OpenGraph extends App{
 
       'og:type' => array(
         'attribute' => 'property',
-        'value' => $this->get_open_graph_value( 'type',
+        'value' => $this->get_open_graph_processed_value( 'og:type',
           array(
-            Utilities::get_post_option('type'),
+            Utilities::get_post_option('og:type'),
             is_single() ? 'article' : 'website',
-            Utilities::get_option('type')
+            Utilities::get_option('og:type')
           )
         )
       ),
 
+      //-- Might be a string, might be an ID. Will be filtered to account for both.
       'og:image' => array(
         'attribute' => 'property',
-        'value' => $this->get_open_graph_value( 'image',
+        'value' => $image = $this->get_open_graph_processed_value( 'og:image',
           array(
-            Utilities::get_post_option('image'),
-            wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'complete_open_graph')[0],
+            Utilities::get_post_option('og:image'),
+            get_post_thumbnail_id($PostDecorator->ID),
             Utilities::get_first_image(),
-            Utilities::get_option('image'),
-            !empty(get_option('page_on_front')) && has_post_thumbnail(get_option('page_on_front')) ?
-            wp_get_attachment_image_src( get_post_thumbnail_id( get_option('page_on_front' )), 'complete_open_graph')[0] :
+            Utilities::get_option('og:image'),
+            !empty($frontPageID = get_option('page_on_front')) && has_post_thumbnail($frontPageID) ?
+            get_post_thumbnail_id( $frontPageID ) :
             false
           )
         )
       ),
 
+      'og:image:width' => array(
+        'attribute' => 'property',
+        'value' => ''
+      ),
+
+      'og:image:height' => array(
+        'attribute' => 'property',
+        'value' => ''
+      ),
+
       'fb:admins' => array(
         'attribute' => 'property',
-        'value' => !empty(Utilities::get_option('facebook_admin_ids')) ? Utilities::get_option('facebook_admin_ids') : false
+        'value' => Utilities::get_option('fb:admins')
       ),
 
       'fb:app_id' => array(
         'attribute' => 'property',
-        'value' => !empty(Utilities::get_option('facebook_app_id')) ? Utilities::get_option('facebook_app_id') : false
+        'value' => Utilities::get_option('fb:app_id')
       ),
-
-      //-- TWITTER
 
       'twitter:card' => array(
         'attribute' => 'name',
@@ -209,60 +213,40 @@ class OpenGraph extends App{
 
       'twitter:creator' => array(
         'attribute' => 'name',
-        'value' => $this->get_open_graph_value('twitter_creator',
+        'value' => $this->get_open_graph_processed_value('twitter:creator',
           array(
-            Utilities::get_post_option('twitter_creator'),
-            Utilities::get_option('twitter_creator')
+            Utilities::get_post_option('twitter:creator'),
+            Utilities::get_option('twitter:creator')
           )
         )
       ),
 
       'twitter:site' => array(
         'attribute' => 'name',
-        'value' => Utilities::get_option('twitter_site')
+        'value' => Utilities::get_option('twitter:site')
       ),
 
       'twitter:title' => array(
         'attribute' => 'name',
-        'value' => $this->get_open_graph_value( 'title',
-          array(
-            Utilities::get_post_option('title'),
-            get_the_title(),
-            Utilities::get_option('title'),
-            $site_name
-          )
-        )
+        'value' => $theTitle
       ),
 
       'twitter:image' => array(
         'attribute' => 'name',
-        'value' => $this->get_open_graph_value( 'image',
-          array(
-            Utilities::get_post_option('image'),
-
-            wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'complete_open_graph')[0],
-
-            Utilities::get_first_image(),
-
-            Utilities::get_option('image'),
-
-            !empty(get_option('page_on_front')) && has_post_thumbnail(get_option('page_on_front')) ?
-            wp_get_attachment_image_src( get_post_thumbnail_id( get_option('page_on_front' )), 'complete_open_graph')[0] :
-            false
-          )
-        )
+        'value' => $image
       ),
 
       'twitter:description' => array(
         'attribute' => 'name',
-        'value' => $this->get_open_graph_value( 'twitter_description',
+        'value' => $this->get_open_graph_processed_value( 'twitter:description',
           array(
-            Utilities::get_post_option('twitter_description'),
-            $post->post_content,
-            Utilities::get_option('twitter_description'),
-            $this->get_open_graph_value( 'description',
+            Utilities::get_post_option('twitter:description'),
+            $PostDecorator->post_content,
+            Utilities::get_option('twitter:description'),
+            $this->get_open_graph_processed_value( 'og:description',
               array(
-                $post->post_content, get_bloginfo('description')
+                $PostDecorator->post_content,
+                get_bloginfo('og:description')
               )
             )
           )
@@ -270,11 +254,9 @@ class OpenGraph extends App{
       )
     );
 
-    //-- Loop over values to check if 'force' is in effect.
+    // -- Filter for filtering specific fields.
     foreach($data as $key=>$item) {
-      if(Utilities::get_option($key . '_force') === 'on') {
-        $data[$key]['value'] = Utilities::get_option($key);
-      }
+      $data[$key]['value'] = apply_filters(self::$options_prefix . '_' . $key, $data[$key]['value'], $key);
     }
 
     return apply_filters(self::$options_prefix . '_all_data', $data);

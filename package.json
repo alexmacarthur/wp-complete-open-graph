@@ -3,15 +3,15 @@
   "email" : "alex@macarthur.me",
   "url" : "https://macarthur.me",
   "description": "A WordPress plugin for simple, comprehensive, highly customizable Open Graph management.",
-  "version": "2.1.4",
+  "version": "3.0.0",
   "license": "GPL-2.0",
   "main" : "complete-open-graph.php",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alexmacarthur/complete-open-graph"
+    "url": "https://github.com/alexmacarthur/wp-complete-open-graph"
   },
   "bugs": {
-    "url": "https://github.com/alexmacarthur/complete-open-graph/issues"
+    "url": "https://github.com/alexmacarthur/wp-complete-open-graph/issues"
   },
   "keywords": ["open graph protocol", "wordpress", "wordpress plugin", "php", "open graph"],
   "devDependencies": {

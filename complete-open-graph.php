@@ -2,9 +2,9 @@
 /**
 * Plugin Name: Complete Open Graph
 * Description: Simple, comprehensive, highly customizable Open Graph management.
-* Version: 2.1.4
+* Version: 3.0.0
 * Author: Alex MacArthur
-* Author URI: http://macarthur.me
+* Author URI: https://macarthur.me
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -23,7 +23,7 @@ use CompleteOG\OpenGraph;
 class App {
 
   private static $instance;
-  public $version = '2.1.4';
+  public $version = '3.0.0';
   protected static $options_prefix = 'complete_open_graph';
   protected static $admin_settings_page_slug = 'complete_open_graph';
   protected static $options_short_prefix = 'cog';
@@ -66,7 +66,7 @@ class App {
     wp_enqueue_media();
     wp_print_scripts('media-upload');
     wp_enqueue_style( 'complete-open-graph', plugin_dir_url( __FILE__ ) . 'src/assets/css/style.css', array(), null);
-    wp_enqueue_script( 'complete-open-graph', plugin_dir_url( __FILE__ ) . 'src/assets/js/scripts.js', array(), null, true );
+    wp_enqueue_script( 'complete-open-graph', plugin_dir_url( __FILE__ ) . 'src/assets/js/scripts.js', array('jquery'), null, true );
   }
 }
 

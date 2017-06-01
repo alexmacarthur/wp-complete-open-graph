@@ -24,11 +24,6 @@ class Utilities extends App {
       return self::get_options()[$key];
     }
 
-    // Fallback for previous option naming convention.
-    if(isset(self::get_options()['global_' . $key])) {
-      return self::get_options()['global_' . $key];
-    }
-
     return false;
   }
 
@@ -72,6 +67,43 @@ class Utilities extends App {
     global $post;
     $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
     return !empty($matches[1][0]) ? $matches[1][0] : false;
+  }
+
+  /**
+   * Strips all tags from a string of text.
+   *
+   * @param  string text
+   * @return string
+   */
+  public static function strip_all_tags($text) {
+    $dom = new \DOMDocument('1.0','UTF-8');
+    $dom->loadHTML($text);
+
+    for ( $list = $dom->getElementsByTagName('script'), $i = $list->length; --$i >=0; ) {
+      $node = $list->item($i);
+      $node->parentNode->removeChild($node);
+    }
+
+    for ( $list = $dom->getElementsByTagName('style'), $i = $list->length; --$i >=0; ) {
+      $node = $list->item($i);
+      $node->parentNode->removeChild($node);
+    }
+
+    return strip_tags($dom->saveHTML());
+  }
+
+  /**
+   * Do all the things for formatting a piece of OG content.
+   *
+   * @param  string $content
+   * @return string
+   */
+  public static function process_content($content) {
+    $value = strip_shortcodes($content);
+    $value = self::strip_all_tags($value);
+    $value = trim($value);
+    $value = substr($value, 0, 300);
+    return $value;
   }
 
 }

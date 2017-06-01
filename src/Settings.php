@@ -189,10 +189,10 @@ class Settings extends App {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>If left blank, 'website' will be used.</p>
-      <input type="text" value="<?php echo Utilities::get_option('type'); ?>" name="<?php echo Utilities::get_field_name('type'); ?>" id="ogType" />
+      <input type="text" value="<?php echo Utilities::get_option('og:type'); ?>" name="<?php echo Utilities::get_field_name('og:type'); ?>" id="ogType" />
 
       <div class="SK_Box-checkboxGroup">
-        <input type="checkbox" <?php echo $this->checked('type_force'); ?> name="<?php echo Utilities::get_field_name('type_force'); ?>" id="ogTypeForce">
+        <input type="checkbox" <?php echo $this->checked('og:type_force'); ?> name="<?php echo Utilities::get_field_name('og:type_force'); ?>" id="ogTypeForce">
         <label for="ogTypeForce">Force Default Type</label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
       </div>
@@ -210,10 +210,10 @@ class Settings extends App {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>If left blank, the site title will be used.</p>
-      <input type="text" value="<?php echo Utilities::get_option('title'); ?>" name="<?php echo Utilities::get_field_name('title'); ?>" id="ogDescription" />
+      <input type="text" value="<?php echo Utilities::get_option('og:title'); ?>" name="<?php echo Utilities::get_field_name('og:title'); ?>" id="ogDescription" />
 
       <div class="SK_Box-checkboxGroup">
-        <input type="checkbox" <?php echo $this->checked('title_force'); ?> name="<?php echo Utilities::get_field_name('title_force'); ?>" id="ogTitleForce">
+        <input type="checkbox" <?php echo $this->checked('og:title_force'); ?> name="<?php echo Utilities::get_field_name('og:title_force'); ?>" id="ogTitleForce">
         <label for="ogTitleForce">Force Default Title</label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
       </div>
@@ -230,10 +230,10 @@ class Settings extends App {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>If left blank, the site description will be used.</p>
-      <input type="text" value="<?php echo Utilities::get_option('description'); ?>" name="<?php echo Utilities::get_field_name('description'); ?>" id="ogDescription" />
+      <input type="text" value="<?php echo Utilities::get_option('og:description'); ?>" name="<?php echo Utilities::get_field_name('og:description'); ?>" id="ogDescription" />
 
       <div class="SK_Box-checkboxGroup">
-        <input type="checkbox" <?php echo $this->checked('description_force'); ?> name="<?php echo Utilities::get_field_name('description_force'); ?>" id="ogDescriptionForce">
+        <input type="checkbox" <?php echo $this->checked('og:description_force'); ?> name="<?php echo Utilities::get_field_name('og:description_force'); ?>" id="ogDescriptionForce">
         <label for="ogDescriptionForce">Force Default Description</label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
       </div>
@@ -250,10 +250,10 @@ class Settings extends App {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>If left blank, the description will be used.</p>
-      <input type="text" value="<?php echo Utilities::get_option('twitter_description'); ?>" name="<?php echo Utilities::get_field_name('twitter_description'); ?>" id="ogTwitterDescription" />
+      <input type="text" value="<?php echo Utilities::get_option('twitter:description'); ?>" name="<?php echo Utilities::get_field_name('twitter:description'); ?>" id="ogTwitterDescription" />
 
       <div class="SK_Box-checkboxGroup">
-        <input type="checkbox" <?php echo $this->checked('twitter_description_force'); ?> name="<?php echo Utilities::get_field_name('twitter_description_force'); ?>" id="ogTwitterDescriptionForce">
+        <input type="checkbox" <?php echo $this->checked('twitter:description_force'); ?> name="<?php echo Utilities::get_field_name('twitter:description_force'); ?>" id="ogTwitterDescriptionForce">
         <label for="ogTwitterDescriptionForce">Force Default Twitter Description
         </label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
@@ -271,10 +271,10 @@ class Settings extends App {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>Enter the Twitter handle for the primary author. If left blank, the tag will be omitted, unless it's set at the post/page level.</p>
-      <input type="text" value="<?php echo Utilities::get_option('twitter_creator'); ?>" name="<?php echo Utilities::get_field_name('twitter_creator'); ?>" id="ogTwitterCreator" />
+      <input type="text" value="<?php echo Utilities::get_option('twitter:creator'); ?>" name="<?php echo Utilities::get_field_name('twitter:creator'); ?>" id="ogTwitterCreator" />
 
       <div class="SK_Box-checkboxGroup">
-        <input type="checkbox" <?php echo $this->checked('twitter_creator_force'); ?> name="<?php echo Utilities::get_field_name('twitter_creator_force'); ?>" id="ogTwitterCreatorForce">
+        <input type="checkbox" <?php echo $this->checked('twitter:creator_force'); ?> name="<?php echo Utilities::get_field_name('twitter:creator_force'); ?>" id="ogTwitterCreatorForce">
         <label for="ogTwitterCreatorForce">Force Default Twitter Creator
         </label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
@@ -292,7 +292,7 @@ class Settings extends App {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>Enter the Twitter handle for the site itself. It doesn't matter if the '@' symbol is included. If left blank, the tag will be omitted.</p>
-      <input type="text" value="<?php echo Utilities::get_option('twitter_site'); ?>" name="<?php echo Utilities::get_field_name('twitter_site'); ?>" id="ogTwitterSite" />
+      <input type="text" value="<?php echo Utilities::get_option('twitter:site'); ?>" name="<?php echo Utilities::get_field_name('twitter:site'); ?>" id="ogTwitterSite" />
     </fieldset>
     <?php
   }
@@ -303,23 +303,24 @@ class Settings extends App {
    * @return void
    */
   public function cb_field_image() {
+    $imageURL = wp_get_attachment_image_src(Utilities::get_option('og:image'), 'medium')[0];
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>If left blank, the featured image on the home page will be used.</p>
       <div class="SK_ImageHolder"
         id="cogImageHolder"
-        style="background-image: url('<?php echo Utilities::get_option('image'); ?>')">
+        style="background-image: url('<?php echo $imageURL; ?>')">
         <span class="SK_ImageHolder-remove" id="ogRemoveImage">x</span>
       </div>
-      <span class="howto" id="cogUploadedFileName"><?php echo basename(Utilities::get_option('image')); ?></span>
+      <span class="howto" id="cogUploadedFileName"><?php echo basename($imageURL); ?></span>
       <div class="SK_Box-buttonWrapper">
         <a class="button button-primary button-large" id="cogImageSelectButton">Choose File</a>
         <span>No image selected.</span>
       </div>
-      <input id="cogImage" type="hidden" name="<?php echo Utilities::get_field_name('image'); ?>" value="<?php echo Utilities::get_option('image'); ?>" />
+      <input id="cogImage" type="hidden" name="<?php echo Utilities::get_field_name('og:image'); ?>" value="<?php echo Utilities::get_option('og:image'); ?>" />
 
       <div class="SK_Box-checkboxGroup">
-        <input type="checkbox" <?php echo $this->checked('image_force'); ?> name="<?php echo Utilities::get_field_name('image_force'); ?>" id="ogImageForce">
+        <input type="checkbox" <?php echo $this->checked('og:image_force'); ?> name="<?php echo Utilities::get_field_name('og:image_force'); ?>" id="ogImageForce">
         <label for="ogImageForce">Force Default Image</label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
       </div>
@@ -336,7 +337,7 @@ class Settings extends App {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>Enter the ID of the Facebook app you'd like to grant access to this URL.</p>
-      <input type="text" value="<?php echo Utilities::get_option('facebook_app_id'); ?>" name="<?php echo Utilities::get_field_name('facebook_app_id'); ?>" id="ogFacebookAppID" />
+      <input type="text" value="<?php echo Utilities::get_option('fb:app_id'); ?>" name="<?php echo Utilities::get_field_name('fb:app_id'); ?>" id="ogFacebookAppID" />
     </fieldset>
     <?php
   }
@@ -350,7 +351,7 @@ class Settings extends App {
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>Enter the user ID of a person you'd like to give admin access to view insights about this URL.</p>
-      <input type="text" value="<?php echo Utilities::get_option('facebook_admin_ids'); ?>" name="<?php echo Utilities::get_field_name('facebook_admin_ids'); ?>" id="ogFacebookAdminIDs" />
+      <input type="text" value="<?php echo Utilities::get_option('fb:admins'); ?>" name="<?php echo Utilities::get_field_name('fb:admins'); ?>" id="ogFacebookAdminIDs" />
     </fieldset>
     <?php
   }

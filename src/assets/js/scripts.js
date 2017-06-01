@@ -12,7 +12,6 @@
       multiple: false
     });
   var thumbURL;
-  var ogURL;
   var attachment;
 
   customUploader.on('select', function(e) {
@@ -30,9 +29,8 @@
     $imageHolder.css('background-image', 'url(' + thumbURL + ')');
     $uploadedFileName.html(attachment.url.split('/').reverse()[0]);
 
-    ogURL = attachment.sizes['complete_open_graph'] == undefined ? attachment.sizes['medium'].url : attachment.sizes['complete_open_graph'].url;
-
-    $imageInput.val(ogURL);
+    //-- Set input values.
+    $imageInput.val(attachment.id);
   });
 
   $('#cogImageSelectButton').on('click', function(e){

@@ -5,7 +5,7 @@ Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
 Tested up to: 4.8.1
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -199,8 +199,16 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 * Preserve HTML entities in generated content.
 * Default to `large` image sizes for images uploaded before plugin was installed.
 
+= 3.0.1 =
+* Fix bug which was causing the failure to properly decode all quotation marks.
+
 == Upgrade Notice ==
-Significant update: Changes how some data is stored, modifies and adds filters, fixes miscellaneous bugs, adds other improvements. If you're using the custom Open Graph fields or if you use the filters in your code, this may require you to resave posts/pages and update your code.
+
+= 3.0.0 =
+Significant update. Changes how some data is stored, modifies and adds filters, fixes miscellaneous bugs, adds other improvements. If you're using the Complete Open Graph metabox fields on your posts/pages or if you use the filters in your code, this may require you to resave posts/pages and update your code.
+
+= 3.0.1 =
+Minor update. Fixes bug that was causing the failure to properly decode all quotation marks.
 
 == Feedback ==
 

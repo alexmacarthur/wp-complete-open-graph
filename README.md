@@ -165,6 +165,9 @@ After flowing through this order of priority, if there is still no content to be
 * Preserve HTML entities in generated content.
 * Default to `large` image sizes for images uploaded before plugin was installed.
 
+#### 3.0.1
+* Fix bug which was causing the failure to properly decode all quotation marks.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

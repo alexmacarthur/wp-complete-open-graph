@@ -5,7 +5,7 @@ Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
 Tested up to: 4.8.1
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,7 +76,7 @@ The `complete_open_graph_all_data` filter allows the customization of the entire
 Example for customizing out-of-the-box Open Graph data:
 `
 function modify_open_graph_data($data) {
-  $data['site_name']['value'] = 'whatevs';
+  $data['og:site_name']['value'] = 'whatevs';
   return $data;
 }
 add_filter('complete_open_graph_all_data', 'modify_open_graph_data');
@@ -106,7 +106,7 @@ The `complete_open_graph_processed_value` filter allows you to modify a single f
 Example for manipulating a processed value:
 `
 function manipulate_processed_value($value, $field_name) {
-    if($field_name === 'description') {
+    if($field_name === 'og:description') {
         return 'WHATEVER I WANT.';
     }
     return $value;
@@ -202,13 +202,12 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 = 3.0.1 =
 * Fix bug which was causing the failure to properly decode all quotation marks.
 
-== Upgrade Notice ==
-
-= 3.0.0 =
-Significant update. Changes how some data is stored, modifies and adds filters, fixes miscellaneous bugs, adds other improvements. If you're using the Complete Open Graph metabox fields on your posts/pages or if you use the filters in your code, this may require you to resave posts/pages and update your code.
-
-= 3.0.1 =
-Minor update. Fixes bug that was causing the failure to properly decode all quotation marks.
+= 3.0.2 =
+* Fix incorrect reference to `$GLOBALS` superglobal.
+* Fix miscellaneous bugs caused when `post` object wasn't set.
+* Fix bug involving specific use of `empty()` function which is unsupported in older versions of PHP and causing a few errors.
+* Fix bug with generating `og:image` tags on blog list pages.
+* Make performance improvements to option lookups.
 
 == Feedback ==
 

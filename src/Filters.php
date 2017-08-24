@@ -30,13 +30,21 @@ class Filters extends App {
 
     //-- Get image data, including dimensions.
     if(is_numeric($value)) {
+
+      //-- If this attachment doesn't actually exist or isn't an image, just get out of here.
+      if(!wp_attachment_is_image($value)) return;
+
       $meta = array_key_exists('complete_open_graph', wp_get_attachment_metadata($value)['sizes']) ?
               wp_get_attachment_image_src($value, 'complete_open_graph') :
-              wp_get_attachment_image_src($value, 'large') ;
+              wp_get_attachment_image_src($value, 'large');
+
+      //-- If, for some reason, no image is returned, just get out of here.
+      if(is_null($meta)) return;
+
       $value = $meta[0];
       $width = $meta[1];
       $height = $meta[2];
-    } elseif ($imageData = getimagesize($value)) {
+    } elseif ($imageData = @getimagesize($value)) {
       $width = $imageData[0];
       $height = $imageData[1];
     }

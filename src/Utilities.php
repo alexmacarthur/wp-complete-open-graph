@@ -10,7 +10,11 @@ class Utilities extends App {
    * @return array
    */
   public static function get_options() {
-    return get_option(self::$options_prefix);
+    if(is_null(self::$options)) {
+      self::$options = get_option(self::$options_prefix);
+    }
+
+    return self::$options;
   }
 
   /**
@@ -28,14 +32,35 @@ class Utilities extends App {
   }
 
   /**
+   * Returns instance of PostDecorator, creates one if not defined.
+   *
+   * @return obj
+   */
+  public static function get_post_decorator() {
+    global $post;
+
+    if(is_null(self::$post_decorator)) {
+      self::$post_decorator = new PostDecorator($post);
+    }
+
+    return self::$post_decorator;
+  }
+
+  /**
    * Gets serialized options for individual post/page.
    *
    * @return array
    */
   public static function get_post_options() {
-    global $post;
+    if(is_null(self::$post_options)) {
+      self::$post_options = get_post_meta(self::get_post_decorator()->ID, self::$options_prefix);
+    }
 
-    return !empty(get_post_meta($post->ID, self::$options_prefix)) ? get_post_meta($post->ID, self::$options_prefix)[0] : array();
+    if(empty(self::$post_options)) {
+      return array();
+    }
+
+    return self::$post_options[0];
   }
 
   /**
@@ -45,7 +70,8 @@ class Utilities extends App {
    * @return string|bool
    */
   public static function get_post_option($key) {
-    return !empty(self::get_post_options()[$key]) ? self::get_post_options()[$key] : false;
+    $post_options = self::get_post_options();
+    return !empty($post_options[$key]) ? $post_options[$key] : false;
   }
 
   /**
@@ -64,8 +90,7 @@ class Utilities extends App {
    * @return string|bool
    */
   public static function get_first_image() {
-    global $post;
-    $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
+    $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', self::get_post_decorator()->post_content, $matches);
     return !empty($matches[1][0]) ? $matches[1][0] : false;
   }
 
@@ -76,6 +101,8 @@ class Utilities extends App {
    * @return string
    */
   public static function strip_all_tags($text) {
+    if(empty($text)) return $text;
+
     $dom = new \DOMDocument('1.0','UTF-8');
     $dom->loadHTML($text);
 

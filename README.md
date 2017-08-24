@@ -62,7 +62,7 @@ The `complete_open_graph_all_data` filter allows the customization of the entire
 Example for customizing out-of-the-box Open Graph data:
 ```php
 function modify_open_graph_data($data) {
-  $data['site_name']['value'] = 'whatevs';
+  $data['og:site_name']['value'] = 'whatevs';
   return $data;
 }
 add_filter('complete_open_graph_all_data', 'modify_open_graph_data');
@@ -92,7 +92,7 @@ The `complete_open_graph_processed_value` filter allows you to modify a single f
 Example for manipulating a processed value:
 ```php
 function manipulate_processed_value($value, $field_name) {
-    if($field_name === 'description') {
+    if($field_name === 'og:description') {
         return 'WHATEVER I WANT.';
     }
     return $value;
@@ -167,6 +167,13 @@ After flowing through this order of priority, if there is still no content to be
 
 #### 3.0.1
 * Fix bug which was causing the failure to properly decode all quotation marks.
+
+#### 3.0.2
+* Fix incorrect reference to `$GLOBALS` superglobal.
+* Fix miscellaneous bugs caused when `post` object wasn't set.
+* Fix bug involving specific use of `empty()` function which is unsupported in older versions of PHP and causing a few errors.
+* Fix bug with generating `og:image` tags on blog list pages.
+* Make performance improvements to option lookups.
 
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

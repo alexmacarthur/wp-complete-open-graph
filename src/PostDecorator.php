@@ -17,7 +17,7 @@ class PostDecorator {
    * @param WP_Post|null $post
    */
   public function __construct($post = null) {
-    $this->post = is_null($post) ? $_GLOBALS['post'] : $post;
+    $this->post = is_null($post) ? $GLOBALS['post'] : $post;
   }
 
   /**

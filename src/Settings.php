@@ -5,18 +5,14 @@ use CompleteOG\Utilities;
 
 class Settings extends App {
 
-  public $options;
-  public $github_url = 'https://github.com/alexmacarthur/complete-open-graph';
+  public $github_url = 'https://github.com/alexmacarthur/wp-complete-open-graph';
   public $wordpress_url = 'https://wordpress.org/support/plugin/complete-open-graph/reviews/';
   public $twitter_url = 'https://twitter.com/home?status=I%20highly%20recommend%20the%20Complete%20Open%20Graph%20%23WordPress%20plugin%20from%20%40amacarthur!%20https%3A//wordpress.org/plugins/complete-open-graph/';
-  public $website_url = 'http://macarthur.me/#contact';
 
   /**
    * Add actions, set up stuffs.
    */
   public function __construct() {
-    $this->options = Utilities::get_options();
-
     add_action( 'admin_init', array($this, 'register_main_setting'));
     add_action( 'admin_init', array($this, 'register_settings'));
     add_action( 'admin_init', array($this, 'register_facebook_settings'));
@@ -62,20 +58,22 @@ class Settings extends App {
 
             <ul class="SK_FeedbackList">
               <li class="SK_FeedbackList-item SK_FeedbackItem">
-                <a class="SK_FeedbackItem-link SK_FeedbackItem-link--github" href="<?php echo $this->github_url; ?>" target="_blank"><?php echo file_get_contents(plugin_dir_url( __FILE__ ) . 'assets/img/github.svg'); ?></a>
-                <span class="SK_FeedbackItem-text"><p><a href="<?php echo $this->github_url; ?>">Star</a> it.</p></span>
-              </li>
-              <li class="SK_FeedbackList-item SK_FeedbackItem">
-                <a class="SK_FeedbackItem-link" href="<?php echo $this->wordpress_url; ?>" target="_blank"><?php echo file_get_contents(plugin_dir_url( __FILE__ ) . 'assets/img/wordpress.svg'); ?></a>
+                <a class="SK_FeedbackItem-link" title="Review on WordPress" href="<?php echo $this->wordpress_url; ?>" target="_blank">
+                  <?php echo file_get_contents(plugin_dir_path( __FILE__ ) . 'assets/img/wordpress.svg.php'); ?>
+                </a>
                 <span class="SK_FeedbackItem-text"><p><a href="<?php echo $this->wordpress_url; ?>">Review</a> it.</p></span>
               </li>
               <li class="SK_FeedbackList-item SK_FeedbackItem">
-                <a class="SK_FeedbackItem-link" href="<?php echo $this->twitter_url; ?>" target="_blank"><?php echo file_get_contents(plugin_dir_url( __FILE__ ) . 'assets/img/twitter.svg'); ?></a>
-                <span class="SK_FeedbackItem-text"><p><a href="<?php echo $this->twitter_url; ?>">Tweet</a> about it.</p></span>
+                <a class="SK_FeedbackItem-link SK_FeedbackItem-link--github" title="Star on Github" href="<?php echo $this->github_url; ?>" target="_blank">
+                  <?php echo file_get_contents(plugin_dir_path( __FILE__ ) . 'assets/img/github.svg.php'); ?>
+                </a>
+                <span class="SK_FeedbackItem-text"><p><a href="<?php echo $this->github_url; ?>">Star</a> it.</p></span>
               </li>
               <li class="SK_FeedbackList-item SK_FeedbackItem">
-                <a class="SK_FeedbackItem-link SK_FeedbackItem-link--mail" href="<?php echo $this->website_url; ?>" target="_blank"><?php echo file_get_contents(plugin_dir_url( __FILE__ ) . 'assets/img/envelope.svg'); ?></a>
-                <span class="SK_FeedbackItem-text"><p><a href="<?php echo $this->website_url; ?>">Email</a> me.</p></span>
+                <a class="SK_FeedbackItem-link" title="Tweet About It" href="<?php echo $this->twitter_url; ?>" target="_blank">
+                  <?php echo file_get_contents(plugin_dir_path( __FILE__ ) . 'assets/img/twitter.svg.php'); ?>
+                </a>
+                <span class="SK_FeedbackItem-text"><p><a href="<?php echo $this->twitter_url; ?>">Tweet</a> it.</p></span>
               </li>
             </ul>
 

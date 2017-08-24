@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Complete Open Graph
 * Description: Simple, comprehensive, highly customizable Open Graph management.
-* Version: 3.0.1
+* Version: 3.0.2
 * Author: Alex MacArthur
 * Author URI: https://macarthur.me
 * License: GPLv2 or later
@@ -19,14 +19,18 @@ require __DIR__ . '/vendor/autoload.php';
 
 use CompleteOG\Metabox;
 use CompleteOG\OpenGraph;
+use CompleteOG\PostDecorator;
 
 class App {
 
   private static $instance;
-  public $version = '3.0.1';
+  public $version = '3.0.2';
   protected static $options_prefix = 'complete_open_graph';
   protected static $admin_settings_page_slug = 'complete_open_graph';
   protected static $options_short_prefix = 'cog';
+  protected static $options = null;
+  protected static $post_options = null;
+  protected static $post_decorator = null;
 
   public static function generate_instance() {
     if(!isset(self::$instance) && !(self::$instance instanceof App)) {

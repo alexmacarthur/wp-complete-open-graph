@@ -2,7 +2,6 @@
 
 namespace CompleteOG;
 use CompleteOG\Utilities;
-use CompleteOG\PostDecorator;
 
 class OpenGraph extends App{
 
@@ -53,7 +52,6 @@ class OpenGraph extends App{
    * @return void
    */
   public function open_graph_tag_generation() {
-    global $post;
 
     echo "\n<!-- Open Graph managed (and managed freaking well) by Alex MacArthur's Complete Open Graph plugin. (v" . $this->version . "). -->\n";
     echo "<!-- https://wordpress.org/plugins/complete-open-graph/ -->\n";
@@ -92,7 +90,8 @@ class OpenGraph extends App{
    */
   public function get_open_graph_processed_value($field_name, $progression = array()) {
 
-    if(Utilities::get_option( $field_name . '_force' ) === 'on' && !empty(Utilities::get_option( $field_name ))) {
+    $option = Utilities::get_option( $field_name );
+    if(Utilities::get_option( $field_name . '_force' ) === 'on' && !empty($option)) {
       $value = Utilities::process_content(Utilities::get_option($field_name));
       return apply_filters(self::$options_prefix . '_processed_value', $value, $field_name);
     }
@@ -115,9 +114,7 @@ class OpenGraph extends App{
    * @return array Open Graph values
    */
   public function get_open_graph_values() {
-    global $post;
-
-    $PostDecorator = new PostDecorator($post);
+    $frontPageID = (int) get_option('page_on_front');
 
     $data = array(
       'og:site_name' => array(
@@ -127,7 +124,7 @@ class OpenGraph extends App{
 
       'og:url' => array(
         'attribute' => 'property',
-        'value' => $url = get_permalink($PostDecorator->ID)
+        'value' => $url = get_permalink(Utilities::get_post_decorator()->ID)
       ),
 
       'og:locale' => array(
@@ -140,7 +137,7 @@ class OpenGraph extends App{
         'value' => $this->get_open_graph_processed_value( 'og:description',
           array(
             Utilities::get_post_option('og:description'),
-            $PostDecorator->post_content,
+            Utilities::get_post_decorator()->post_content,
             Utilities::get_option('og:description'),
             get_bloginfo('og:description')
           )
@@ -176,10 +173,10 @@ class OpenGraph extends App{
         'value' => $image = $this->get_open_graph_processed_value( 'og:image',
           array(
             Utilities::get_post_option('og:image'),
-            get_post_thumbnail_id($PostDecorator->ID),
+            get_post_thumbnail_id(Utilities::get_post_decorator()->ID),
             Utilities::get_first_image(),
             Utilities::get_option('og:image'),
-            !empty($frontPageID = get_option('page_on_front')) && has_post_thumbnail($frontPageID) ?
+            !empty($frontPageID) && has_post_thumbnail($frontPageID) ?
             get_post_thumbnail_id( $frontPageID ) :
             false
           )
@@ -241,11 +238,11 @@ class OpenGraph extends App{
         'value' => $this->get_open_graph_processed_value( 'twitter:description',
           array(
             Utilities::get_post_option('twitter:description'),
-            $PostDecorator->post_content,
+            Utilities::get_post_decorator()->post_content,
             Utilities::get_option('twitter:description'),
             $this->get_open_graph_processed_value( 'og:description',
               array(
-                $PostDecorator->post_content,
+                Utilities::get_post_decorator()->post_content,
                 get_bloginfo('og:description')
               )
             )

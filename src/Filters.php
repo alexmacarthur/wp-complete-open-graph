@@ -108,7 +108,9 @@ class Filters extends App {
   public static function append_space_after_period($value) {
     if(!$value) return $value;
 
-    return preg_replace( '/\.([^, ])/', '. $1', $value);
+    $value = preg_replace( '/\.([^, ])/', '. $1', $value);
+    $value = preg_replace( '/\?([^, ])/', '? $1', $value);
+    return preg_replace( '/\!([^, ])/', '! $1', $value);
   }
 
 }

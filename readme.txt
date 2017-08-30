@@ -5,7 +5,7 @@ Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
 Tested up to: 4.8.1
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -209,9 +209,12 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 * Fix bug with generating `og:image` tags on blog list pages.
 * Make performance improvements to option lookups.
 
+= 3.0.3 =
+* Fix warning with using `loadHTML()` for parsing certain types of content.
+* Correctly add space after line breaks are removed from sentances ending in `?` and `!`.
+
 == Feedback ==
 
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](https://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](https://www.twitter.com/amacarthur) me.
 
 Regardless of how you feel, your review would be greatly appreciated!
-

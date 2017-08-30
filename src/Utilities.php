@@ -101,22 +101,12 @@ class Utilities extends App {
    * @return string
    */
   public static function strip_all_tags($text) {
-    if(empty($text)) return $text;
+    if(!$text) return $text;
 
-    $dom = new \DOMDocument('1.0','UTF-8');
-    $dom->loadHTML($text);
+    $text = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $text);
+    $text = preg_replace('#<style(.*?)>(.*?)</style>#is', '', $text);
 
-    for ( $list = $dom->getElementsByTagName('script'), $i = $list->length; --$i >=0; ) {
-      $node = $list->item($i);
-      $node->parentNode->removeChild($node);
-    }
-
-    for ( $list = $dom->getElementsByTagName('style'), $i = $list->length; --$i >=0; ) {
-      $node = $list->item($i);
-      $node->parentNode->removeChild($node);
-    }
-
-    return strip_tags($dom->saveHTML());
+    return strip_tags($text);
   }
 
   /**

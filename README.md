@@ -175,6 +175,10 @@ After flowing through this order of priority, if there is still no content to be
 * Fix bug with generating `og:image` tags on blog list pages.
 * Make performance improvements to option lookups.
 
+#### 3.0.3
+* Fix warning with using `loadHTML()` for parsing certain types of content.
+* Correctly add space after line breaks are removed from sentances ending in `?` and `!`.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

@@ -3,7 +3,7 @@
 * Mainly a set of filters used for one-off cases in which information needs to be modified.
 */
 
-namespace CompleteOG;
+namespace CompleteOpenGraph;
 
 class Filters extends App {
 

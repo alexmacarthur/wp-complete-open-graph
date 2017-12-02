@@ -1,6 +1,6 @@
 <?php
 
-namespace CompleteOG;
+namespace CompleteOpenGraph;
 
 class PostDecorator {
 

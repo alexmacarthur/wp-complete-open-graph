@@ -1,13 +1,14 @@
 <?php
 
-namespace CompleteOG;
-use CompleteOG\Utilities;
+namespace CompleteOpenGraph;
+
+require_once 'Utilities.php';
 
 class Settings extends App {
 
   public $github_url = 'https://github.com/alexmacarthur/wp-complete-open-graph';
   public $wordpress_url = 'https://wordpress.org/support/plugin/complete-open-graph/reviews/';
-  public $twitter_url = 'https://twitter.com/home?status=I%20highly%20recommend%20the%20Complete%20Open%20Graph%20%23WordPress%20plugin%20from%20%40amacarthur!%20https%3A//wordpress.org/plugins/complete-open-graph/';
+  public $twitter_url = 'https://twitter.com/intent/tweet?text=I%20highly%20recommend%20the%20Complete%20Open%20Graph%20%23WordPress%20plugin%20from%20%40amacarthur!%20https%3A//wordpress.org/plugins/complete-open-graph/';
 
   /**
    * Add actions, set up stuffs.
@@ -54,7 +55,7 @@ class Settings extends App {
 
           <div id="postbox-container-1" class="postbox-container">
 
-            <h2>Has COG Made Your Life Better?</h2>
+            <h2>Has Complete Open Graph Made Your Life Better?</h2>
 
             <ul class="SK_FeedbackList">
               <li class="SK_FeedbackList-item SK_FeedbackItem">
@@ -115,6 +116,8 @@ class Settings extends App {
    */
   public function register_twitter_settings() {
     add_settings_section( self::$options_prefix . '_twitter_parameters', 'Twitter Parameters', array( $this, 'cb_twitter_parameters_section' ), self::$admin_settings_page_slug );
+
+    add_settings_field( self::$options_short_prefix . '_twitter_card', 'Default Twitter Card', array( $this, 'cb_field_twitter_card' ), self::$admin_settings_page_slug, self::$options_prefix . '_twitter_parameters' );
 
     add_settings_field( self::$options_short_prefix . '_twitter_description', 'Default Twitter Description', array( $this, 'cb_field_twitter_description' ), self::$admin_settings_page_slug, self::$options_prefix . '_twitter_parameters' );
 
@@ -233,6 +236,34 @@ class Settings extends App {
       <div class="SK_Box-checkboxGroup">
         <input type="checkbox" <?php echo $this->checked('og:description_force'); ?> name="<?php echo Utilities::get_field_name('og:description_force'); ?>" id="ogDescriptionForce">
         <label for="ogDescriptionForce">Force Default Description</label>
+        <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
+      </div>
+    </fieldset>
+    <?php
+  }
+
+  /**
+   * Outputs field markup.
+   *
+   * @return void
+   */
+  public function cb_field_twitter_card() {
+    ?>
+    <fieldset class="SK_Box SK_Box--standOut">
+      <p>The type of Twitter card that will be generated for Open Graph. To learn about what these types mean, see <a target="_blank" href="https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/abouts-cards">Twitter's documentation</a>.</p>
+
+      <?php $cardValue = Utilities::get_option('twitter:card'); ?>
+
+      <select name="<?php echo Utilities::get_field_name('twitter:card'); ?>" id="ogTwitterCard">
+        <option <?php selected($cardValue, 'summary'); ?> value="summary">Summary</option>
+        <option <?php selected($cardValue, 'summary_large_image'); ?> value="summary_large_image">Large Summary</option>
+        <option <?php selected($cardValue, 'app'); ?> value="app">App</option>
+        <option <?php selected($cardValue, 'player'); ?> value="player">Player</option>
+      </select>
+
+      <div class="SK_Box-checkboxGroup">
+        <input type="checkbox" <?php echo $this->checked('twitter:card_force'); ?> name="<?php echo Utilities::get_field_name('twitter:card_force'); ?>" id="ogTwitterCardForce">
+        <label for="ogTwitterCardForce">Force Default Twitter Card</label>
         <span class="SK_Box-disclaimer">Checking this will force this value, no matter what.</span>
       </div>
     </fieldset>

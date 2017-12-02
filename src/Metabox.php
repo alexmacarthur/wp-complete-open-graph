@@ -1,7 +1,6 @@
 <?php
 
-namespace CompleteOG;
-use CompleteOG\Utilities;
+namespace CompleteOpenGraph;
 
 class Metabox extends App {
 
@@ -60,6 +59,21 @@ class Metabox extends App {
         </fieldset>
 
         <fieldset class="SK_Box">
+          <label for="complete_open_graph_twitter_card">Twitter Summary Card Type</label>
+          <p>The type of Twitter card that will be generated for Open Graph. To learn about what these types mean, see <a target="_blank" href="https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/abouts-cards">Twitter's documentation</a>.</p>
+
+          <?php $cardValue = Utilities::get_post_option('twitter:card'); ?>
+
+          <select name="complete_open_graph_twitter_card" id="ogTwitterCard">
+            <option <?php selected($cardValue, 'summary'); ?> value="summary">Summary</option>
+            <option <?php selected($cardValue, 'summary_large_image'); ?> value="summary_large_image">Large Summary</option>
+            <option <?php selected($cardValue, 'app'); ?> value="app">App</option>
+            <option <?php selected($cardValue, 'player'); ?> value="player">Player</option>
+          </select>
+
+        </fieldset>
+
+        <fieldset class="SK_Box">
           <label for="complete_open_graph_type">Type</label>
           <p>If left blank, the <strong>global 'type'</strong> value will be used. If you choose to override it, make sure it follows the correct <a href="https://developers.facebook.com/docs/reference/opengraph/" target="_blank">object type formatting</a>.</p>
           <input type="text" value="<?php echo Utilities::get_post_option('og:type'); ?>" name="complete_open_graph_type" id="ogType" />
@@ -104,6 +118,7 @@ class Metabox extends App {
       'og:description' => esc_attr($_POST['complete_open_graph_description']),
       'og:image' => esc_attr($_POST['complete_open_graph_image']),
       'og:type' => esc_attr($_POST['complete_open_graph_type']),
+      'twitter:card' => esc_attr($_POST['complete_open_graph_twitter_card']),
       'twitter:description' => esc_attr($_POST['complete_open_graph_twitter_description']),
       'twitter:creator' => esc_attr($_POST['complete_open_graph_twitter_creator'])
     );

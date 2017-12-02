@@ -1,7 +1,6 @@
 <?php
 
-namespace CompleteOG;
-use CompleteOG\Utilities;
+namespace CompleteOpenGraph;
 
 class OpenGraph extends App{
 
@@ -205,7 +204,12 @@ class OpenGraph extends App{
 
       'twitter:card' => array(
         'attribute' => 'name',
-        'value' => 'summary'
+        'value' => $this->get_open_graph_processed_value('twitter:card',
+          array(
+            Utilities::get_post_option('twitter:card'),
+            Utilities::get_option('twitter:card')
+          )
+        )
       ),
 
       'twitter:creator' => array(

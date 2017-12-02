@@ -38,7 +38,6 @@ On each page and post, the following fields are automatically generated, based o
 * twitter:description
 * twitter:image
 * twitter:url
-* twitter:card
 * twitter:site
 
 #### Default Settings
@@ -50,6 +49,7 @@ As a fallback for values that aren't filled automatically by a page or post, you
 * og:image:width
 * og:image:height
 * og:description
+* twitter:card
 * twitter:description
 * twitter:creator
 * twitter:site
@@ -84,6 +84,7 @@ The `complete_open_graph_processed_value` filter allows you to modify a single f
 * og:title
 * og:type
 * og:image
+* twitter:card
 * twitter:title
 * twitter:image
 * twitter:description
@@ -178,6 +179,10 @@ After flowing through this order of priority, if there is still no content to be
 #### 3.0.3
 * Fix warning with using `loadHTML()` for parsing certain types of content.
 * Correctly add space after line breaks are removed from sentances ending in `?` and `!`.
+
+#### 3.1.0
+* Fix styling issue causing strange layout of COG metabox.
+* Add support for different Twitter card types.
 
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

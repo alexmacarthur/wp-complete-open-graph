@@ -1,8 +1,6 @@
 .SK_Box {
   padding-top: 15px;
   background: white;
-  display: flex;
-  align-items: center;
   margin-top: 8px;
   margin: 8px 0 20px 0;
 
@@ -26,18 +24,19 @@
     cursor: pointer;
   }
 
-  input {
+  input,
+  select {
     margin-top: 5px;
     width: 100%;
+
+    &[type="checkbox"] {
+      width: auto;
+    }
 
     @media screen and (max-width: 782px) {
       margin-right: 0;
       margin-left: 0;
     }
-  }
-
-  input[type="checkbox"] {
-    width: auto;
   }
 }
 

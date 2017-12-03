@@ -1,6 +1,8 @@
 <?php
 
-namespace CompleteOG;
+namespace CompleteOpenGraph;
+
+require_once 'PostDecorator.php';
 
 class Utilities extends App {
 

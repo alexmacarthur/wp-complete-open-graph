@@ -4,8 +4,8 @@ Contributors: alexmacarthur
 Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
-Tested up to: 4.8.1
-Stable tag: 3.0.3
+Tested up to: 4.9.1
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,7 +50,6 @@ On each page and post, the following fields are automatically generated, based o
 * twitter:description
 * twitter:image
 * twitter:url
-* twitter:card
 * twitter:site
 
 = Default Settings =
@@ -63,6 +62,7 @@ As a fallback for values that aren't filled automatically by a page or post, you
 * og:image:width
 * og:image:height
 * og:description
+* twitter:card
 * twitter:description
 * twitter:creator
 * twitter:site
@@ -98,6 +98,7 @@ The `complete_open_graph_processed_value` filter allows you to modify a single f
 * og:title
 * og:type
 * og:image
+* twitter:card
 * twitter:title
 * twitter:image
 * twitter:description
@@ -212,6 +213,10 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 = 3.0.3 =
 * Fix warning with using `loadHTML()` for parsing certain types of content.
 * Correctly add space after line breaks are removed from sentances ending in `?` and `!`.
+
+= 3.1.0 = 
+* Fix styling issue causing strange layout of COG metabox.
+* Add support for different Twitter card types.
 
 == Feedback ==
 

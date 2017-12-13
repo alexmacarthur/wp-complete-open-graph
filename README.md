@@ -1,6 +1,8 @@
 # Complete Open Graph
 A WordPress plugin for simple, comprehensive, customizable Open Graph management.
 
+[![WordPress plugin](https://img.shields.io/wordpress/plugin/dt/complete-open-graph.svg)](https://wordpress.org/plugins/complete-open-graph/)
+
 ## Description
 There's no shortage of plugins that promise to be THE all-in-one solution for all things SEO. Unfortunately, this often means lack of flexibility, confusing implementation, or just a big, bloated plugin that carries way too many features for your needs.
 
@@ -183,6 +185,9 @@ After flowing through this order of priority, if there is still no content to be
 #### 3.1.0
 * Fix styling issue causing strange layout of COG metabox.
 * Add support for different Twitter card types.
+
+#### 3.1.1
+* Properly encode special characters into HTML entities.
 
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

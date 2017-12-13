@@ -5,7 +5,7 @@ Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
 Tested up to: 4.9.1
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -217,6 +217,9 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 = 3.1.0 = 
 * Fix styling issue causing strange layout of COG metabox.
 * Add support for different Twitter card types.
+
+= 3.1.1 =
+* Properly encode special characters into HTML entities.
 
 == Feedback ==
 

@@ -59,7 +59,7 @@ class OpenGraph extends App{
 
     foreach($this->get_open_graph_values() as $key=>$data) {
       $content = preg_replace( "/\r|\n/", "", $data['value']);
-      $content = html_entity_decode($content, ENT_QUOTES, 'UTF-8');
+      $content = htmlentities($content, ENT_QUOTES, 'UTF-8', false);
 
       if($data['value']) {
         if($data['attribute'] === 'property') {

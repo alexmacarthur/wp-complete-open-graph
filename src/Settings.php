@@ -37,7 +37,7 @@ class Settings extends App {
    */
   public function open_graph_settings_page_cb() {
   ?>
-    <div id="cogSettingsPage" class="wrap <?php if(!Utilities::get_option('image')): ?>has-no-image<?php endif; ?>">
+    <div id="cogSettingsPage" class="wrap <?php if(!Utilities::get_option('og:image')): ?>has-no-image<?php endif; ?>">
       <h1>Complete Open Graph Settings</h1>
 
       <div id="poststuff">
@@ -332,7 +332,16 @@ class Settings extends App {
    * @return void
    */
   public function cb_field_image() {
-    $imageURL = wp_get_attachment_image_src(Utilities::get_option('og:image'), 'medium')[0];
+    $imageID = Utilities::get_option('og:image');
+
+    //-- Ensure the image exists before getting the URL.
+    if(empty($imageID)) {
+      $imageURL = '';
+    } else {
+      $imageAttachment = wp_get_attachment_image_src($imageID, 'medium');
+      $imageURL = isset($imageAttachment[0]) ? $imageAttachment[0] : '';
+    }
+
     ?>
     <fieldset class="SK_Box SK_Box--standOut">
       <p>If left blank, the featured image on the home page will be used.</p>

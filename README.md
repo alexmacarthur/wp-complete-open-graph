@@ -189,6 +189,9 @@ After flowing through this order of priority, if there is still no content to be
 #### 3.1.1
 * Properly encode special characters into HTML entities.
 
+#### 3.1.2
+* Add checks for image existence to avoid potential errors.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

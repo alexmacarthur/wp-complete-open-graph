@@ -23,7 +23,7 @@ require_once 'src/OpenGraph.php';
 class App {
 
   private static $instance;
-  public $version = '3.1.1';
+  public $version = '3.1.2';
   protected static $options_prefix = 'complete_open_graph';
   protected static $admin_settings_page_slug = 'complete_open_graph';
   protected static $options_short_prefix = 'cog';

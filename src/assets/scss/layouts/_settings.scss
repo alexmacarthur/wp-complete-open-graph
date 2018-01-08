@@ -1,5 +1,17 @@
 #cogSettingsPage {
 
+	&.is-forcing-all {
+		.SK_Box-checkboxGroup:not(.is-immune) {
+			opacity: .5;
+    	pointer-events: none;
+		}
+	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+
   #post-body {
     &:after {
       content: '';
@@ -10,7 +22,11 @@
 
   .postbox-container:last-child {
     h2 {
-      padding-left: 10px;
+      margin-bottom: 15px;
+    }
+
+    .block {
+    	display: block;
     }
   }
 

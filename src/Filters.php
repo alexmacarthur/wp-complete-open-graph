@@ -12,7 +12,8 @@ class Filters extends App {
     add_filter(self::$options_prefix . '_og:description', array($this, 'append_space_after_period'), 10, 2);
     add_filter(self::$options_prefix . '_twitter:site', array($this, 'append_at_symbol'), 10, 2);
     add_filter(self::$options_prefix . '_twitter:creator', array($this, 'append_at_symbol'), 10, 2);
-    add_filter(self::$options_prefix . '_processed_value', array($this, 'process_image'), 10, 2);
+    add_filter(self::$options_prefix . '_og:image', array($this, 'process_image'), 10, 2);
+    add_filter(self::$options_prefix . '_twitter:image', array($this, 'process_image'), 10, 2);
   }
 
   /**
@@ -23,8 +24,6 @@ class Filters extends App {
    */
   public function process_image($value, $field_name) {
 
-    if($field_name !== 'og:image') return $value;
-
     $width = '';
     $height = '';
 
@@ -32,14 +31,14 @@ class Filters extends App {
     if(is_numeric($value)) {
 
       //-- If this attachment doesn't actually exist or isn't an image, just get out of here.
-      if(!wp_attachment_is_image($value)) return;
+      if(!wp_attachment_is_image($value)) return '';
 
       $meta = array_key_exists('complete_open_graph', wp_get_attachment_metadata($value)['sizes']) ?
               wp_get_attachment_image_src($value, 'complete_open_graph') :
               wp_get_attachment_image_src($value, 'large');
 
       //-- If, for some reason, no image is returned, just get out of here.
-      if(is_null($meta)) return;
+      if(is_null($meta)) return '';
 
       $value = $meta[0];
       $width = $meta[1];
@@ -71,32 +70,6 @@ class Filters extends App {
     if(!$value) return $value;
 
     return '@' . str_replace('@', '', $value);
-  }
-
-  /**
-   * Add the image size attributes if an image exists.
-   *
-   * @todo Build to not rely on getimagesize() for improved efficiency.
-   *
-   * @param array Open Graph data
-   * @return array
-   */
-  public function add_image_sizes($data) {
-
-    if($image = @getimagesize($data['og:image']['value'])) {
-
-      $data['og:image:width'] = array(
-        'attribute' => 'property',
-        'value' => $image[0]
-      );
-
-      $data['og:image:height'] = array(
-        'attribute' => 'property',
-        'value' => $image[1]
-      );
-    }
-
-    return $data;
   }
 
   /**

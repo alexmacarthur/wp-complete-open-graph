@@ -18,7 +18,7 @@ TL;DR: This plugin does Open Graph. Freaking good Open Graph.
 3. (Optional) Use the Settings->Open Graph screen to set your default Open Graph data.
 
 ## Using the Plugin
-Upon activation, Complete Open Graph is ready to generate Open Graph meta tags, with an intuitive set of fallbacks in place. Literally no configuration is required to begin making your site socially shareable. 
+Upon activation, Complete Open Graph is ready to generate Open Graph meta tags, with an intuitive set of fallbacks in place. Literally no configuration is required to begin making your site socially shareable.
 
 ### Out-of-the-Box Tags
 
@@ -43,7 +43,7 @@ On each page and post, the following fields are automatically generated, based o
 * twitter:site
 
 #### Default Settings
-As a fallback for values that aren't filled automatically by a page or post, you can set default values for Open Graph data. If desired, you can force these individual values to be used globally, overriding whatever is set at a page/post level. 
+As a fallback for values that aren't filled automatically by a page or post, you can set default values for Open Graph data. If desired, you can force these individual values to be used globally, overriding whatever is set at a page/post level.
 
 * og:type
 * og:title
@@ -103,7 +103,7 @@ function manipulate_processed_value($value, $field_name) {
 add_filter('complete_open_graph_processed_value', 'manipulate_processed_value', 10, 2);
 ```
 
-The `complete_open_graph_{$tagName}` filter allows you to modify a single field by identifying it by name and returning a modified value. These names are the "name" or "property" attributes on the meta tags. See "Available Fields" above for these names. 
+The `complete_open_graph_{$tagName}` filter allows you to modify a single field by identifying it by name and returning a modified value. These names are the "name" or "property" attributes on the meta tags. See "Available Fields" above for these names.
 
 Example for manipulating a single value by name:
 ```php
@@ -115,13 +115,14 @@ add_filter('complete_open_graph_og:title', 'modify_title', 10, 2);
 ```
 
 ### Order of Priority
-There's a fallback system set in place for you to effectively leverage this plugin. Below is the order of priority: 
+There's a fallback system set in place for you to effectively leverage this plugin. Below is the order of priority:
 
 1. *Filters* - Any filters you apply in your code will take priority over any fields you have filled in the admin.
-2. *Forced Global Settings* - If you've checked the box on these fields on the settings page, they'll override everything non-filtered. 
-2. *Post/Page Fields* - Filling out the metabox fields on a page or post in the WordPress Admin will give it priority over any default settings (unless they're forced).
-3. *Default Settings* - These will take priority over any core WordPress settings in place (site name, description).
-4. *Blog Info* - When nothing else is overriding them, Open Graph fields will default to your general WordPress site settings.
+2. *Forced Global Settings* - If you've checked the box on these fields on the settings page, they'll override everything non-filtered.
+3. *Post/Page COG Fields* - Filling out the meta box fields on a page or post in the WordPress Admin will give it priority over any default settings (unless they're forced).
+4. *Post/Page Content*  - If no specific COG fields on the post/page are set, the post/page content itself will be used. For the Open Graph description, the excerpt will be respected if it's filled.
+5. *Default COG Settings* - Next, the default COG global settings will used to populate Open Graph tags.
+6. *Blog Info* - When nothing else is overriding them, Open Graph fields will default to your general WordPress site settings.
 
 After flowing through this order of priority, if there is still no content to be pulled, those respective Open Graph tags will not be generated. So, don't worry about having extra, useless tags just sitting there in your markup.
 
@@ -153,14 +154,14 @@ After flowing through this order of priority, if there is still no content to be
 #### 2.1.2
 * Strip shortcodes from generated Open Graph content.
 
-#### 2.1.3 
+#### 2.1.3
 * Fix incorrectly rendered tags for `fb:app_id` and `fb:admins`.
 
-#### 2.1.4 
-* Fix bug producing errors when $post object is not set. 
+#### 2.1.4
+* Fix bug producing errors when $post object is not set.
 
 #### 3.0.0
-* Display default data on pages where post object is not set (like 404 pages). 
+* Display default data on pages where post object is not set (like 404 pages).
 * Fix bug preventing image size tags from being rendered.
 * Strip style and script tags from generated Open Graph descriptions.
 * Rename `complete_open_graph_single_value` filter to `complete_open_graph_processed_value`.
@@ -191,6 +192,11 @@ After flowing through this order of priority, if there is still no content to be
 
 #### 3.1.2
 * Add checks for image existence to avoid potential errors.
+
+#### 3.2.0
+* Respect post/page excerpt when generating Open Graph descriptions.
+* Add feature to force all fallback settings at once.
+* Improve image filtering to prevent potential bugs.
 
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

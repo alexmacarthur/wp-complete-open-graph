@@ -1,5 +1,12 @@
 #cogSettingsPage {
 
+	&.is-forcing-all {
+		.SK_Box-checkboxGroup:not(.is-immune) {
+			opacity: .5;
+    	pointer-events: none;
+		}
+	}
+
   #post-body {
     &:after {
       content: '';

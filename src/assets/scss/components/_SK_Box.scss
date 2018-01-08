@@ -46,6 +46,24 @@
   padding: 15px 18px;
 }
 
+.SK_Box--important {
+	border: 0;
+	box-shadow: none;
+	background: $pink;
+
+	*, .SK_Box-disclaimer {
+		color: white;
+	}
+
+	input {
+		border: 0;
+	}
+
+	p {
+		opacity: 1;
+	}
+}
+
 .SK_Box-buttonWrapper {
   display: flex;
   align-items: center;

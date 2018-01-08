@@ -2,7 +2,9 @@
 
 namespace CompleteOpenGraph;
 
-class OpenGraph extends App{
+class OpenGraph extends App {
+
+  protected $forceAll = false;
 
   /**
    * Add actions.
@@ -52,6 +54,8 @@ class OpenGraph extends App{
    */
   public function open_graph_tag_generation() {
 
+    $this->forceAll = Utilities::get_option('force_all');
+
     echo "\n<!-- Open Graph managed (and managed freaking well) by Alex MacArthur's Complete Open Graph plugin. (v" . $this->version . "). -->\n";
     echo "<!-- https://wordpress.org/plugins/complete-open-graph/ -->\n";
 
@@ -81,8 +85,6 @@ class OpenGraph extends App{
    * Get a specific value for an Open Graph attribute.
    * If progression is given, it will assign the first value that exists.
    *
-   * @todo Deprecate the single_value filter. Much better ways to implement this.
-   *
    * @param  string $field_name  Name of the attribute
    * @param  array  $progression Array of possible values, in order of priority.
    * @return string The value
@@ -90,7 +92,8 @@ class OpenGraph extends App{
   public function get_open_graph_processed_value($field_name, $progression = array()) {
 
     $option = Utilities::get_option( $field_name );
-    if(Utilities::get_option( $field_name . '_force' ) === 'on' && !empty($option)) {
+    if( ($this->forceAll === 'on' ||
+        Utilities::get_option( $field_name . '_force' ) === 'on')) {
       $value = Utilities::process_content(Utilities::get_option($field_name));
       return apply_filters(self::$options_prefix . '_processed_value', $value, $field_name);
     }
@@ -136,6 +139,7 @@ class OpenGraph extends App{
         'value' => $this->get_open_graph_processed_value( 'og:description',
           array(
             Utilities::get_post_option('og:description'),
+            Utilities::get_post_decorator()->post_excerpt,
             Utilities::get_post_decorator()->post_content,
             Utilities::get_option('og:description'),
             get_bloginfo('og:description')
@@ -242,6 +246,7 @@ class OpenGraph extends App{
         'value' => $this->get_open_graph_processed_value( 'twitter:description',
           array(
             Utilities::get_post_option('twitter:description'),
+            Utilities::get_post_decorator()->post_excerpt,
             Utilities::get_post_decorator()->post_content,
             Utilities::get_option('twitter:description'),
             $this->get_open_graph_processed_value( 'og:description',
@@ -255,7 +260,7 @@ class OpenGraph extends App{
       )
     );
 
-    // -- Filter for filtering specific fields.
+    //-- Filter for filtering specific fields.
     foreach($data as $key=>$item) {
       $data[$key]['value'] = apply_filters(self::$options_prefix . '_' . $key, $data[$key]['value'], $key);
     }

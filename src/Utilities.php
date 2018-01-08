@@ -6,6 +6,32 @@ require_once 'PostDecorator.php';
 
 class Utilities extends App {
 
+  public static function get_current_post_type() {
+    global $post, $typenow, $current_screen;
+
+    if ( $post && $post->post_type ) {
+      return $post->post_type;
+    }
+
+    elseif ( $typenow ) {
+      return $typenow;
+    }
+
+    elseif ( $current_screen && $current_screen->post_type ) {
+      return $current_screen->post_type;
+    }
+
+    elseif ( isset( $_REQUEST['post_type'] ) ) {
+      return sanitize_key( $_REQUEST['post_type'] );
+    }
+
+    elseif ( isset( $_REQUEST['post'] ) ) {
+      return get_post_type( $_REQUEST['post'] );
+    }
+
+    return null;
+  }
+
   /**
    * Gets serialized settings in options table.
    *

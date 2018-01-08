@@ -49,4 +49,12 @@
     $imageHolder.css('background-image', 'url("")');
     $imageInput.val('');
   });
+
+  $('#ogForceAll').on('change', function () {
+  	if($(this).is(':checked')) {
+  		$cogSettingsPage.addClass('is-forcing-all');
+  	} else {
+  		$cogSettingsPage.removeClass('is-forcing-all');
+  	}
+  });
 })(jQuery);

@@ -4,17 +4,36 @@ namespace CompleteOpenGraph;
 
 class OpenGraph extends App {
 
-  protected $forceAll = false;
+	/**
+	 * Cache whether the 'force all' value has been checked.
+	 *
+	 * @var boolean
+	 */
+	protected $forceAll = false;
+
+	/**
+	 * Cache whether the current page lists multiple posts,
+	 * like an archive page.
+	 *
+	 * @var boolean
+	 */
+	protected $isPostListingPage = false;
 
   /**
    * Add actions.
    */
   public function __construct() {
+		add_action('wp', array($this, 'set_useful_variables'));
     add_action('plugins_loaded', array($this, 'add_og_image_size'));
     add_action('wp_head', array($this, 'open_graph_tag_generation'));
     add_filter('image_size_names_choose', array($this, 'add_og_image_size_to_uploader'));
-    add_filter('language_attributes', array($this, 'add_open_graph_prefix'), 10, 2 );
-  }
+		add_filter('language_attributes', array($this, 'add_open_graph_prefix'), 10, 2 );
+	}
+
+	public function set_useful_variables() {
+		$this->forceAll = Utilities::get_option('force_all');
+		$this->isPostListingPage = is_home() || is_archive();
+	}
 
   /**
    * Add Open Graph prefixes to <html> tag.
@@ -54,28 +73,29 @@ class OpenGraph extends App {
    */
   public function open_graph_tag_generation() {
 
-    $this->forceAll = Utilities::get_option('force_all');
-
-    echo "\n<!-- Open Graph managed (and managed freaking well) by Alex MacArthur's Complete Open Graph plugin. (v" . $this->version . "). -->\n";
+    echo "\n<!-- This Open Graph data is managed by Alex MacArthur's Complete Open Graph plugin. (v" . $this->version . "). -->\n";
     echo "<!-- https://wordpress.org/plugins/complete-open-graph/ -->\n";
 
-    $startTime = microtime(true);
+		$startTime = microtime(true);
 
-    foreach($this->get_open_graph_values() as $key=>$data) {
+    foreach($this->get_open_graph_values() as $key => $data) {
+
+			if(empty($data['value'])) continue;
+
       $content = preg_replace( "/\r|\n/", "", $data['value']);
-      $content = htmlentities($content, ENT_QUOTES, 'UTF-8', false);
+			$content = htmlentities($content, ENT_QUOTES, 'UTF-8', false);
 
-      if($data['value']) {
-        if($data['attribute'] === 'property') {
-          ?><meta property="<?php echo $key; ?>" content="<?php echo $content; ?>" /><?php
-          echo "\n";
-        }
+			if($data['attribute'] === 'property') {
+				?><meta property="<?php echo $key; ?>" content="<?php echo $content; ?>" /><?php
+				echo "\n";
+				continue;
+			}
 
-        if($data['attribute'] === 'name') {
-          ?><meta name="<?php echo $key; ?>" content="<?php echo $content; ?>" /><?php
-          echo "\n";
-        }
-      }
+			if($data['attribute'] === 'name') {
+				?><meta name="<?php echo $key; ?>" content="<?php echo $content; ?>" /><?php
+				echo "\n";
+				continue;
+			}
     }
 
     echo "<!-- End Complete Open Graph. | " . (microtime(true) - $startTime) . "s -->\n\n";
@@ -91,10 +111,15 @@ class OpenGraph extends App {
    */
   public function get_open_graph_processed_value($field_name, $progression = array()) {
 
-    $option = Utilities::get_option( $field_name );
-    if( ($this->forceAll === 'on' ||
-        Utilities::get_option( $field_name . '_force' ) === 'on')) {
-      $value = Utilities::process_content(Utilities::get_option($field_name));
+		$option = Utilities::get_option( $field_name );
+
+		//-- Check for explicit option to use global options, or if it's an archive page.
+		$useGlobal = $this->forceAll === 'on'
+			|| $this->isPostListingPage
+			|| Utilities::get_option( $field_name . '_force' ) === 'on';
+
+    if( $useGlobal ) {
+			$value = Utilities::process_content(Utilities::get_option($field_name));
       return apply_filters(self::$options_prefix . '_processed_value', $value, $field_name);
     }
 

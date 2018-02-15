@@ -198,6 +198,10 @@ After flowing through this order of priority, if there is still no content to be
 * Add feature to force all fallback settings at once.
 * Improve image filtering to prevent potential bugs.
 
+#### 3.2.1
+* Fix bug pulling Open Graph data from first post on any archive page; instead, it falls back to global settings.
+* Slightly improve efficiency of generating Open Graph markup for each page.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

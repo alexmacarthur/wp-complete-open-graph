@@ -18,8 +18,9 @@ class Filters extends App {
 
   /**
    * If image is an attachment ID, construct value based on that. If a URL, use that.
-   * @param  string|integer
-   * @param  string $key
+	 *
+   * @param  string|integer $value
+   * @param  string $field_name
    * @return string
    */
   public function process_image($value, $field_name) {

@@ -4,8 +4,8 @@ Contributors: alexmacarthur
 Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
-Tested up to: 4.9.1
-Stable tag: 3.2.1
+Tested up to: 4.9.5
+Stable tag: 3.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,9 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 = 3.2.1 =
 * Fix bug pulling Open Graph data from first post on any archive page; instead, it falls back to global settings.
 * Slightly improve efficiency of generating Open Graph markup for each page.
+
+= 3.2.2 =
+* Uses the `get_local()` method instead of hard-coding the value for the og:locale meta tag.
 
 == Feedback ==
 

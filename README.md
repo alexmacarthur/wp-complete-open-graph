@@ -202,6 +202,9 @@ After flowing through this order of priority, if there is still no content to be
 * Fix bug pulling Open Graph data from first post on any archive page; instead, it falls back to global settings.
 * Slightly improve efficiency of generating Open Graph markup for each page.
 
+#### 3.2.2
+* Uses the `get_local()` method instead of hard-coding the value for the og:locale meta tag.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

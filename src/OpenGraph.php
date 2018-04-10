@@ -156,7 +156,7 @@ class OpenGraph extends App {
 
       'og:locale' => array(
         'attribute' => 'property',
-        'value' => 'en_us'
+        'value' => get_locale()
       ),
 
       'og:description' => array(

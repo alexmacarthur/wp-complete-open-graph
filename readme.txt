@@ -4,8 +4,8 @@ Contributors: alexmacarthur
 Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
-Tested up to: 4.9.5
-Stable tag: 3.2.2
+Tested up to: 4.9.6
+Stable tag: 3.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,6 +126,13 @@ function modify_title($value, $field_name) {
 add_filter('complete_open_graph_og:title', 'modify_title', 10, 2);
 `
 
+== Advanced Filtering ==
+If, for whatever reason, you need to access any of the hooks registered by this plugin, you may do so by referencing the `CompleteOpenGraph\App` key in the `$GLOBALS` array. Each controller is saved to this central instance, so you can remove actions (or whatever) by using it. For example, the following snippet will completely remove the `Open Graph` settings page from the sidebar menu.
+
+`
+remove_action('admin_menu', array($GLOBALS['CompleteOpenGraph\App']->controllers['Settings'], 'open_graph_settings_page'));
+`
+
 == Order of Priority ==
 
 There's a fallback system set in place for you to effectively leverage this plugin. Below is the order of priority:
@@ -235,7 +242,11 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 * Slightly improve efficiency of generating Open Graph markup for each page.
 
 = 3.2.2 =
-* Uses the `get_local()` method instead of hard-coding the value for the og:locale meta tag.
+* Uses the `get_locale()` method instead of hard-coding the value for the og:locale meta tag.
+
+= 3.2.3 =
+* Enqueue WP media scripts with better scope and more flexibility.
+* Put `CompleteOpenGraph\App` into `$GLOBALS` to allow easier filtering and access within themes and plugins.
 
 == Feedback ==
 

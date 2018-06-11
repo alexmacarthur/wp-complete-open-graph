@@ -19,7 +19,20 @@ class Settings extends App {
 		add_action( 'admin_init', array($this, 'register_settings'));
 		add_action( 'admin_init', array($this, 'register_facebook_settings'));
 		add_action( 'admin_init', array($this, 'register_twitter_settings'));
-		add_action(	'admin_menu', array($this, 'open_graph_settings_page'));
+		add_action( 'admin_menu', array($this, 'open_graph_settings_page'));
+		add_action( 'admin_enqueue_scripts', array($this, 'enqueue_settings_page_media'));
+	}
+
+	/**
+	 * Enqueue media scripts only on COG settings page.
+	 *
+	 * @return void
+	 */
+	public function enqueue_settings_page_media() {
+		if(!isset($_REQUEST['page']) || $_REQUEST['page'] !== 'complete-open-graph') return;
+
+		wp_enqueue_media();
+		wp_enqueue_script( 'media-upload' );
 	}
 
 	public function ensure_attachment_exists () {

@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Complete Open Graph
 * Description: Simple, comprehensive, highly customizable Open Graph management.
-* Version: 3.2.2
+* Version: 3.2.3
 * Author: Alex MacArthur
 * Author URI: https://macarthur.me
 * License: GPLv2 or later
@@ -23,28 +23,31 @@ require_once 'src/OpenGraph.php';
 class App {
 
   private static $instance;
-  public $version = '3.2.2';
+  public $version = '3.2.3';
+	public $controllers = array();
   protected static $options_prefix = 'complete_open_graph';
   protected static $admin_settings_page_slug = 'complete_open_graph';
   protected static $options_short_prefix = 'cog';
   protected static $options = null;
   protected static $post_options = null;
-  protected static $post_decorator = null;
+	protected static $post_decorator = null;
 
   public static function generate_instance() {
-    if(!isset(self::$instance) && !(self::$instance instanceof App)) {
-        self::$instance = new App;
-      }
+
+		if (!isset($GLOBALS[static::class]) || is_null($GLOBALS[static::class])) {
+			$GLOBALS[static::class] = new static();
+		}
+
   }
 
   /**
    * Instatiate necessary classes, enqueue admin scripts.
    */
   public function __construct() {
-    new Settings;
-    new Metabox;
-    new OpenGraph;
-    new Filters;
+    $this->controllers['Settings'] = new Settings;
+    $this->controllers['Metabox'] = new Metabox;
+    $this->controllers['OpenGraph'] = new OpenGraph;
+    $this->controllers['Filters'] = new Filters;
 
     add_action( 'admin_enqueue_scripts', array($this, 'enqueue_styles_and_scripts' ));
   }
@@ -61,13 +64,11 @@ class App {
   }
 
   /**
-   * Enqueue necessary admin scripts & styles.
+   * Enqueue global admin scripts & styles.
    *
    * @return void
    */
   public function enqueue_styles_and_scripts() {
-    wp_enqueue_media();
-    wp_print_scripts('media-upload');
     wp_enqueue_style( 'complete-open-graph', plugin_dir_url( __FILE__ ) . 'src/assets/css/style.css', array(), null);
     wp_enqueue_script( 'complete-open-graph', plugin_dir_url( __FILE__ ) . 'src/assets/js/scripts.js', array('jquery'), null, true );
   }

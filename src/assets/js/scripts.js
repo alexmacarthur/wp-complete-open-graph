@@ -1,13 +1,17 @@
 (function($) {
+
+	if (typeof wp === 'undefined' || !wp.hasOwnProperty('media')) return;
+
   var $imageHolder = $('#cogImageHolder');
   var $imageInput = $('#cogImage');
   var $COGMetaBox = $('#cogMetaBox');
   var $cogSettingsPage = $('#cogSettingsPage');
-  var $uploadedFileName = $('#cogUploadedFileName');
+	var $uploadedFileName = $('#cogUploadedFileName');
+
   var customUploader = wp.media.frames.file_frame = wp.media({
       title: 'Choose Open Graph Image',
       button: {
-          text: 'Set As Open Graph Image'
+        text: 'Set As Open Graph Image'
       },
       multiple: false
     });

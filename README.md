@@ -216,6 +216,9 @@ After flowing through this order of priority, if there is still no content to be
 * Enqueue WP media scripts with better scope and more flexibility.
 * Put `CompleteOpenGraph\App` into `$GLOBALS` to allow easier filtering and access within themes and plugins.
 
+#### 3.2.4
+* Fix bug causing console error to be thrown on pages that didn't have the `media-upload` script enqueued.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

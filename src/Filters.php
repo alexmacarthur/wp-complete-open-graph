@@ -26,28 +26,32 @@ class Filters extends App {
   public function process_image($value, $field_name) {
 
     $width = '';
-    $height = '';
+		$height = '';
 
-    //-- Get image data, including dimensions.
-    if(is_numeric($value)) {
+		if(!is_numeric($value)) return $value;
 
-      //-- If this attachment doesn't actually exist or isn't an image, just get out of here.
-      if(!wp_attachment_is_image($value)) return '';
+		//-- If this attachment doesn't actually exist or isn't an image, just get out of here.
+		if(!wp_attachment_is_image($value)) return '';
 
-      $meta = array_key_exists('complete_open_graph', wp_get_attachment_metadata($value)['sizes']) ?
-              wp_get_attachment_image_src($value, 'complete_open_graph') :
-              wp_get_attachment_image_src($value, 'large');
+		$attachment_meta = wp_get_attachment_metadata($value);
 
-      //-- If, for some reason, no image is returned, just get out of here.
-      if(is_null($meta)) return '';
+		//-- For some weird reason, some images might not have a size key? It's apparently happened...
+		if(empty($attachment_meta) || !isset($attachment_meta['sizes'])) return '';
 
-      $value = $meta[0];
-      $width = $meta[1];
-      $height = $meta[2];
-    } elseif ($imageData = @getimagesize($value)) {
-      $width = $imageData[0];
-      $height = $imageData[1];
-    }
+		if(array_key_exists('complete_open_graph', $attachment_meta['sizes'])) {
+			$meta = wp_get_attachment_image_src($value, 'complete_open_graph');
+		} elseif(array_key_exists('large', $attachment_meta['sizes'])) {
+			$meta = wp_get_attachment_image_src($value, 'large');
+		} else {
+			$meta = false;
+		}
+
+		//-- If, for some reason, no image is returned, just get out of here.
+		if(!($meta)) return '';
+
+		$value = $meta[0];
+		$width = $meta[1];
+		$height = $meta[2];
 
     //-- Set image sizes.
     add_filter(self::$options_prefix . '_og:image:width', function ($value, $key) use ($width) {

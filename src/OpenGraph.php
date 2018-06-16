@@ -51,8 +51,8 @@ class OpenGraph extends App {
    * @return void
    */
   public function add_og_image_size() {
-    add_theme_support('post-thumbnails');
-    add_image_size('complete_open_graph', 1200, 1200, false);
+		add_theme_support('post-thumbnails');
+		add_image_size('complete_open_graph', 1200, 1200, false);
   }
 
   /**

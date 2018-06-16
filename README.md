@@ -219,6 +219,10 @@ After flowing through this order of priority, if there is still no content to be
 #### 3.2.4
 * Fix bug causing console error to be thrown on pages that didn't have the `media-upload` script enqueued.
 
+#### 3.2.5
+* Fix bug causing errors when invalid attachment IDs were passed to Open Graph parser.
+* Add version to assets URLs to break bust cache of outdated files.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

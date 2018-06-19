@@ -5,7 +5,7 @@ Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
 Tested up to: 4.9.6
-Stable tag: 3.2.5
+Stable tag: 3.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -254,6 +254,9 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 = 3.2.5 =
 * Fix bug causing errors when invalid attachment IDs were passed to Open Graph parser.
 * Add version to assets URLs to break bust cache of outdated files.
+
+= 3.2.6 =
+* Fix incorrect reference to class property.
 
 == Feedback ==
 

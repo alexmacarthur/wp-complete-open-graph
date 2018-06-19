@@ -73,7 +73,7 @@ class OpenGraph extends App {
    */
   public function open_graph_tag_generation() {
 
-    echo "\n<!-- This Open Graph data is managed by Alex MacArthur's Complete Open Graph plugin. (v" . $this->version . "). -->\n";
+    echo "\n<!-- This Open Graph data is managed by Alex MacArthur's Complete Open Graph plugin. (v" . self::$plugin_data['Version'] . "). -->\n";
     echo "<!-- https://wordpress.org/plugins/complete-open-graph/ -->\n";
 
 		$startTime = microtime(true);

@@ -223,6 +223,9 @@ After flowing through this order of priority, if there is still no content to be
 * Fix bug causing errors when invalid attachment IDs were passed to Open Graph parser.
 * Add version to assets URLs to break bust cache of outdated files.
 
+#### 3.2.6
+* Fix incorrect reference to class property.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

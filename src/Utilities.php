@@ -38,11 +38,7 @@ class Utilities extends App {
    * @return array
    */
   public static function get_options() {
-    if(is_null(self::$options)) {
-      self::$options = get_option(self::$options_prefix);
-    }
-
-    return self::$options;
+		return get_option(self::$options_prefix);
   }
 
   /**
@@ -80,15 +76,13 @@ class Utilities extends App {
    * @return array
    */
   public static function get_post_options() {
-    if(is_null(self::$post_options)) {
-      self::$post_options = get_post_meta(self::get_post_decorator()->ID, self::$options_prefix);
-    }
+		$post_options = get_post_meta(self::get_post_decorator()->ID, self::$options_prefix);;
 
-    if(empty(self::$post_options)) {
+    if(empty($post_options)) {
       return array();
     }
 
-    return self::$post_options[0];
+    return $post_options[0];
   }
 
   /**
@@ -149,6 +143,24 @@ class Utilities extends App {
     $value = trim($value);
     $value = substr($value, 0, 300);
     return $value;
-  }
+	}
+
+	/**
+	 * Cascades over progression of values and return the first value that isn't empty.
+	 *
+	 * @param [array] $progression
+	 * @return string
+	 */
+	public static function get_cascaded_value($progression) {
+		if(empty($progression)) return '';
+
+		foreach ($progression as $progressionValue) {
+			if(!empty($progressionValue)) {
+				return Utilities::process_content($progressionValue);
+			}
+		}
+
+		return '';
+	}
 
 }

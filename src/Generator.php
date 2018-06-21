@@ -2,37 +2,11 @@
 
 namespace CompleteOpenGraph;
 
-class OpenGraph extends App {
+class Generator extends App {
 
-	/**
-	 * Cache whether the 'force all' value has been checked.
-	 *
-	 * @var boolean
-	 */
-	protected $forceAll = false;
-
-	/**
-	 * Cache whether the current page lists multiple posts,
-	 * like an archive page.
-	 *
-	 * @var boolean
-	 */
-	protected $isPostListingPage = false;
-
-  /**
-   * Add actions.
-   */
   public function __construct() {
-		add_action('wp', array($this, 'set_useful_variables'));
-    add_action('plugins_loaded', array($this, 'add_og_image_size'));
-    add_action('wp_head', array($this, 'open_graph_tag_generation'));
-    add_filter('image_size_names_choose', array($this, 'add_og_image_size_to_uploader'));
+    add_action('wp_head', array($this, 'generate_open_graph_markup'));
 		add_filter('language_attributes', array($this, 'add_open_graph_prefix'), 10, 2 );
-	}
-
-	public function set_useful_variables() {
-		$this->forceAll = Utilities::get_option('force_all');
-		$this->isPostListingPage = is_home() || is_archive();
 	}
 
   /**
@@ -46,34 +20,13 @@ class OpenGraph extends App {
   }
 
   /**
-   * Add WordPress image size for Open Graph images.
-   *
-   * @return void
-   */
-  public function add_og_image_size() {
-		add_theme_support('post-thumbnails');
-		add_image_size('complete_open_graph', 1200, 1200, false);
-  }
-
-  /**
-   * Add our custom image size to the media uploader.
-   *
-   * @param arr $sizes Image sizes
-   * @return arr
-   */
-  public function add_og_image_size_to_uploader($sizes) {
-    $sizes['complete_open_graph'] = __( 'Open Graph');
-    return $sizes;
-  }
-
-  /**
    * Generate the Open Graph markup.
    *
    * @return void
    */
-  public function open_graph_tag_generation() {
+  public function generate_open_graph_markup() {
 
-    echo "\n<!-- This Open Graph data is managed by Alex MacArthur's Complete Open Graph plugin. (v" . self::$plugin_data['Version'] . "). -->\n";
+    echo "\n\n<!-- Open Graph data is managed by Alex MacArthur's Complete Open Graph plugin. (v" . self::$plugin_data['Version'] . ") -->\n";
     echo "<!-- https://wordpress.org/plugins/complete-open-graph/ -->\n";
 
 		$startTime = microtime(true);
@@ -82,6 +35,7 @@ class OpenGraph extends App {
 
 			if(empty($data['value'])) continue;
 
+			//-- @todo Move this into process_content?
       $content = preg_replace( "/\r|\n/", "", $data['value']);
 			$content = htmlentities($content, ENT_QUOTES, 'UTF-8', false);
 
@@ -105,35 +59,46 @@ class OpenGraph extends App {
    * Get a specific value for an Open Graph attribute.
    * If progression is given, it will assign the first value that exists.
    *
-   * @param  string $field_name  Name of the attribute
+   * @param  string $field_name  Name of the attribute.
    * @param  array  $progression Array of possible values, in order of priority.
-   * @return string The value
+	 * @param  array 	$protectedKeys Prevents specified keys from being removed duing useGlobal.
+   * @return string
    */
-  public function get_open_graph_processed_value($field_name, $progression = array()) {
-
-		$option = Utilities::get_option( $field_name );
+  public function get_processed_value($field_name, $progression = array(), $protectedKeys = array()) {
 
 		//-- Check for explicit option to use global options, or if it's an archive page.
-		$useGlobal = $this->forceAll === 'on'
-			|| $this->isPostListingPage
-			|| Utilities::get_option( $field_name . '_force' ) === 'on';
+		$useGlobal =
+			(
+				Utilities::get_option('force_all') === 'on' ||
+				Utilities::get_option( $field_name . '_force' ) === 'on' ||
+				(is_home() || is_archive())
+			);
 
-    if( $useGlobal ) {
+    if($useGlobal) {
 			$value = Utilities::process_content(Utilities::get_option($field_name));
-      return apply_filters(self::$options_prefix . '_processed_value', $value, $field_name);
-    }
 
-    if(!empty($progression)) {
-      foreach ($progression as $progressionValue) {
-        if(!empty($progressionValue)) {
-          $value = Utilities::process_content($progressionValue);
-          return apply_filters(self::$options_prefix . '_processed_value', $value, $field_name);
-        }
-      }
-    }
+			//-- Remove non-protected items before we tack on our global value.
+			//-- This way, we can have a fallback system in place in case a global value is empty.
+			$progression = array_filter($progression, function ($key) use($protectedKeys) {
+				return in_array($key, $protectedKeys);
+			}, ARRAY_FILTER_USE_KEY);
 
-    return '';
-  }
+			//-- Place our global value at the top of progression.
+			array_unshift($progression, $value);
+
+      return apply_filters(
+				self::$options_prefix . '_processed_value',
+				Utilities::get_cascaded_value($progression),
+				$field_name);
+		}
+
+		return apply_filters(
+			self::$options_prefix . '_processed_value',
+			Utilities::get_cascaded_value($progression),
+			$field_name
+		);
+
+	}
 
   /**
    * Get the values for each OG attribute, based on priority & existence of values.
@@ -141,7 +106,7 @@ class OpenGraph extends App {
    * @return array Open Graph values
    */
   public function get_open_graph_values() {
-    $frontPageID = (int) get_option('page_on_front');
+		$frontPageID = (int) get_option('page_on_front');
 
     $data = array(
       'og:site_name' => array(
@@ -151,7 +116,13 @@ class OpenGraph extends App {
 
       'og:url' => array(
         'attribute' => 'property',
-        'value' => $url = get_permalink(Utilities::get_post_decorator()->ID)
+				'value' => $this->get_processed_value( 'og:url',
+					array(
+						get_permalink(Utilities::get_post_decorator()->ID),
+						get_bloginfo('url')
+					),
+					array(1)
+				)
       ),
 
       'og:locale' => array(
@@ -161,53 +132,58 @@ class OpenGraph extends App {
 
       'og:description' => array(
         'attribute' => 'property',
-        'value' => $this->get_open_graph_processed_value( 'og:description',
+        'value' => $description = $this->get_processed_value( 'og:description',
           array(
             Utilities::get_post_option('og:description'),
             Utilities::get_post_decorator()->post_excerpt,
-            Utilities::get_post_decorator()->post_content,
+						Utilities::get_post_decorator()->post_content,
             Utilities::get_option('og:description'),
-            get_bloginfo('og:description')
-          )
+						get_bloginfo('description')
+					),
+					array(3, 4)
         )
       ),
 
       'og:title' => array(
         'attribute' => 'property',
-        'value' => $theTitle = $this->get_open_graph_processed_value( 'og:title',
+        'value' => $theTitle = $this->get_processed_value( 'og:title',
           array(
             Utilities::get_post_option('og:title'),
             get_the_title(),
             Utilities::get_option('og:title'),
             $site_name
-          )
+					),
+					array(2, 3)
         )
       ),
 
       'og:type' => array(
         'attribute' => 'property',
-        'value' => $this->get_open_graph_processed_value( 'og:type',
+        'value' => $this->get_processed_value( 'og:type',
           array(
             Utilities::get_post_option('og:type'),
-            is_single() ? 'article' : 'website',
-            Utilities::get_option('og:type')
-          )
+            is_single() ? 'article' : '',
+						Utilities::get_option('og:type'),
+						'website'
+					),
+					array(2, 3)
         )
       ),
 
       //-- Might be a string, might be an ID. Will be filtered to account for both.
       'og:image' => array(
         'attribute' => 'property',
-        'value' => $image = $this->get_open_graph_processed_value( 'og:image',
+        'value' => $image = $this->get_processed_value( 'og:image',
           array(
             Utilities::get_post_option('og:image'),
             get_post_thumbnail_id(Utilities::get_post_decorator()->ID),
             Utilities::get_first_image(),
             Utilities::get_option('og:image'),
-            !empty($frontPageID) && has_post_thumbnail($frontPageID) ?
-            get_post_thumbnail_id( $frontPageID ) :
-            false
-          )
+						!empty($frontPageID) && has_post_thumbnail($frontPageID)
+							? get_post_thumbnail_id( $frontPageID )
+							: false
+					),
+					array(3, 4)
         )
       ),
 
@@ -233,17 +209,19 @@ class OpenGraph extends App {
 
       'twitter:card' => array(
         'attribute' => 'name',
-        'value' => $this->get_open_graph_processed_value('twitter:card',
+        'value' => $this->get_processed_value('twitter:card',
           array(
             Utilities::get_post_option('twitter:card'),
-            Utilities::get_option('twitter:card')
-          )
+						Utilities::get_option('twitter:card'),
+						'summary'
+					),
+					array(2)
         )
       ),
 
       'twitter:creator' => array(
         'attribute' => 'name',
-        'value' => $this->get_open_graph_processed_value('twitter:creator',
+        'value' => $this->get_processed_value('twitter:creator',
           array(
             Utilities::get_post_option('twitter:creator'),
             Utilities::get_option('twitter:creator')
@@ -268,18 +246,13 @@ class OpenGraph extends App {
 
       'twitter:description' => array(
         'attribute' => 'name',
-        'value' => $this->get_open_graph_processed_value( 'twitter:description',
+        'value' => $this->get_processed_value( 'twitter:description',
           array(
             Utilities::get_post_option('twitter:description'),
             Utilities::get_post_decorator()->post_excerpt,
             Utilities::get_post_decorator()->post_content,
             Utilities::get_option('twitter:description'),
-            $this->get_open_graph_processed_value( 'og:description',
-              array(
-                Utilities::get_post_decorator()->post_content,
-                get_bloginfo('og:description')
-              )
-            )
+            $description
           )
         )
       )

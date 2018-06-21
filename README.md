@@ -226,7 +226,18 @@ After flowing through this order of priority, if there is still no content to be
 #### 3.2.6
 * Fix incorrect reference to class property.
 
+#### 3.2.7
+* Set up basic unit testing for improved code reliability.
+* Improve handling of default values and how they're handled if left empty.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 
 Regardless of how you feel, your review would be greatly appreciated!
+
+## Development Notes
+
+### Running Tests
+After running `composer install` and configuring the `tests/bootstrap.php` file to load WordPress, run the following command inside your container to run all tests.
+
+`vendor/bin/phpunit`

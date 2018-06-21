@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Complete Open Graph
 * Description: Simple, comprehensive, highly customizable Open Graph management.
-* Version: 3.2.6
+* Version: 3.2.7
 * Author: Alex MacArthur
 * Author URI: https://macarthur.me
 * License: GPLv2 or later
@@ -17,10 +17,13 @@ if ( !defined( 'WPINC' ) ) {
 
 require_once(trailingslashit(ABSPATH) . 'wp-admin/includes/plugin.php');
 
-require_once 'src/Filters.php';
-require_once 'src/Settings.php';
-require_once 'src/Metabox.php';
-require_once 'src/OpenGraph.php';
+$realpath = trailingslashit(realpath(dirname(__FILE__)));
+
+require_once $realpath . 'src/Filters.php';
+require_once $realpath . 'src/Settings.php';
+require_once $realpath . 'src/Metabox.php';
+require_once $realpath . 'src/Generator.php';
+require_once $realpath . 'src/Support.php';
 
 class App {
 
@@ -30,16 +33,11 @@ class App {
   protected static $options_prefix = 'complete_open_graph';
   protected static $admin_settings_page_slug = 'complete_open_graph';
   protected static $options_short_prefix = 'cog';
-  protected static $options = null;
-  protected static $post_options = null;
 	protected static $post_decorator = null;
 
-  public static function generate_instance() {
-
-		if (!isset($GLOBALS[static::class]) || is_null($GLOBALS[static::class])) {
-			$GLOBALS[static::class] = new static();
-		}
-
+  public static function go() {
+		$GLOBALS[__CLASS__] = new self;
+		return $GLOBALS[__CLASS__];
   }
 
   /**
@@ -50,8 +48,9 @@ class App {
 
     $this->controllers['Settings'] = new Settings;
     $this->controllers['Metabox'] = new Metabox;
-    $this->controllers['OpenGraph'] = new OpenGraph;
+    $this->controllers['Generator'] = new Generator;
     $this->controllers['Filters'] = new Filters;
+    $this->controllers['Support'] = new Support;
 
     add_action( 'admin_enqueue_scripts', array($this, 'enqueue_styles_and_scripts' ));
   }
@@ -78,7 +77,7 @@ class App {
   }
 }
 
-App::generate_instance();
+App::go();
 
 //-- On uninstallation, delete plugin-related database stuffs.
 register_uninstall_hook( __FILE__, array('\CompleteOG\App', 'delete_options_and_meta') );

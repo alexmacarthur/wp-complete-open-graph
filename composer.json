@@ -4,7 +4,7 @@
   "type": "wordpress-plugin",
   "minimum-stability": "stable",
   "license": "GPL-2.0",
-  "version": "3.2.6",
+  "version": "3.2.7",
   "authors": [
     {
       "name": "Alex MacArthur",
@@ -15,9 +15,17 @@
   ],
   "support" : {
     "issues": "https://wordpress.org/support/plugin/complete-open-graph",
-    "source": "https://downloads.wordpress.org/plugin/complete-open-graph.2.1.3.zip"
-  },
+    "source": "https://downloads.wordpress.org/plugin/complete-open-graph.3.2.7.zip"
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Tests\\": "tests/"
+		}
+	},
   "require": {
     "composer/installers": "^1.0.7"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.5"
   }
 }

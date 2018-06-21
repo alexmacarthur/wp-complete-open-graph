@@ -43,6 +43,7 @@ class Metabox extends App {
 
         ?>
             <p class="main-description">These fields will allow you to customize the open graph data for the page or post.</p>
+
             <div id="cogMetaBox" class="COG-fieldsWrapper <?php if(!Utilities::get_post_option('og:image')): ?>has-no-image<?php endif; ?>">
 
                 <fieldset class="SK_Box">

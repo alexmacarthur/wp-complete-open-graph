@@ -4,7 +4,7 @@
   "type": "wordpress-plugin",
   "minimum-stability": "stable",
   "license": "GPL-2.0",
-  "version": "3.2.7",
+  "version": "3.3.0",
   "authors": [
     {
       "name": "Alex MacArthur",
@@ -15,7 +15,7 @@
   ],
   "support" : {
     "issues": "https://wordpress.org/support/plugin/complete-open-graph",
-    "source": "https://downloads.wordpress.org/plugin/complete-open-graph.3.2.7.zip"
+    "source": "https://downloads.wordpress.org/plugin/complete-open-graph.3.3.0.zip"
 	},
 	"autoload-dev": {
 		"psr-4": {

@@ -5,7 +5,7 @@ Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
 Tested up to: 4.9.6
-Stable tag: 3.2.7
+Stable tag: 3.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -124,6 +124,26 @@ function modify_title($value, $field_name) {
 }
 
 add_filter('complete_open_graph_og:title', 'modify_title', 10, 2);
+`
+
+The `complete_open_graph_maybe_enable` filter allows you to disable tag generation altogether by returning a boolean.
+
+Example for disabling generation altogether:
+`
+add_filter('complete_open_graph_maybe_enable', '__return_false');
+`
+
+Example for disabling generation on a specific page:
+`
+add_filter('complete_open_graph_maybe_enable', function ($maybeEnable) {
+	global $post;
+
+	if($post->post_name === 'my-page') {
+		return false;
+	}
+
+	return $maybeEnable;
+});
 `
 
 == Advanced Filtering ==
@@ -261,6 +281,10 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 = 3.2.7 =
 * Set up basic unit testing for improved code reliability.
 * Improve handling of default values and how they're handled if left empty.
+
+= 3.3.0 =
+* Fix errors being thrown in PHP versions under 5.6.
+* Add filter to disable Open Graph tags per page.
 
 == Feedback ==
 

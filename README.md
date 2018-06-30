@@ -114,6 +114,26 @@ function modify_title($value, $field_name) {
 add_filter('complete_open_graph_og:title', 'modify_title', 10, 2);
 ```
 
+The `complete_open_graph_maybe_enable` filter allows you to disable tag generation altogether by returning a boolean.
+
+Example for disabling generation altogether:
+```php
+add_filter('complete_open_graph_maybe_enable', '__return_false');
+```
+
+Example for disabling generation on a specific page:
+```php
+add_filter('complete_open_graph_maybe_enable', function ($maybeEnable) {
+	global $post;
+
+	if($post->post_name === 'my-page') {
+		return false;
+	}
+
+	return $maybeEnable;
+});
+```
+
 ### Advanced Filtering
 If, for whatever reason, you need to access any of the hooks registered by this plugin, you may do so by referencing the `CompleteOpenGraph\App` key in the `$GLOBALS` array. Each controller is saved to this central instance, so you can remove actions (or whatever) by using it. For example, the following snippet will completely remove the `Open Graph` settings page from the sidebar menu.
 
@@ -229,6 +249,10 @@ After flowing through this order of priority, if there is still no content to be
 #### 3.2.7
 * Set up basic unit testing for improved code reliability.
 * Improve handling of default values and how they're handled if left empty.
+
+#### 3.3.0
+* Fix errors being thrown in PHP versions under 5.6.
+* Add filter to disable Open Graph tags per page.
 
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

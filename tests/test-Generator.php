@@ -15,6 +15,27 @@ class GeneratorTest extends \Tests\TestCase {
 		$this->generator = new \CompleteOpenGraph\Generator();
 	}
 
+	public function testReturnsOnlyProtectedValues() {
+		$allItems = array('value1', 'value2', 'value3');
+		$protectedKeys = array(0,1);
+		$result = $this->generator->get_only_protected_values($allItems, $protectedKeys);
+
+		$this->assertEquals($result, array(
+			'value1',
+			'value2'
+		));
+	}
+
+	public function testShouldSkipNonExistentKeys() {
+		$allItems = array('value1', 'value2', 'value3');
+		$protectedKeys = array(1, 4, 5);
+		$result = $this->generator->get_only_protected_values($allItems, $protectedKeys);
+
+		$this->assertEquals($result, array(
+			'value2'
+		));
+	}
+
 	public function testReturnsFirstUnemptyValue() {
 
 		update_option('complete_open_graph', array());

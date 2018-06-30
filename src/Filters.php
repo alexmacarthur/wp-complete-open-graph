@@ -12,8 +12,8 @@ class Filters extends App {
     add_filter(self::$options_prefix . '_og:description', array($this, 'append_space_after_period'), 10, 2);
     add_filter(self::$options_prefix . '_twitter:site', array($this, 'append_at_symbol'), 10, 2);
     add_filter(self::$options_prefix . '_twitter:creator', array($this, 'append_at_symbol'), 10, 2);
-    add_filter(self::$options_prefix . '_og:image', array($this, 'process_image'), 10, 2);
-    add_filter(self::$options_prefix . '_twitter:image', array($this, 'process_image'), 10, 2);
+    add_filter(self::$options_prefix . '_og:image', array($this, 'attach_image_dimensions'), 10, 2);
+    add_filter(self::$options_prefix . '_twitter:image', array($this, 'attach_image_dimensions'), 10, 2);
   }
 
   /**
@@ -23,12 +23,15 @@ class Filters extends App {
    * @param  string $field_name
    * @return string
    */
-  public function process_image($value, $field_name) {
+  public function attach_image_dimensions($value, $field_name) {
 
     $width = '';
 		$height = '';
 
 		if(!is_numeric($value)) return $value;
+
+		//-- Ensure this is actually an integer.
+		$value = intval($value);
 
 		//-- If this attachment doesn't actually exist or isn't an image, just get out of here.
 		if(!wp_attachment_is_image($value)) return '';

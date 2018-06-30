@@ -6,7 +6,7 @@ class Generator extends App {
 
   public function __construct() {
     add_action('wp_head', array($this, 'generate_open_graph_markup'));
-		add_filter('language_attributes', array($this, 'add_open_graph_prefix'), 10, 2 );
+		add_filter('language_attributes', array($this, 'add_open_graph_prefix'), 10, 2);
 	}
 
   /**
@@ -16,8 +16,10 @@ class Generator extends App {
    * @param string $doctype The type of html document (xhtml|html).
    */
   public function add_open_graph_prefix( $output, $doctype ) {
+		if(!apply_filters(self::$options_prefix . '_maybe_enable', true)) return $output;
+
     return $output . ' prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#"';
-  }
+	}
 
   /**
    * Generate the Open Graph markup.
@@ -25,6 +27,7 @@ class Generator extends App {
    * @return void
    */
   public function generate_open_graph_markup() {
+		if(!apply_filters(self::$options_prefix . '_maybe_enable', true)) return;
 
     echo "\n\n<!-- Open Graph data is managed by Alex MacArthur's Complete Open Graph plugin. (v" . self::$plugin_data['Version'] . ") -->\n";
     echo "<!-- https://wordpress.org/plugins/complete-open-graph/ -->\n";
@@ -79,11 +82,8 @@ class Generator extends App {
 
 			//-- Remove non-protected items before we tack on our global value.
 			//-- This way, we can have a fallback system in place in case a global value is empty.
-			$progression = array_filter($progression, function ($key) use($protectedKeys) {
-				return in_array($key, $protectedKeys);
-			}, ARRAY_FILTER_USE_KEY);
+			$progression = $this->get_only_protected_values($progression, $protectedKeys);
 
-			//-- Place our global value at the top of progression.
 			array_unshift($progression, $value);
 
       return apply_filters(
@@ -98,6 +98,24 @@ class Generator extends App {
 			$field_name
 		);
 
+	}
+
+	/**
+	 * Ideally, this would be array_filter(), but was causing PHP fallback issues.
+	 *
+	 * @param array $progression
+	 * @param array $protectedKeys
+	 * @return array
+	 */
+	public function get_only_protected_values($progression, $protectedKeys) {
+		$protectedValues = array();
+
+		foreach($protectedKeys as $key) {
+			if(!isset($progression[$key])) continue;
+			$protectedValues[] = $progression[$key];
+		}
+
+		return $protectedValues;
 	}
 
   /**

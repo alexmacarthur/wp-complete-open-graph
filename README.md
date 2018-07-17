@@ -254,6 +254,9 @@ After flowing through this order of priority, if there is still no content to be
 * Fix errors being thrown in PHP versions under 5.6.
 * Add filter to disable Open Graph tags per page.
 
+#### 3.3.1
+* Improve the logic (and respective efficiency) of determining how image meta tags are generated.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

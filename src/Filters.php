@@ -25,36 +25,40 @@ class Filters extends App {
    */
   public function attach_image_dimensions($value, $field_name) {
 
-    $width = '';
-		$height = '';
-
+		//-- This is probably a URL from an older version of the plugin. Just return it.
 		if(!is_numeric($value)) return $value;
 
-		//-- Ensure this is actually an integer.
-		$value = intval($value);
+		$imageSizes = array(
+			'complete_open_graph',
+			'large',
+			'medium_large',
+			'medium',
+			'full'
+		);
 
-		//-- If this attachment doesn't actually exist or isn't an image, just get out of here.
-		if(!wp_attachment_is_image($value)) return '';
+		$data = false;
+		$attachmentMeta = wp_get_attachment_metadata($value);
+		$sizes = isset($attachmentMeta['sizes']) ? $attachmentMeta['sizes'] : array();
 
-		$attachment_meta = wp_get_attachment_metadata($value);
+		//-- The 'full' size isn't included by default.
+		$sizes['full'] = true;
 
-		//-- For some weird reason, some images might not have a size key? It's apparently happened...
-		if(empty($attachment_meta) || !isset($attachment_meta['sizes'])) return '';
+		//-- Loop over each image size. Serves as a fallback mechanism if it doesn't exist at the ideal size.
+		foreach($imageSizes as $size) {
 
-		if(array_key_exists('complete_open_graph', $attachment_meta['sizes'])) {
-			$meta = wp_get_attachment_image_src($value, 'complete_open_graph');
-		} elseif(array_key_exists('large', $attachment_meta['sizes'])) {
-			$meta = wp_get_attachment_image_src($value, 'large');
-		} else {
-			$meta = false;
+			//-- We have an image!
+			if(array_key_exists($size, $sizes)) {
+				$data = wp_get_attachment_image_src($value, $size);
+				break;
+			}
 		}
 
-		//-- If, for some reason, no image is returned, just get out of here.
-		if(!($meta)) return '';
+		//-- If, for some reason, no image is returned, exit. Should NEVER actually happen, but you know... #wordpress.
+		if(empty($data)) return '';
 
-		$value = $meta[0];
-		$width = $meta[1];
-		$height = $meta[2];
+		$value = $data[0];
+		$width = $data[1];
+		$height = $data[2];
 
     //-- Set image sizes.
     add_filter(self::$options_prefix . '_og:image:width', function ($value, $key) use ($width) {

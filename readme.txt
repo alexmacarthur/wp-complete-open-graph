@@ -4,8 +4,8 @@ Contributors: alexmacarthur
 Donate link: paypal.me/alexmacarthur
 Tags: open graph, seo, open graph protocol, twitter, facebook, social media, google plus
 Requires at least: 3.9
-Tested up to: 4.9.6
-Stable tag: 3.3.0
+Tested up to: 4.9.7
+Stable tag: 3.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -285,6 +285,9 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 = 3.3.0 =
 * Fix errors being thrown in PHP versions under 5.6.
 * Add filter to disable Open Graph tags per page.
+
+= 3.3.1 =
+* Improve the logic (and respective efficiency) of determining how image meta tags are generated.
 
 == Feedback ==
 

@@ -52,6 +52,8 @@ On each page and post, the following fields are automatically generated, based o
 * twitter:image
 * twitter:url
 * twitter:site
+* profile:first_name (Currently only displayed on individual author pages.)
+* profile:last_name (Currently only displayed on individual author pages.)
 
 = Default Settings =
 
@@ -289,6 +291,10 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 
 = 3.3.1 =
 * Improve the logic (and respective efficiency) of determining how image meta tags are generated.
+
+= 3.4.0 =
+* Improve code organization under the hood.
+* Display "profile:first_name" and "profile:last_name" meta tags on author pages.
 
 == Feedback ==
 

@@ -41,6 +41,8 @@ On each page and post, the following fields are automatically generated, based o
 * twitter:image
 * twitter:url
 * twitter:site
+* profile:first_name (Currently only displayed on individual author pages.)
+* profile:last_name (Currently only displayed on individual author pages.)
 
 #### Default Settings
 As a fallback for values that aren't filled automatically by a page or post, you can set default values for Open Graph data. If desired, you can force these individual values to be used globally, overriding whatever is set at a page/post level.
@@ -256,6 +258,10 @@ After flowing through this order of priority, if there is still no content to be
 
 #### 3.3.1
 * Improve the logic (and respective efficiency) of determining how image meta tags are generated.
+
+#### 3.4.0
+* Improve code organization under the hood.
+* Display "profile:first_name" and "profile:last_name" meta tags on author pages.
 
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

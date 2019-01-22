@@ -201,4 +201,16 @@ return [
 			return Utilities::get_option( 'fb:app_id' );
 		},
 	],
+	'profile:first_name' => [
+		'attribute' => 'property',
+		'get_value' => function () {
+			return is_author() ? get_the_author_meta( 'first_name' ) : "";
+		}
+	],
+	'profile:last_name' => [
+		'attribute' => 'property',
+		'get_value' => function () {
+			return is_author() ? get_the_author_meta( 'last_name' ) : "";
+		}
+	]
 ];

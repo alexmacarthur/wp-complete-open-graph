@@ -6,7 +6,7 @@ Tags: open graph, seo, open graph protocol, twitter, facebook, social media, goo
 Requires at least: 3.9
 Requires PHP: 5.6
 Tested up to: 5.0.3
-Stable tag: 3.4.1
+Stable tag: 3.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -298,6 +298,9 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 
 = 3.4.1 =
 * Fix constant-related bug for installations using older versions of PHP.
+
+= 3.4.2 =
+* Removes use of `array_filter` that relies on ARRAY_FILTER_USE_KEY constant for greater PHP backwards compatibility.
 
 == Feedback ==
 

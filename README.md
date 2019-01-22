@@ -266,6 +266,9 @@ After flowing through this order of priority, if there is still no content to be
 #### 3.4.1
 * Fix constant-related bug for installations using older versions of PHP.
 
+#### 3.4.2
+* Removes use of `array_filter` that relies on ARRAY_FILTER_USE_KEY constant for greater PHP backwards compatibility.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

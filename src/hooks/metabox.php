@@ -131,13 +131,7 @@ function save($post_id)
     }
 
     // -- Get ony the keys that matter.
-    $cogFields = array_filter(
-        $_POST,
-        function ($key) {
-            return substr($key, 0, 19) === COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX;
-        },
-        ARRAY_FILTER_USE_KEY
-    );
+    $cogFields = getPrefixedValuesFrom($_POST);
 
     // -- Make sure the image we're saving actually returns a real string.
     if (isset($_POST['complete_open_graph_image'])) {

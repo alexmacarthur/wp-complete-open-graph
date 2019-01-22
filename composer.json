@@ -4,7 +4,7 @@
   "type": "wordpress-plugin",
   "minimum-stability": "stable",
   "license": "GPL-2.0",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "authors": [
     {
       "name": "Alex MacArthur",

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Complete Open Graph
  * Description: Simple, comprehensive, highly customizable Open Graph management.
- * Version: 3.4.1
+ * Version: 3.4.2
  * Author: Alex MacArthur
  * Author URI: https://macarthur.me
  * License: GPLv2 or later
@@ -60,6 +60,7 @@ class App
      */
     public function __construct()
     {
+        require_once COMPLETE_OPEN_GRAPH_REAL_PATH . 'src/helpers.php';
         require_once COMPLETE_OPEN_GRAPH_REAL_PATH . 'src/hooks/generate-open-graph-markup.php';
         require_once COMPLETE_OPEN_GRAPH_REAL_PATH . 'src/hooks/content-filters.php';
         require_once COMPLETE_OPEN_GRAPH_REAL_PATH . 'src/hooks/settings.php';

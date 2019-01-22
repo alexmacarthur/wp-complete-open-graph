@@ -5,60 +5,64 @@ namespace CompleteOpenGraph;
 /**
  * A class to help access field configuration data.
  */
-class Field {
+class Field
+{
 
-	public function __construct( $key ) {
-		$this->fields = Utilities::getFields();
-		$this->key    = $key;
-		$this->field  = $this->fields[ $key ];
-	}
+    public function __construct($key)
+    {
+        $this->fields = Utilities::getFields();
+        $this->key    = $key;
+        $this->field  = $this->fields[ $key ];
+    }
 
-	public function __get( $property ) {
+    public function __get($property)
+    {
 
-		if ( $property === 'name' ) {
-			return 'complete_open_graph_' . $this->key;
-		}
+        if ($property === 'name') {
+            return 'complete_open_graph_' . $this->key;
+        }
 
-		if ( $property === 'id' ) {
-			$result = preg_split( '/(_|:)/', $this->key );
+        if ($property === 'id') {
+            $result = preg_split('/(_|:)/', $this->key);
 
-			$result = array_map(
-				function( $item ) {
-					return ucfirst( $item );
-				},
-				$result
-			);
+            $result = array_map(
+                function ($item) {
+                    return ucfirst($item);
+                },
+                $result
+            );
 
-			return 'cog' . implode( '', $result );
-		}
+            return 'cog' . implode('', $result);
+        }
 
-		if ( isset( $this->field[ $property ] ) ) {
-			return $this->field[ $property ];
-		}
+        if (isset($this->field[ $property ])) {
+            return $this->field[ $property ];
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * Return only the fields that are configurable within the admin.
-	 */
-	public static function getConfigurable( $fields = null ) {
+    /**
+     * Return only the fields that are configurable within the admin.
+     */
+    public static function getConfigurable($fields = null)
+    {
 
-		$fields = is_null( $fields ) ? Utilities::getFields() : $fields;
+        $fields = is_null($fields) ? Utilities::getFields() : $fields;
 
-		$configurableFields = array_filter(
-			$fields,
-			function ( $item ) {
-				return isset( $item['is_configurable'] ) && $item['is_configurable'];
-			}
-		);
+        $configurableFields = array_filter(
+            $fields,
+            function ($item) {
+                return isset($item['is_configurable']) && $item['is_configurable'];
+            }
+        );
 
-		$fields = [];
+        $fields = [];
 
-		foreach ( $configurableFields as $k => $v ) {
-			$fields[] = new self( $k );
-		}
+        foreach ($configurableFields as $k => $v) {
+            $fields[] = new self($k);
+        }
 
-		return $fields;
-	}
+        return $fields;
+    }
 }

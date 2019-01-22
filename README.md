@@ -263,6 +263,9 @@ After flowing through this order of priority, if there is still no content to be
 * Improve code organization under the hood.
 * Display "profile:first_name" and "profile:last_name" meta tags on author pages.
 
+#### 3.4.1
+* Fix constant-related bug for installations using older versions of PHP.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

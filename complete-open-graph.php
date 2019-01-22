@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Complete Open Graph
  * Description: Simple, comprehensive, highly customizable Open Graph management.
- * Version: 3.4.0
+ * Version: 3.4.1
  * Author: Alex MacArthur
  * Author URI: https://macarthur.me
  * License: GPLv2 or later
@@ -22,7 +22,6 @@ require_once( trailingslashit( ABSPATH ) . 'wp-admin/includes/plugin.php' );
 define( 'COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX', 'complete_open_graph' );
 define( 'COMPLETE_OPEN_GRAPH_OPTIONS_SHORT_PREFIX', 'complete_open_graph' );
 define( 'COMPLETE_OPEN_GRAPH_ADMIN_SETTINGS_PAGE_SLUG', 'complete_open_graph' );
-define( 'COMPLETE_OPEN_GRAPH_PLUGIN_DATA', get_plugin_data( __DIR__ . '/complete-open-graph.php' ) );
 define( 'COMPLETE_OPEN_GRAPH_REAL_PATH', trailingslashit( realpath( dirname( __FILE__ ) ) ) );
 
 require_once COMPLETE_OPEN_GRAPH_REAL_PATH . 'src/Generator.php';
@@ -42,6 +41,15 @@ class App {
 	public static function go() {
 		$GLOBALS[ __CLASS__ ] = new self;
 		return $GLOBALS[ __CLASS__ ];
+	}
+
+	/**
+	 * Retrive array of plugin data.
+	 *
+	 * @return array
+	 */
+	public static function getPluginData() {
+		return get_plugin_data( __DIR__ . '/complete-open-graph.php' );
 	}
 
 	/**
@@ -73,8 +81,8 @@ class App {
 	 * @return void
 	 */
 	public function enqueue_styles_and_scripts() {
-		wp_enqueue_style( 'complete-open-graph', plugin_dir_url( __FILE__ ) . 'src/assets/css/style.css', array(), COMPLETE_OPEN_GRAPH_PLUGIN_DATA['Version'] );
-		wp_enqueue_script( 'complete-open-graph', plugin_dir_url( __FILE__ ) . 'src/assets/js/scripts.js', array( 'jquery' ), COMPLETE_OPEN_GRAPH_PLUGIN_DATA['Version'], true );
+		wp_enqueue_style( 'complete-open-graph', plugin_dir_url( __FILE__ ) . 'src/assets/css/style.css', array(), self::getPluginData()['Version'] );
+		wp_enqueue_script( 'complete-open-graph', plugin_dir_url( __FILE__ ) . 'src/assets/js/scripts.js', array( 'jquery' ), self::getPluginData()['Version'], true );
 	}
 }
 

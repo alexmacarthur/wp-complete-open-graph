@@ -21,7 +21,7 @@ function generate_open_graph_markup() {
 		return;
 	}
 
-	echo "\n\n<!-- Open Graph data is managed by Alex MacArthur's Complete Open Graph plugin. (v" . COMPLETE_OPEN_GRAPH_PLUGIN_DATA['Version'] . ") -->\n";
+	echo "\n\n<!-- Open Graph data is managed by Alex MacArthur's Complete Open Graph plugin. (v" . App::getPluginData()['Version'] . ") -->\n";
 	echo "<!-- https://wordpress.org/plugins/complete-open-graph/ -->\n";
 
 	$start_time = microtime( true );

@@ -13,6 +13,31 @@ add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_twitter:site', 'CompleteOpenGr
 add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_twitter:creator', 'CompleteOpenGraph\append_at_symbol', 10, 2);
 add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_og:image', 'CompleteOpenGraph\attach_image_dimensions', 10, 2);
 add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_twitter:image', 'CompleteOpenGraph\attach_image_dimensions', 10, 2);
+add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_og:image', 'CompleteOpenGraph\maybe_use_author_avatar', 10, 2);
+add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_twitter:image', 'CompleteOpenGraph\maybe_use_author_avatar', 10, 2);
+
+/**
+ * If we're on an author archive page and the user has an avatar,
+ * set that as the OG image.
+ *
+ * @param string $value
+ * @param string $field_name
+ * @return void
+ */
+function maybe_use_author_avatar($value, $field_name)
+{
+    if (!is_author()) {
+        return $value;
+    }
+
+    $userID = get_the_author_meta('ID');
+
+    if (empty(get_avatar($userID))) {
+        return $value;
+    }
+
+    return get_avatar_url($userID, ['size' => 1200]);
+}
 
 /**
  * If image is an attachment ID, construct value based on that. If a URL, use that.

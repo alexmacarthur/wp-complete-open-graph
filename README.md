@@ -269,6 +269,10 @@ After flowing through this order of priority, if there is still no content to be
 #### 3.4.2
 * Removes use of `array_filter` that relies on ARRAY_FILTER_USE_KEY constant for greater PHP backwards compatibility.
 
+#### 3.4.3
+* Fixes the generation of the `og:type` tag, which was not displaying at all.
+* On author archive pages, if author has an avatar image, use that as OG image.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

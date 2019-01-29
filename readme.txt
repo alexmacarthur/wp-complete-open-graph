@@ -6,7 +6,7 @@ Tags: open graph, seo, open graph protocol, twitter, facebook, social media, goo
 Requires at least: 3.9
 Requires PHP: 5.6
 Tested up to: 5.0.3
-Stable tag: 3.4.2
+Stable tag: 3.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -301,6 +301,10 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 
 = 3.4.2 =
 * Removes use of `array_filter` that relies on ARRAY_FILTER_USE_KEY constant for greater PHP backwards compatibility.
+
+= 3.4.3 =
+* Fixes the generation of the `og:type` tag, which was not displaying at all.
+* On author archive pages, if author has an avatar image, use that as OG image.
 
 == Feedback ==
 

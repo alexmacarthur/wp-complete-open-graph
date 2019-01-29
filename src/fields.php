@@ -77,7 +77,7 @@ return [
         'label'           => 'Type',
         'description'     => 'If left blank, the global \'type\' will be used. If you choose to override it, make sure it follows the correct <a href="https://developers.facebook.com/docs/reference/opengraph/" target="_blank">object type formatting</a>.',
         'get_value'       => function () {
-            Utilities::get_processed_value(
+            return Utilities::get_processed_value(
                 'og:type',
                 array(
                     Utilities::get_post_option('og:type'),

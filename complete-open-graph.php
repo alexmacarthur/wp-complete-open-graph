@@ -23,6 +23,8 @@ define('COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX', 'complete_open_graph');
 define('COMPLETE_OPEN_GRAPH_OPTIONS_SHORT_PREFIX', 'complete_open_graph');
 define('COMPLETE_OPEN_GRAPH_ADMIN_SETTINGS_PAGE_SLUG', 'complete_open_graph');
 define('COMPLETE_OPEN_GRAPH_REAL_PATH', trailingslashit(realpath(dirname(__FILE__))));
+define('COMPLETE_OPEN_GRAPH_IMAGE_WIDTH', 1200);
+define('COMPLETE_OPEN_GRAPH_IMAGE_HEIGHT', 1200);
 
 require_once COMPLETE_OPEN_GRAPH_REAL_PATH . 'src/Generator.php';
 require_once COMPLETE_OPEN_GRAPH_REAL_PATH . 'src/Utilities.php';

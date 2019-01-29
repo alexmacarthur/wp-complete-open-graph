@@ -13,7 +13,7 @@ add_filter('image_size_names_choose', 'CompleteOpenGraph\add_og_image_size_to_up
 function add_og_image_size()
 {
     add_theme_support('post-thumbnails');
-    add_image_size('complete_open_graph', 1200, 1200, false);
+    add_image_size('complete_open_graph', COMPLETE_OPEN_GRAPH_IMAGE_WIDTH, COMPLETE_OPEN_GRAPH_IMAGE_HEIGHT, false);
 }
 
 /**

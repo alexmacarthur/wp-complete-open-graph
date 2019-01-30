@@ -15,6 +15,25 @@ add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_og:image', 'CompleteOpenGraph\
 add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_twitter:image', 'CompleteOpenGraph\get_image_url_from_attachment_id', 10, 2);
 add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_og:image', 'CompleteOpenGraph\maybe_use_author_avatar', 10, 2);
 add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_twitter:image', 'CompleteOpenGraph\maybe_use_author_avatar', 10, 2);
+add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_og:image', 'CompleteOpenGraph\ensure_full_url', 10, 2);
+add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_twitter:image', 'CompleteOpenGraph\ensure_full_url', 10, 2);
+
+/**
+ * If, for some weird reason, we have an image URL that starts with a slash,
+ * append the site URL so a full URL is actually generated.
+ *
+ * @param string $value
+ * @param string $field_name
+ * @return void
+ */
+function ensure_full_url($value, $field_name = '')
+{
+    if (substr($value, 0, 1) === '/') {
+        return untrailingslashit(get_site_url()) . $value;
+    }
+
+    return $value;
+}
 
 /**
  * If we're on an author archive page and the user has an avatar,
@@ -24,7 +43,7 @@ add_filter(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_twitter:image', 'CompleteOpenG
  * @param string $field_name
  * @return void
  */
-function maybe_use_author_avatar($value, $field_name)
+function maybe_use_author_avatar($value, $field_name = '')
 {
     if (!is_author()) {
         return $value;
@@ -46,7 +65,7 @@ function maybe_use_author_avatar($value, $field_name)
  * @param  string         $field_name Name of the field.
  * @return string
  */
-function get_image_url_from_attachment_id($value, $field_name)
+function get_image_url_from_attachment_id($value, $field_name = '')
 {
     // -- This is a URL. Just leave it be.
     // -- @todo: Require that it is an absolute URL.

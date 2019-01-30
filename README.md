@@ -136,13 +136,6 @@ add_filter('complete_open_graph_maybe_enable', function ($maybeEnable) {
 });
 ```
 
-### Advanced Filtering
-If, for whatever reason, you need to access any of the hooks registered by this plugin, you may do so by referencing the `CompleteOpenGraph\App` key in the `$GLOBALS` array. Each controller is saved to this central instance, so you can remove actions (or whatever) by using it. For example, the following snippet will completely remove the `Open Graph` settings page from the sidebar menu.
-
-```php
-remove_action('admin_menu', array($GLOBALS['CompleteOpenGraph\App']->controllers['Settings'], 'open_graph_settings_page'));
-```
-
 ### Order of Priority
 There's a fallback system set in place for you to effectively leverage this plugin. Below is the order of priority:
 
@@ -272,6 +265,11 @@ After flowing through this order of priority, if there is still no content to be
 #### 3.4.3
 * Fixes the generation of the `og:type` tag, which was not displaying at all.
 * On author archive pages, if author has an avatar image, use that as OG image.
+
+#### 3.4.4
+* Fix sizing issue with uploaded images less than 1200px wide.
+* Require that selected OG images be, at minimum, 200px x 200px.
+* Ensure that OG URLs are never relative.
 
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.

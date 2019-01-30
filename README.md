@@ -2,6 +2,7 @@
 A WordPress plugin for simple, comprehensive, customizable Open Graph management.
 
 [![WordPress plugin](https://img.shields.io/wordpress/plugin/dt/complete-open-graph.svg)](https://wordpress.org/plugins/complete-open-graph/)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Falexmacarthur%2Fwp-complete-open-graph&via=amacarthur&text=Check%20out%20Complete%20Open%20Graph%2C%20the%20best%20WordPress%20plugin%20for%20managing%20your%20Open%20Graph%20data%21&hashtags=wp%2C%20seo%2C%20social)
 
 ## Description
 There's no shortage of plugins that promise to be THE all-in-one solution for all things SEO. Unfortunately, this often means lack of flexibility, confusing implementation, or just a big, bloated plugin that carries way too many features for your needs.

@@ -17,7 +17,6 @@ add_filter('language_attributes', 'CompleteOpenGraph\add_open_graph_prefix', 10,
  */
 function generate_open_graph_markup()
 {
-
     if (! apply_filters(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_maybe_enable', true)) {
         return;
     }
@@ -47,7 +46,7 @@ function generate_open_graph_markup()
         }
     }
 
-    echo '<!-- End Complete Open Graph. | ' . ( microtime(true) - $start_time ) . "s -->\n\n";
+    echo '<!-- End Complete Open Graph. | ' . (microtime(true) - $start_time) . "s -->\n\n";
 }
 
 /**

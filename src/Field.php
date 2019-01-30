@@ -7,7 +7,6 @@ namespace CompleteOpenGraph;
  */
 class Field
 {
-
     public function __construct($key)
     {
         $this->fields = Utilities::getFields();
@@ -17,7 +16,6 @@ class Field
 
     public function __get($property)
     {
-
         if ($property === 'name') {
             return 'complete_open_graph_' . $this->key;
         }
@@ -47,7 +45,6 @@ class Field
      */
     public static function getConfigurable($fields = null)
     {
-
         $fields = is_null($fields) ? Utilities::getFields() : $fields;
 
         $configurableFields = array_filter(

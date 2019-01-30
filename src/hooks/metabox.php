@@ -38,9 +38,7 @@ function open_graph_metabox_cb()
     $post_type = get_post_type();
     wp_nonce_field(COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_nonce_verification', COMPLETE_OPEN_GRAPH_OPTIONS_PREFIX . '_nonce');
 
-    $imageURL = wp_get_attachment_image_src(Utilities::get_post_option('og:image'), 'medium')[0];
-
-    ?>
+    $imageURL = wp_get_attachment_image_src(Utilities::get_post_option('og:image'), 'medium')[0]; ?>
         <p class="main-description">These fields will allow you to customize the open graph data for the page or post.</p>
 
         <div id="cogMetaBox" class="COG-fieldsWrapper
@@ -79,8 +77,7 @@ function open_graph_metabox_cb()
                                 </select>
                             <?php
                             break;
-                    }
-                    ?>
+                    } ?>
                 </fieldset>
 
             <?php endforeach; ?>
@@ -113,7 +110,6 @@ function open_graph_metabox_cb()
  */
 function save($post_id)
 {
-
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return;
     }

@@ -6,7 +6,6 @@ use CompleteOpenGraph\Field;
 
 class FieldTest extends \Tests\TestCase
 {
-
     public function test_constructor_shouldReturnCorrectField()
     {
         $field = new Field('og:site_name');

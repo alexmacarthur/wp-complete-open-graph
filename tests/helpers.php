@@ -4,7 +4,6 @@ namespace Tests;
 
 class HelpersTest extends \Tests\TestCase
 {
-
     public function test_getPrefixedValuesFrom_returnsValidValues()
     {
         $arr = [

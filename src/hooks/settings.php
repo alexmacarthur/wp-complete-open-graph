@@ -56,12 +56,9 @@ function open_graph_settings_page()
  */
 function open_graph_settings_page_cb()
 {
-
     $github_url    = 'https://github.com/alexmacarthur/wp-complete-open-graph';
     $wordpress_url = 'https://wordpress.org/support/plugin/complete-open-graph/reviews/?rate=5#new-post';
-    $twitter_url   = 'https://twitter.com/intent/tweet?text=I%20highly%20recommend%20the%20Complete%20Open%20Graph%20%23WordPress%20plugin%20from%20%40amacarthur!%20https%3A//wordpress.org/plugins/complete-open-graph/';
-
-    ?>
+    $twitter_url   = 'https://twitter.com/intent/tweet?text=I%20highly%20recommend%20the%20Complete%20Open%20Graph%20%23WordPress%20plugin%20from%20%40amacarthur!%20https%3A//wordpress.org/plugins/complete-open-graph/'; ?>
     <div
         id="cogSettingsPage"
         class="
@@ -78,9 +75,8 @@ function open_graph_settings_page_cb()
                         <?php wp_nonce_field('update-options'); ?>
                         <?php
                             settings_fields('complete_open_graph_settings');
-                            do_settings_sections(COMPLETE_OPEN_GRAPH_ADMIN_SETTINGS_PAGE_SLUG);
-                            submit_button();
-                        ?>
+    do_settings_sections(COMPLETE_OPEN_GRAPH_ADMIN_SETTINGS_PAGE_SLUG);
+    submit_button(); ?>
                     </form>
                 </div>
 
@@ -400,9 +396,7 @@ function cb_field_image()
     } else {
         $imageAttachment = wp_get_attachment_image_src($imageID, 'medium');
         $imageURL        = isset($imageAttachment[0]) ? $imageAttachment[0] : '';
-    }
-
-    ?>
+    } ?>
     <fieldset class="SK_Box SK_Box--standOut">
         <p>If left blank, the featured image on the home page will be used.</p>
         <div class="SK_ImageHolder"

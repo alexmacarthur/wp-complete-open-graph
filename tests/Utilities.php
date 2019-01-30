@@ -6,7 +6,6 @@ use CompleteOpenGraph\Utilities;
 
 class UtilitiesTest extends \Tests\TestCase
 {
-
     public function test_get_only_protected_values_returnsOnlyProtectedValues()
     {
         $allItems      = [ 'value1', 'value2', 'value3' ];
@@ -38,7 +37,6 @@ class UtilitiesTest extends \Tests\TestCase
 
     public function test_get_processed_value_returnsFirstUnemptyValue()
     {
-
         update_option('complete_open_graph', array());
 
         $value = Utilities::get_processed_value(
@@ -66,7 +64,6 @@ class UtilitiesTest extends \Tests\TestCase
 
     public function test_get_processed_value_returnsGlobalValueIfForced()
     {
-
         update_option(
             'complete_open_graph',
             array(
@@ -89,7 +86,6 @@ class UtilitiesTest extends \Tests\TestCase
 
     public function test_get_processed_value_globalValueFallsBacktoProtectedValueIfEmpty()
     {
-
         update_option(
             'complete_open_graph',
             array(
@@ -113,7 +109,6 @@ class UtilitiesTest extends \Tests\TestCase
 
     public function test_get_processed_value_returnsNothingIfGlobalValueIsEmptyAndNoProtectedFallbacksAreSet()
     {
-
         update_option(
             'complete_open_graph',
             array(

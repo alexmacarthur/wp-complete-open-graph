@@ -4,7 +4,6 @@ namespace Tests;
 
 class ContentFiltersTest extends \Tests\TestCase
 {
-
     public function test_attach_image_dimensions_itShouldReturnTheString()
     {
         $this->assertEquals(

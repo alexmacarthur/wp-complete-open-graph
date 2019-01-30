@@ -4,7 +4,6 @@ namespace Tests;
 
 class FieldsTest extends \Tests\TestCase
 {
-
     public function setUp()
     {
         $this->fields = include __DIR__ . "/../src/fields.php";

@@ -6,7 +6,6 @@ require_once 'PostDecorator.php';
 
 class Utilities
 {
-
     public static function getFields()
     {
         return include 'fields.php';
@@ -188,7 +187,7 @@ class Utilities
             (
                 self::get_option('force_all') === 'on' ||
                 self::get_option($field_name . '_force') === 'on' ||
-                ( is_home() || is_archive() )
+                (is_home() || is_archive())
             );
 
         if ($useGlobal) {

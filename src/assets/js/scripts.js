@@ -21,8 +21,14 @@
     var attachment;
 
     customUploader.on('select', function (e) {
-        attachment = customUploader.state().get('selection').first().toJSON();
-        thumbURL = attachment.sizes['medium'] == undefined ? attachment.url : attachment.sizes['medium'].url;
+		attachment = customUploader.state().get('selection').first().toJSON();
+		thumbURL = attachment.sizes['medium'] == undefined ? attachment.url : attachment.sizes['medium'].url;
+
+		//-- Require that images be minimum dimensions.
+		if(attachment.width < 200 || attachment.height < 200) {
+			alert("Sorry! Your Open Graph image must be at least 200px wide and 200px high.")
+			return;
+		}
 
         if ($COGMetaBox) {
             $COGMetaBox.removeClass('has-no-image');

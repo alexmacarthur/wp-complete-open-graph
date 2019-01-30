@@ -4,18 +4,18 @@ namespace Tests;
 
 class ContentFiltersTest extends \Tests\TestCase
 {
-    public function test_attach_image_dimensions_itShouldReturnTheString()
+    public function test_get_image_url_from_attachment_id_itShouldReturnTheString()
     {
         $this->assertEquals(
-            \CompleteOpenGraph\attach_image_dimensions('https://www.google.com', 'og:image'),
+            \CompleteOpenGraph\get_image_url_from_attachment_id('https://www.google.com', 'og:image'),
             'https://www.google.com'
         );
     }
 
-    public function test_attach_image_dimensions_itShouldReturnEmptyStringIfInvalid()
+    public function test_get_image_url_from_attachment_id_itShouldReturnEmptyStringIfInvalid()
     {
         $this->assertEquals(
-            \CompleteOpenGraph\attach_image_dimensions('999', 'og:image'),
+            \CompleteOpenGraph\get_image_url_from_attachment_id('999', 'og:image'),
             ''
         );
     }

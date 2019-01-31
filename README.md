@@ -272,6 +272,10 @@ After flowing through this order of priority, if there is still no content to be
 * Require that selected OG images be, at minimum, 200px x 200px.
 * Ensure that OG URLs are never relative.
 
+#### 3.4.5
+* Fixes the attribute used to set up `twitter:description` tags.
+* If no explicit `twitter:description` exists on an archive page, use the `og:description`.
+
 ## Feedback
 You like it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me. You hate it? [Email](mailto:alex@macarthur.me) or [tweet](http://www.twitter.com/amacarthur) me.
 

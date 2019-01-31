@@ -6,7 +6,7 @@ Tags: open graph, seo, open graph protocol, twitter, facebook, social media, goo
 Requires at least: 3.9
 Requires PHP: 5.6
 Tested up to: 5.0.3
-Stable tag: 3.4.4
+Stable tag: 3.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -303,6 +303,10 @@ Your best option is to use Facebook's Sharing Debugger found here: https://devel
 * Fix sizing issue with uploaded images less than 1200px wide.
 * Require that selected OG images be, at minimum, 200px x 200px.
 * Ensure that OG URLs are never relative.
+
+= 3.4.5 =
+* Fixes the attribute used to set up `twitter:description` tags.
+* If no explicit `twitter:description` exists on an archive page, use the `og:description`.
 
 == Feedback ==
 

@@ -175,7 +175,7 @@ return [
         'label'           => 'Twitter Description',
         'field_type'      => 'text',
         'description'     => 'If left blank, the description will be used.',
-        'attribute'       => 'property',
+        'attribute'       => 'name',
         'get_value'       => function () use ($description) {
             return Utilities::get_processed_value(
                 'twitter:description',
@@ -185,7 +185,8 @@ return [
                     Utilities::get_post_decorator()->post_content,
                     Utilities::get_option('twitter:description'),
                     $description['get_value'](),
-                )
+                ),
+                [4]
             );
         },
     ],
